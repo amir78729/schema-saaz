@@ -8,7 +8,9 @@ import {
   Box,
 } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Form from "@rjsf/core";
+// import Form from "@rjsf/core";
+import Form from "@rjsf/mui";
+
 import validator from "@rjsf/validator-ajv8";
 import React from "react";
 import { useSchema } from "./SchemaContext";
@@ -34,8 +36,8 @@ const AddPropertyModal = () => {
 
     if (fieldType === "object") {
       propertySchema.properties = {};
-    } 
-    
+    }
+
     if (fieldType === "array") {
       propertySchema.items = {};
     }
@@ -62,11 +64,13 @@ const AddPropertyModal = () => {
     <>
       <Button onClick={() => setOpen(true)}>Add Property</Button>
       <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
-        <Form
-          schema={propertySchema}
-          validator={validator}
-          onSubmit={({ formData }) => addProperty(formData)}
-        />
+        <Box p={3}>
+          <Form
+            schema={propertySchema}
+            validator={validator}
+            onSubmit={({ formData }) => addProperty(formData)}
+          />
+        </Box>
       </Dialog>
     </>
   );

@@ -12,25 +12,30 @@ export interface JsonSchema {
   readOnly?: boolean;
   writeOnly?: boolean;
 
+  // enumerated values
   enum?: unknown[];
   enumNames?: string[];
+
+  // string
   maxLength?: number;
   minLength?: number;
   pattern?: string;
   format?: Format;
+  contentEncoding?: string;
+  contentMediaType?: string;
 
   // number
   multipleOf?: number;
   maximum?: number;
   minimum?: number;
-  exclusiveMaximum?: number;
-  exclusiveMinimum?: number;
+  exclusiveMaximum?: boolean;
+  exclusiveMinimum?: boolean;
 
   // object
   properties?: Record<string, JsonSchema>;
+  required?: string[];
   patternProperties?: object; // TODO: fix type
   additionalProperties?: object; // TODO: fix type
-  required?: string[];
 
   // array
   items?: JsonSchema | JsonSchema[];
@@ -150,11 +155,11 @@ export class JsonSchemaBuilder {
     this.schema.minimum = minimum;
     return this;
   }
-  setExclusiveMaximum(exclusiveMaximum: number): JsonSchemaBuilder {
+  setExclusiveMaximum(exclusiveMaximum: boolean): JsonSchemaBuilder {
     this.schema.exclusiveMaximum = exclusiveMaximum;
     return this;
   }
-  setExclusiveMinimum(exclusiveMinimum: number): JsonSchemaBuilder {
+  setExclusiveMinimum(exclusiveMinimum: boolean): JsonSchemaBuilder {
     this.schema.exclusiveMinimum = exclusiveMinimum;
     return this;
   }
@@ -198,6 +203,25 @@ export class JsonSchemaBuilder {
   }
   setWriteOnly(writeOnly: boolean) {
     this.schema.writeOnly = writeOnly;
+    return this;
+  }
+
+  setContentEncoding(contentEncoding: string) {
+    this.schema.contentEncoding = contentEncoding;
+    return this;
+  }
+
+  setContentMediaType(contentMediaType: string) {
+    this.schema.contentMediaType = contentMediaType;
+    return this;
+  }
+
+  setEnum(_enum: unknown[]) {
+    this.schema.enum = _enum;
+    return this;
+  }
+  setEnumNames(enumNames: string[]) {
+    this.schema.enumNames = enumNames;
     return this;
   }
 
