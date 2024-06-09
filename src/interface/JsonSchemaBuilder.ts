@@ -122,105 +122,222 @@ export class JsonSchemaBuilder {
     return this;
   }
 
+  /**
+   * Sets the maximum length of a string.
+   * @param {number} maxLength - The maximum length.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setMaxLength(maxLength: number): JsonSchemaBuilder {
     this.schema.maxLength = maxLength;
     return this;
   }
 
+  /**
+   * Sets the minimum length of a string.
+   * @param {number} minLength - The minimum length.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setMinLength(minLength: number): JsonSchemaBuilder {
     this.schema.minLength = minLength;
     return this;
   }
 
+  /**
+   * Sets the pattern of a string.
+   * @param {string} pattern - The pattern.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setPattern(pattern: string): JsonSchemaBuilder {
     this.schema.pattern = pattern;
     return this;
   }
 
+  /**
+   * Sets the format of a string.
+   * @param {Format} format - The format.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setFormat(format: Format): JsonSchemaBuilder {
     this.schema.format = format;
     return this;
   }
 
-  setMultiplyOf(multipleOf: number): JsonSchemaBuilder {
+  /**
+   * Sets the multiple of a number.
+   * @param {number} multipleOf - The multiple of value.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setMultipleOf(multipleOf: number): JsonSchemaBuilder {
     this.schema.multipleOf = multipleOf;
     return this;
   }
 
+  /**
+   * Sets the maximum value of a number.
+   * @param {number} maximum - The maximum value.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setMaximum(maximum: number): JsonSchemaBuilder {
     this.schema.maximum = maximum;
     return this;
   }
+
+  /**
+   * Sets the minimum value of a number.
+   * @param {number} minimum - The minimum value.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setMinimum(minimum: number): JsonSchemaBuilder {
     this.schema.minimum = minimum;
     return this;
   }
+
+  /**
+   * Sets the exclusive maximum flag for a number.
+   * @param {boolean} exclusiveMaximum - The exclusive maximum flag.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setExclusiveMaximum(exclusiveMaximum: boolean): JsonSchemaBuilder {
     this.schema.exclusiveMaximum = exclusiveMaximum;
     return this;
   }
+
+  /**
+   * Sets the exclusive minimum flag for a number.
+   * @param {boolean} exclusiveMinimum - The exclusive minimum flag.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setExclusiveMinimum(exclusiveMinimum: boolean): JsonSchemaBuilder {
     this.schema.exclusiveMinimum = exclusiveMinimum;
     return this;
   }
 
+  /**
+   * Sets the pattern properties for an object.
+   * @param {object} patternProperties - The pattern properties.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setPatternProperties(patternProperties: object): JsonSchemaBuilder {
     this.schema.patternProperties = patternProperties;
     return this;
   }
+
+  /**
+   * Sets the additional properties for an object.
+   * @param {object} additionalProperties - The additional properties.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setAdditionalProperties(additionalProperties: object): JsonSchemaBuilder {
     this.schema.additionalProperties = additionalProperties;
     return this;
   }
 
+  /**
+   * Sets the unevaluated items for an array.
+   * @param {boolean | object} unevaluatedItems - The unevaluated items.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
   setUnevaluatedItems(unevaluatedItems: boolean | object): JsonSchemaBuilder {
     this.schema.unevaluatedItems = unevaluatedItems;
     return this;
   }
 
-  setMinItems(minItems: number) {
+  /**
+   * Sets the minimum number of items in an array.
+   * @param {number} minItems - The minimum number of items.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setMinItems(minItems: number): JsonSchemaBuilder {
     this.schema.minItems = minItems;
     return this;
   }
 
-  setDefault(_default: unknown) {
+  /**
+   * Sets the default value of the schema.
+   * @param {unknown} _default - The default value.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setDefault(_default: unknown): JsonSchemaBuilder {
     this.schema.default = _default;
     return this;
   }
 
-  setMaxItems(maxItems: number) {
+  /**
+   * Sets the maximum number of items in an array.
+   * @param {number} maxItems - The maximum number of items.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setMaxItems(maxItems: number): JsonSchemaBuilder {
     this.schema.maxItems = maxItems;
     return this;
   }
 
-  setPrefixItems(prefixItems: object) {
+  /**
+   * Sets the prefix items for an array.
+   * @param {object} prefixItems - The prefix items.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setPrefixItems(prefixItems: object): JsonSchemaBuilder {
     this.schema.prefixItems = prefixItems;
     return this;
   }
-  setReadOnly(readOnly: boolean) {
+
+  /**
+   * Sets the read-only flag for the schema.
+   * @param {boolean} readOnly - The read-only flag.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setReadOnly(readOnly: boolean): JsonSchemaBuilder {
     this.schema.readOnly = readOnly;
     return this;
   }
-  setWriteOnly(writeOnly: boolean) {
+
+  /**
+   * Sets the write-only flag for the schema.
+   * @param {boolean} writeOnly - The write-only flag.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setWriteOnly(writeOnly: boolean): JsonSchemaBuilder {
     this.schema.writeOnly = writeOnly;
     return this;
   }
 
-  setContentEncoding(contentEncoding: string) {
+  /**
+   * Sets the content encoding for a string.
+   * @param {string} contentEncoding - The content encoding.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setContentEncoding(contentEncoding: string): JsonSchemaBuilder {
     this.schema.contentEncoding = contentEncoding;
     return this;
   }
 
-  setContentMediaType(contentMediaType: string) {
+  /**
+   * Sets the content media type for a string.
+   * @param {string} contentMediaType - The content media type.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setContentMediaType(contentMediaType: string): JsonSchemaBuilder {
     this.schema.contentMediaType = contentMediaType;
     return this;
   }
 
-  setEnum(_enum: unknown[]) {
+  /**
+   * Sets the enumeration values for the schema.
+   * @param {unknown[]} _enum - The enumeration values.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setEnum(_enum: unknown[]): JsonSchemaBuilder {
     this.schema.enum = _enum;
     return this;
   }
-  setEnumNames(enumNames: string[]) {
+
+  /**
+   * Sets the enumeration names for the schema.
+   * @param {string[]} enumNames - The enumeration names.
+   * @returns {JsonSchemaBuilder} The builder instance.
+   */
+  setEnumNames(enumNames: string[]): JsonSchemaBuilder {
     this.schema.enumNames = enumNames;
     return this;
   }
