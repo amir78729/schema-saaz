@@ -3,10 +3,14 @@ import { BuiltInFormats, Format } from "./types";
 
 export interface JsonSchema {
   // TODO: categorize
-  title?: string;
   type?: JsonSchemaType;
-  required?: string[];
+
+  // annotation
+  title?: string;
   description?: string;
+  default?: unknown;
+  readOnly?: boolean;
+  writeOnly?: boolean;
 
   enum?: unknown[];
   enumNames?: string[];
@@ -26,6 +30,7 @@ export interface JsonSchema {
   properties?: Record<string, JsonSchema>;
   patternProperties?: object; // TODO: fix type
   additionalProperties?: object; // TODO: fix type
+  required?: string[];
 
   // array
   items?: JsonSchema | JsonSchema[];
@@ -173,6 +178,11 @@ export class JsonSchemaBuilder {
     return this;
   }
 
+  setDefault(_default: unknown) {
+    this.schema.default = _default;
+    return this;
+  }
+
   setMaxItems(maxItems: number) {
     this.schema.maxItems = maxItems;
     return this;
@@ -180,6 +190,14 @@ export class JsonSchemaBuilder {
 
   setPrefixItems(prefixItems: object) {
     this.schema.prefixItems = prefixItems;
+    return this;
+  }
+  setReadOnly(readOnly: boolean) {
+    this.schema.readOnly = readOnly;
+    return this;
+  }
+  setWriteOnly(writeOnly: boolean) {
+    this.schema.writeOnly = writeOnly;
     return this;
   }
 
