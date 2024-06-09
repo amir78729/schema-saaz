@@ -1,30 +1,7 @@
 import { JsonSchemaType } from "../types";
+import { BuiltInFormats, Format } from "./types";
 
-export type BuiltInFormats =
-  | "date-time"
-  | "time"
-  | "date"
-  | "duration"
-  | "email"
-  | "idn-email"
-  | "hostname"
-  | "idn-hostname"
-  | "ipv4"
-  | "ipv6"
-  | "uuid"
-  | "uri"
-  | "uri-reference"
-  | "iri"
-  | "iri-reference"
-  | "uri-template"
-  | "json-pointer"
-  | "relative-json-pointer"
-  | "regex";
-
-// TODO: fix
-export type Format = BuiltInFormats | string;
-
-export type JsonSchema = {
+export interface JsonSchema {
   // TODO: categorize
   title?: string;
   type?: JsonSchemaType;
@@ -54,7 +31,9 @@ export type JsonSchema = {
   items?: JsonSchema | JsonSchema[];
   prefixItems?: object; // TODO: fix type
   unevaluatedItems?: boolean | object;
-};
+  maxItems?: number;
+  minItems?: number;
+}
 
 /**
  * Builder class for constructing JSON Schema objects.
@@ -179,17 +158,23 @@ export class JsonSchemaBuilder {
     this.schema.patternProperties = patternProperties;
     return this;
   }
-  setAdditionalProperties(
-    additionalProperties: object
-  ): JsonSchemaBuilder {
+  setAdditionalProperties(additionalProperties: object): JsonSchemaBuilder {
     this.schema.additionalProperties = additionalProperties;
     return this;
   }
 
-  setUnevaluatedItems(
-    unevaluatedItems: boolean | object
-  ): JsonSchemaBuilder {
+  setUnevaluatedItems(unevaluatedItems: boolean | object): JsonSchemaBuilder {
     this.schema.unevaluatedItems = unevaluatedItems;
+    return this;
+  }
+
+  setMinItems(minItems: number) {
+    this.schema.minItems = minItems;
+    return this;
+  }
+
+  setMaxItems(maxItems: number) {
+    this.schema.maxItems = maxItems;
     return this;
   }
 

@@ -93,25 +93,33 @@ const getTypeSpecificFields = (
     case "object":
       return {
         properties: {
-            type: 'object',
-            title: 'Properties'
+          type: "object",
+          title: "Properties",
         },
         patternProperties: {
-            type: 'object',
-            title: 'Pattern Properties'    
+          type: "object",
+          title: "Pattern Properties",
         },
         additionalProperties: {
-            type: 'object',
-            title: 'Additional Properties',
-        }
+          type: "object",
+          title: "Additional Properties",
+        },
       };
     case "integer":
-      return {
-
-      };
+      return {};
     case "array":
       return {
         items: {},
+        prefixItems: {},
+        unevaluatedItems: {},
+        minItems: {
+          title: "minItems",
+          type: "number",
+        },
+        maxItems: {
+          title: "maxItems",
+          type: "number",
+        },
       };
     default:
       return {};
