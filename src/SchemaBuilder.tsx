@@ -1,13 +1,20 @@
-import React from 'react';
+// SchemaBuilder.tsx
 
-export interface SchemaBuilderProps {
-  message?: string;
-}
+import Form from "@rjsf/core";
+import validator from "@rjsf/validator-ajv8";
+import React from "react";
+import AddPropertyModal from "./AddPropertyModal";
+import { useSchema } from "./SchemaContext";
 
-const SchemaBuilder: React.FC<SchemaBuilderProps> = ({ message = "Hello, World!" }) => {
+
+const SchemaBuilder: React.FC = () => {
+  const { dispatch, schema } = useSchema();
+  
   return (
     <div>
-      <h1>{message}</h1>
+      <Form schema={schema} validator={validator} />
+      <pre>{JSON.stringify(schema, null, 2)}</pre>
+      <AddPropertyModal />
     </div>
   );
 };
