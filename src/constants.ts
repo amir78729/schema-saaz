@@ -1,149 +1,93 @@
-// import { RJSFSchema } from "./interface/JsonSchemaBuilder";
-import { JsonSchema } from "./interface/JsonSchemaBuilder";
-import { JsonSchemaType } from "./types";
-import { RJSFSchema } from "@rjsf/utils";
+import {StringField} from "./fields/primitive/StringField";
+import {IntegerField} from "./fields/primitive/IntegerField";
+import {BooleanField} from "./fields/primitive/BooleanField";
+import {NumberField} from "./fields/primitive/NumberField";
+import {ObjectField} from "./fields/container/ObjectField";
+import {ArrayField} from "./fields/container/ArrayField";
+import {DateField} from "./fields/widgets/DateField";
+import {TimeField} from "./fields/widgets/TimeField";
+import {DateTimeField} from "./fields/widgets/DateTimeField";
+import {FaqWidget} from "./fields/patterns/FaqWidget";
+import {FieldConfig} from "./types";
 
-const fieldName: RJSFSchema = {
-  type: "string",
-  title: "Field Name",
-};
+export const PRIMITIVE_PROPERTIES: FieldConfig[] = [
+    {
+        id: 'STRING',
+        title: 'String Field',
+        description: 'a string field',
+        Class: StringField,
 
-const fieldType: RJSFSchema = {
-  type: "string",
-  title: "Field Type",
-  enum: ["string", "number", "integer", "object", "array", "boolean"],
-  enumNames: ["String", "Number", "Integer", "Object", "Array", "Boolean"],
-};
+    },
+    {
+        id: 'INTEGER',
+        title: 'Integer Field',
+        description: 'a integer field',
+        Class: IntegerField,
+    },
+    {
+        id: 'NUMBER',
+        title: 'Number Field',
+        description: 'a number field',
+        Class: NumberField,
+    },
+    {
+        id: 'BOOLEAN',
+        title: 'Boolean Field',
+        description: 'a boolean field',
+        Class: BooleanField,
+    },
+];
 
-const isRequired: RJSFSchema = {
-  type: "boolean",
-  title: "Required",
-};
+export const CONTAINER_PROPERTIES: FieldConfig[] = [
+    {
+        id: 'ARRAY',
+        title: 'Array Field',
+        description: 'a array field',
+        Class: ArrayField,
+    },
+    {
+        id: 'OBJECT',
+        title: 'Object Field',
+        description: 'a object field',
+        Class: ObjectField,
+    },
+];
 
-const getTypeSpecificFields = (
-  type: JsonSchemaType
-): Record<string, JsonSchema> => {
-  // TODO fix type
-  switch (type) {
-    case "string":
-      return {
-        maxLength: {
-          type: "integer",
-          title: "Max Length",
-        },
-        minLength: {
-          type: "integer",
-          title: "Min Length",
-        },
-        pattern: {
-          type: "string",
-          title: "RegEx Pattern",
-        },
-        format: {
-          type: "string",
-          title: "Format",
-          enum: [
-            "date-time",
-            "time",
-            "date",
-            "duration",
-            "email",
-            "idn-email",
-            "hostname",
-            "idn-hostname",
-            "ipv4",
-            "ipv6",
-            "uuid",
-            "uri",
-            "uri-reference",
-            "iri",
-            "iri-reference",
-            "uri-template",
-            "json-pointer",
-            "relative-json-pointer",
-            "regex",
-          ], // TODO: fix
-        },
-      };
-    case "number":
-      return {
-        multipleOf: {
-          type: "number",
-          title: "Multiple Of",
-        },
-        maximum: {
-          type: "number",
-          title: "Maximum",
-        },
-        minimum: {
-          type: "number",
-          title: "Minimum",
-        },
-        exclusiveMaximum: {
-          type: "number",
-          title: "Exclusive Maximum",
-        },
-        exclusiveMinimum: {
-          type: "number",
-          title: "Exclusive Minimum",
-        },
-      };
-    case "boolean":
-      return {};
-    case "object":
-      return {
-        properties: {
-          type: "object",
-          title: "Properties",
-        },
-        patternProperties: {
-          type: "object",
-          title: "Pattern Properties",
-        },
-        additionalProperties: {
-          type: "object",
-          title: "Additional Properties",
-        },
-      };
-    case "integer":
-      return {};
-    case "array":
-      return {
-        items: {},
-        prefixItems: {},
-        unevaluatedItems: {},
-        minItems: {
-          title: "minItems",
-          type: "number",
-        },
-        maxItems: {
-          title: "maxItems",
-          type: "number",
-        },
-      };
-    default:
-      return {};
-  }
-};
 
-const dependencies: RJSFSchema["dependencies"] = {
-  fieldType: {
-    oneOf: fieldType.enum.map((type: JsonSchemaType) => ({
-      properties: {
-        fieldType: { enum: [type] },
-        ...getTypeSpecificFields(type),
-      },
-    })),
-  },
-};
+export const STRING_WIDGETS: FieldConfig[] = [
+    {
+        id: 'DATE',
+        title: 'Date Field',
+        description: 'a date field',
+        Class: DateField,
+    },
+    {
+        id: 'DATE_TIME',
+        title: 'Date-Time Field',
+        description: 'a date-time field',
+        Class: DateTimeField,
+    },
+    {
+        id: 'TIME',
+        title: 'Time Field',
+        description: 'a time field',
+        Class: TimeField,
+    }
+];
 
-export const propertySchema: RJSFSchema = {
-  type: "object",
-  title: "Add Property",
-  properties: {
-    fieldName,
-    fieldType,
-    isRequired,
-  },
-  dependencies,
-};
+export const PATTERNS: FieldConfig[] = [
+    {
+        id: 'FAQ',
+        title: 'FAQ',
+        description: 'a FAQ form',
+        Class: FaqWidget,
+    }
+];
+
+export const PROPERTIES = [
+    ...PRIMITIVE_PROPERTIES,
+    ...CONTAINER_PROPERTIES,
+    // ...STRING_WIDGETS,
+    // ...PATTERNS
+]
+

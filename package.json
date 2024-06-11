@@ -17,14 +17,18 @@
     "@lit/react": "^1.0.5",
     "@mui/material": "^5.15.19",
     "@rjsf/core": "^5.18.4",
+    "@rjsf/mui": "^5.18.4",
     "@rjsf/utils": "^5.18.4",
     "@rjsf/validator-ajv8": "^5.18.4",
     "@tapsioss/web-components": "0.0.0-alpha-2",
+    "immer": "^10.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.5.0",
+    "@eslint/compat": "^1.0.3",
+    "@eslint/js": "^9.4.0",
     "@storybook/addon-essentials": "^8.1.6",
     "@storybook/addon-interactions": "^8.1.6",
     "@storybook/addon-links": "^8.1.6",
@@ -35,7 +39,13 @@
     "@storybook/test": "^8.1.6",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
+    "eslint": "^9.4.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react": "^7.34.2",
+    "globals": "^15.4.0",
     "storybook": "^8.1.6",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.12.0"
   }
 }

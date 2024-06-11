@@ -1,17 +1,10 @@
 // SchemaProvider.tsx
 
-import React, { ReactNode, useReducer } from "react";
-import { SchemaContext } from "./SchemaContext";
-import type { JsonSchema } from "./interface/JsonSchemaBuilder";
-import { JsonSchemaBuilder } from "./interface/JsonSchemaBuilder";
+import React, {createContext, Dispatch, ReactNode, useContext, useReducer} from "react";
+import {JsonSchemaBuilder} from "../builder/JsonSchemaBuilder";
+import {FieldConfig, JsonSchema} from "../types";
+import {PROPERTIES} from "../constants";
 
-interface SchemaState {
-  builder: JsonSchemaBuilder;
-}
-
-interface SchemaProviderProps {
-  children: ReactNode;
-}
 
 interface SchemaAction {
   type: "ADD_PROPERTY" | "UPDATE_PROPERTY" | "ADD_REQUIRED";
@@ -26,6 +19,22 @@ const addAnnotations = (builder: JsonSchemaBuilder, state: JsonSchema) => {
   if (state.readOnly) builder.setReadOnly(state.readOnly);
   if (state.writeOnly) builder.setWriteOnly(state.writeOnly);
 };
+
+
+interface SchemaAction {
+  type: "ADD_PROPERTY" | "UPDATE_PROPERTY" | "ADD_REQUIRED";
+  payload: { name: string; schema?: JsonSchema; value?: any };
+}
+
+export const SchemaContext = createContext<{
+  schema: JsonSchema;
+  dispatch: Dispatch<SchemaAction>;
+  fields: FieldConfig[];
+}>({
+  schema: new JsonSchemaBuilder().setType("object").build(),
+  dispatch: () => null,
+  fields: []
+});
 
 const addSpecificProperties = (
   builder: JsonSchemaBuilder,
@@ -43,7 +52,7 @@ const addSpecificProperties = (
         builder.setContentMediaType(state.contentMediaType);
       break;
     case "number":
-      if (state.multipleOf) builder.setMultiplyOf(state.multipleOf);
+      if (state.multipleOf) builder.setMultipleOf(state.multipleOf);
       if (state.maximum) builder.setMaximum(state.maximum);
       if (state.minimum) builder.setMinimum(state.minimum);
       if (state.exclusiveMaximum)
@@ -88,7 +97,7 @@ const schemaReducer = (state: JsonSchema, action: SchemaAction): JsonSchema => {
   addSpecificProperties(builder, state);
 
   if (state.enum) builder.setEnum(state.enum);
-  if (state.enumNames) builder.setEnum(state.enumNames);
+  if (state.enumNames) builder.setEnumNames(state.enumNames);
   
   switch (action.type) {
     case "ADD_PROPERTY":
@@ -104,15 +113,22 @@ const schemaReducer = (state: JsonSchema, action: SchemaAction): JsonSchema => {
   return builder.build();
 };
 
-export const SchemaProvider: React.FC<SchemaProviderProps> = ({ children }) => {
+type Props = {
+  extraFields: FieldConfig[];
+  children: ReactNode;
+
+}
+export const SchemaProvider = ({ children, extraFields }: Props) => {
   const [schema, dispatch] = useReducer(
     schemaReducer,
     new JsonSchemaBuilder().setType("object").build()
   );
 
   return (
-    <SchemaContext.Provider value={{ schema, dispatch }}>
+    <SchemaContext.Provider value={{ schema, dispatch, fields: [...PROPERTIES, ...extraFields] }}>
       {children}
     </SchemaContext.Provider>
   );
 };
+
+export const useSchema = () => useContext(SchemaContext);
