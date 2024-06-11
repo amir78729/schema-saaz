@@ -1,4 +1,4 @@
-import {StringField, StringFieldType} from "../primitive/StringField";
+import {StringField, StringFieldType} from "../primitives/StringField";
 
 export type DateType = StringFieldType;
 

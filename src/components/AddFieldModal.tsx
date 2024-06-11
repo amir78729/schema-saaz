@@ -9,7 +9,7 @@ import {JsonSchemaField} from "../fields/JsonSchemaField";
 import Select from "@mui/material/Select";
 
 const AddFieldModal = () => {
-    const [open, setOpen] = React.useState<boolean>(true);
+    const [open, setOpen] = React.useState<boolean>(false);
     const [name, setName] = React.useState<string | null>(null);
     const [type, setType] = React.useState<JsonSchemaType | null>(null);
     const [field, setField] = React.useState<null | JsonSchemaField>(null);

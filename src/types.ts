@@ -1,9 +1,9 @@
-import {StringFieldType} from "./fields/primitive/StringField";
-import {NumberFieldType} from "./fields/primitive/NumberField";
-import {ObjectFieldType} from "./fields/container/ObjectField";
-import {ArrayFieldType} from "./fields/container/ArrayField";
-import {IntegerFieldType} from "./fields/primitive/IntegerField";
-import {BooleanFieldType} from "./fields/primitive/BooleanField";
+import {StringFieldType} from "./fields/primitives/StringField";
+import {NumberFieldType} from "./fields/primitives/NumberField";
+import {ObjectFieldType} from "./fields/containers/ObjectField";
+import {ArrayFieldType} from "./fields/containers/ArrayField";
+import {IntegerFieldType} from "./fields/primitives/IntegerField";
+import {BooleanFieldType} from "./fields/primitives/BooleanField";
 import {JsonSchemaField} from "./fields/JsonSchemaField";
 
 export type BuiltInFormats =

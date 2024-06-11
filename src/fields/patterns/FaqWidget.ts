@@ -1,7 +1,7 @@
-import {StringField} from "../primitive/StringField";
-import {ObjectField, ObjectFieldType} from "../container/ObjectField";
+import {StringField} from "../primitives/StringField";
+import {ObjectField, ObjectFieldType} from "../containers/ObjectField";
 import {produce} from "immer";
-import {ArrayField} from "../container/ArrayField";
+import {ArrayField} from "../containers/ArrayField";
 import {JsonSchema} from "../../types";
 
 export type FaqType = ObjectFieldType;
