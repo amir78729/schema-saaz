@@ -14,7 +14,7 @@ import {
     ToggleOn
 } from "@mui/icons-material";
 import {
-    Box, Button, Chip,
+    Box, Button, Card, Chip,
     Collapse,
     Dialog, DialogActions, DialogContent, DialogTitle,
     IconButton,
@@ -38,7 +38,7 @@ type Props = {
 
 
 // TODO: refactor
-const renderHeader = ({icon, schema, onDelete, collapse, onCollapse, name}: {
+const renderHeader = ({icon, schema, onDelete, name}: {
     icon?: React.ReactNode,
     schema: RJSFSchema,
     name: string,
@@ -61,9 +61,8 @@ const renderHeader = ({icon, schema, onDelete, collapse, onCollapse, name}: {
             <Dialog open={showEditModal} onClose={() => setShowEditModal(false)}>
                 <DialogTitle>Edit <code>{name}</code> Field</DialogTitle>
                 <DialogContent>
-                    <Form onSubmit={({ formData }) => {
-                        console.log('🐕 sag formData', formData); // TODO: REMOVE ME ⚠️
-                        dispatch({ type: "UPDATE_PROPERTY", payload: { name, schema: formData }})
+                    <Form onSubmit={({formData}) => {
+                        dispatch({type: "UPDATE_PROPERTY", payload: {name, schema: formData}})
                         setShowEditModal(false);
                     }} schema={field?.getBuilderSchema()} formData={schema} validator={validator}/>
                 </DialogContent>
@@ -99,8 +98,12 @@ const renderHeader = ({icon, schema, onDelete, collapse, onCollapse, name}: {
                 />
                 {onDelete && <IconButton color="error" onClick={() => setShowDeleteConfirmationModal(true)}><Delete
                     fontSize="small"/></IconButton>}
-                {true && <IconButton color="warning" onClick={() => setShowEditModal(true)}><Edit
-                    fontSize="small"/></IconButton>}
+                <IconButton
+                    color="warning"
+                    onClick={() => setShowEditModal(true)}
+                >
+                    <Edit fontSize="small"/>
+                </IconButton>
 
             </ListItem>
         </>
@@ -163,9 +166,7 @@ SchemaPreview.Object = function ObjectVisualization({schema, data, name}: DataVi
     };
 
     return (
-        <div
-            style={{border: "#0005 solid 1px", padding: "20px", margin: "5px"}}
-        >
+        <Card sx={{p: 2, m: 2}}>
             {renderHeader({
                 name,
                 schema,
@@ -174,9 +175,7 @@ SchemaPreview.Object = function ObjectVisualization({schema, data, name}: DataVi
                 onCollapse: handleCollapse,
                 onDelete: () => handleDelete(dispatch, name)
             })}
-            <div
-                style={{border: "#0005 solid 1px", padding: "20px", margin: "5px"}}
-            >
+            <Card sx={{p: 2, m: 2}}>
                 <Box
                     px={2} display="flex" justifyContent="space-between">
                     <Typography flex={1}>Properties</Typography>
@@ -186,11 +185,10 @@ SchemaPreview.Object = function ObjectVisualization({schema, data, name}: DataVi
                             <ExpandLess fontSize="small"/>}</IconButton>}
                 </Box>
                 <Collapse in={open} timeout="auto" unmountOnExit>
-                    {properties.length > 0 ? properties.map((property) => (
+                    {properties?.length > 0 ? properties?.map((property) => (
                         <SchemaPreview
                             name={property}
                             schema={schema.properties[property]}
-                            data={data[property]}
                         />
                     )) : (
                         <Typography alignItems="center" textAlign="center" p={3}>
@@ -198,8 +196,8 @@ SchemaPreview.Object = function ObjectVisualization({schema, data, name}: DataVi
                         </Typography>
                     )}
                 </Collapse>
-            </div>
-        </div>
+            </Card>
+        </Card>
     );
 };
 
@@ -207,14 +205,12 @@ SchemaPreview.Array = function ArrayVisualization({schema, data, name}: DataVisu
     const {dispatch} = useSchema();
     return (
         <>
+            <Card sx={{p: 2, m: 2}}>
             {renderHeader({name, schema, icon: <DataArray/>, onDelete: () => handleDelete(dispatch, name)})}
-            {data?.map((item, index) => (
-                <div key={index} className="array-item">
-                    <SchemaPreview
-                        {...{data: item, schema: schema.items}}
-                    />
-                </div>
-            ))}
+                <SchemaPreview
+                    {...{schema: schema.items, name}}
+                />
+            </Card>
         </>
     );
 };
