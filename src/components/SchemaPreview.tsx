@@ -16,7 +16,7 @@ import {
 import {
     Box, Button, Chip,
     Collapse,
-    Dialog,
+    Dialog, DialogActions, DialogContent, DialogTitle,
     IconButton,
     ListItem,
     ListItemIcon,
@@ -47,18 +47,37 @@ const renderHeader = ({icon, schema, onDelete, collapse, onCollapse, name}: {
     onCollapse?: () => void
 }) => {
     const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState<boolean>(false);
+    const [showEditModal, setShowEditModal] = useState<boolean>(false);
+    const {fields, dispatch} = useSchema();
+    const SelectedFieldClass = fields.find(field => field.id === getFieldId(schema))?.Class
+    console.log('🐕 sag selectedField', SelectedFieldClass); // TODO: REMOVE ME ⚠️
 
+    let field;
+    if (SelectedFieldClass) {
+        field = new SelectedFieldClass(name)
+    }
     return (
         <>
+            <Dialog open={showEditModal} onClose={() => setShowEditModal(false)}>
+                <DialogTitle>Edit <code>{name}</code> Field</DialogTitle>
+                <DialogContent>
+                    <Form onSubmit={({ formData }) => {
+                        console.log('🐕 sag formData', formData); // TODO: REMOVE ME ⚠️
+                        dispatch({ type: "UPDATE_PROPERTY", payload: { name, schema: formData }})
+                        setShowEditModal(false);
+                    }} schema={field?.getBuilderSchema()} formData={schema} validator={validator}/>
+                </DialogContent>
+            </Dialog>
             <Dialog open={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
-                <Box p={3}>
-                    <Typography>Are you sure you want to delete this field?</Typography>
-                    <Button color="error" onClick={() => setShowDeleteConfirmationModal(false)}>Cancel</Button>
-                    <Button variant="contained" color="error" onClick={() => {
+                <DialogContent><Typography>Are you sure you want to delete this field?</Typography></DialogContent>
+                <DialogActions>
+                    <Button fullWidth color="error"
+                            onClick={() => setShowDeleteConfirmationModal(false)}>Cancel</Button>
+                    <Button fullWidth variant="contained" color="error" onClick={() => {
                         onDelete?.();
                         setShowDeleteConfirmationModal(false)
                     }}>Delete</Button>
-                </Box>
+                </DialogActions>
             </Dialog>
             <ListItem>
                 <ListItemText
@@ -80,9 +99,9 @@ const renderHeader = ({icon, schema, onDelete, collapse, onCollapse, name}: {
                 />
                 {onDelete && <IconButton color="error" onClick={() => setShowDeleteConfirmationModal(true)}><Delete
                     fontSize="small"/></IconButton>}
-                <IconButton><Edit fontSize="small"/></IconButton>
-                {collapse !== undefined && <IconButton onClick={onCollapse}>{collapse ? <ExpandMore fontSize="small"/> :
-                    <ExpandLess fontSize="small"/>}</IconButton>}
+                {true && <IconButton color="warning" onClick={() => setShowEditModal(true)}><Edit
+                    fontSize="small"/></IconButton>}
+
             </ListItem>
         </>
     )
@@ -155,24 +174,31 @@ SchemaPreview.Object = function ObjectVisualization({schema, data, name}: DataVi
                 onCollapse: handleCollapse,
                 onDelete: () => handleDelete(dispatch, name)
             })}
-
-            <Collapse in={open} timeout="auto" unmountOnExit>
-                <Box display="flex" justifyContent="space-between">
-                    <p>Properties</p>
+            <div
+                style={{border: "#0005 solid 1px", padding: "20px", margin: "5px"}}
+            >
+                <Box
+                    px={2} display="flex" justifyContent="space-between">
+                    <Typography flex={1}>Properties</Typography>
                     <AddFieldModal/>
+                    {open !== undefined &&
+                        <IconButton onClick={handleCollapse}>{!open ? <ExpandMore fontSize="small"/> :
+                            <ExpandLess fontSize="small"/>}</IconButton>}
                 </Box>
-                {properties.length > 0 ? properties.map((property) => (
-                    <SchemaPreview
-                        name={property}
-                        schema={schema.properties[property]}
-                        data={data[property]}
-                    />
-                )) : (
-                    <Typography alignItems="center" textAlign="center" p={3}>Click on <Add fontSize="small"/> button to
-                        add
-                        properties</Typography>
-                )}
-            </Collapse>
+                <Collapse in={open} timeout="auto" unmountOnExit>
+                    {properties.length > 0 ? properties.map((property) => (
+                        <SchemaPreview
+                            name={property}
+                            schema={schema.properties[property]}
+                            data={data[property]}
+                        />
+                    )) : (
+                        <Typography alignItems="center" textAlign="center" p={3}>
+                            Click on <Add fontSize="small"/> button to add properties
+                        </Typography>
+                    )}
+                </Collapse>
+            </div>
         </div>
     );
 };
@@ -181,7 +207,7 @@ SchemaPreview.Array = function ArrayVisualization({schema, data, name}: DataVisu
     const {dispatch} = useSchema();
     return (
         <>
-            {renderHeader({name,schema, icon: <DataArray/>, onDelete: () => handleDelete(dispatch, name)})}
+            {renderHeader({name, schema, icon: <DataArray/>, onDelete: () => handleDelete(dispatch, name)})}
             {data?.map((item, index) => (
                 <div key={index} className="array-item">
                     <SchemaPreview
