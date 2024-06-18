@@ -50,7 +50,6 @@ const renderHeader = ({icon, schema, onDelete, collapse, onCollapse, name}: {
 
     return (
         <>
-            <Form schema={x.getBuilderSchema()} validator={validator} formData={schema} />
             <Dialog open={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
                 <Box p={3}>
                     <Typography>Are you sure you want to delete this field?</Typography>
