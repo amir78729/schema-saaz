@@ -5,6 +5,7 @@ import {ArrayFieldType} from "./fields/containers/ArrayField";
 import {IntegerFieldType} from "./fields/primitives/IntegerField";
 import {BooleanFieldType} from "./fields/primitives/BooleanField";
 import {JsonSchemaField} from "./fields/JsonSchemaField";
+import {RJSFSchema} from "@rjsf/utils";
 
 export type BuiltInFormats =
     | "date-time"
@@ -65,4 +66,13 @@ export type FieldConfig = {
     title: string;
     description: string;
     Class: JsonSchemaField;
+}
+
+
+// Visualization
+
+export type DataVisualizationType = {
+    data?: object;
+    schema: RJSFSchema;
+    name?: string
 }

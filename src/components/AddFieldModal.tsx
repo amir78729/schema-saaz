@@ -1,4 +1,4 @@
-import {Box, Button, Dialog, FormControl, InputLabel, MenuItem, Stack, TextField,} from "@mui/material";
+import {Box, Button, Dialog, FormControl, IconButton, InputLabel, MenuItem, Stack, TextField,} from "@mui/material";
 import Form from "@rjsf/mui";
 
 import validator from "@rjsf/validator-ajv8";
@@ -7,6 +7,7 @@ import {useSchema} from "../providers/SchemaProvider";
 import {JsonSchemaType} from "../types";
 import {JsonSchemaField} from "../fields/JsonSchemaField";
 import Select from "@mui/material/Select";
+import {Add} from "@mui/icons-material";
 
 const AddFieldModal = () => {
     const [open, setOpen] = React.useState<boolean>(false);
@@ -54,7 +55,7 @@ const AddFieldModal = () => {
 
     return (
         <>
-            <Button onClick={() => setOpen(true)}>Add Property</Button>
+            <IconButton onClick={() => setOpen(true)}><Add /></IconButton>
             <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
                 <Box p={3} key={JSON.stringify(fields)}>
                     <h1>{step !== 0 && <Button onClick={() => setStep(0)}>back</Button>}Adding Field</h1>

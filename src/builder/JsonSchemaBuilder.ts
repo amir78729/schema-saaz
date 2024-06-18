@@ -157,6 +157,27 @@ export class JsonSchemaBuilder {
     return this;
   }
 
+  deleteProperty(name: string): JsonSchemaBuilder {
+    if (this.schema.properties && this.schema.properties[name]) {
+      delete this.schema.properties[name];
+    }
+    return this;
+  }
+
+  deleteRequired(name: string): JsonSchemaBuilder {
+    if (this.schema.required) {
+      this.schema.required = this.schema.required.filter((req: string) => req !== name);
+    }
+    return this;
+  }
+
+  editProperty(name: string, propSchema: JsonSchema): JsonSchemaBuilder {
+    if (this.schema.properties && this.schema.properties[name]) {
+      this.schema.properties[name] = propSchema;
+    }
+    return this;
+  }
+
   build(): JsonSchema {
     return this.schema;
   }
