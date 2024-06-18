@@ -68,9 +68,6 @@ export class ArrayField extends JsonSchemaField {
         if (schema.minItems) this.setMinItems(schema.minItems);
         if (schema.prefixItems) this.setPrefixItems(schema.prefixItems);
         if (schema.unevaluatedItems) this.setUnevaluatedItems(schema.unevaluatedItems);
-        
-        console.log('🐕 sag this.items', this.items); // TODO: REMOVE ME ⚠️
-        console.log('🐕 sag this.itemsType', this.itemsType); // TODO: REMOVE ME ⚠️
 
     }
 

@@ -28,8 +28,6 @@ const AddFieldModal = () => {
 
 
     const handleSubmit = (formData) => {
-        console.log('🐕 sag formData', formData); // TODO: REMOVE ME ⚠️
-        
         if (field) {
             field.setSchema(formData);
             dispatch({

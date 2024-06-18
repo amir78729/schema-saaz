@@ -50,7 +50,6 @@ const renderHeader = ({icon, schema, onDelete, name}: {
     const [showEditModal, setShowEditModal] = useState<boolean>(false);
     const {fields, dispatch} = useSchema();
     const SelectedFieldClass = fields.find(field => field.id === getFieldId(schema))?.Class
-    console.log('🐕 sag selectedField', SelectedFieldClass); // TODO: REMOVE ME ⚠️
 
     let field;
     if (SelectedFieldClass) {
