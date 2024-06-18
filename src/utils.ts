@@ -23,14 +23,14 @@ export const getSchemaFormatFromSchema = (
     },
 ) => {
     if (schema?.type === 'boolean') return SchemaFormat.Boolean;
-    if (schema?.type === 'string' && schema?.format === 'image-url') return SchemaFormat.Image;
-    if (schema?.type === 'string' && schema?.format === 'video-url') return SchemaFormat.Video;
-    if (schema?.type === 'string' && schema?.format === 'uri') return SchemaFormat.Url;
-    if (schema?.type === 'string' && schema?.format === 'advance') return SchemaFormat.RichText;
-    if (schema?.type === 'string' && schema?.ui?.widget === 'color') return SchemaFormat.Color;
-    if (schema?.format === 'date') return SchemaFormat.Date;
-    if (schema?.format === 'date-time') return SchemaFormat.DateTime;
-    if (schema?.type === 'string' && schema?.enum?.length > 0) return SchemaFormat.Enum;
+    // if (schema?.type === 'string' && schema?.format === 'image-url') return SchemaFormat.Image;
+    // if (schema?.type === 'string' && schema?.format === 'video-url') return SchemaFormat.Video;
+    // if (schema?.type === 'string' && schema?.format === 'uri') return SchemaFormat.Url;
+    // if (schema?.type === 'string' && schema?.format === 'advance') return SchemaFormat.RichText;
+    // if (schema?.type === 'string' && schema?.ui?.widget === 'color') return SchemaFormat.Color;
+    // if (schema?.format === 'date') return SchemaFormat.Date;
+    // if (schema?.format === 'date-time') return SchemaFormat.DateTime;
+    // if (schema?.type === 'string' && schema?.enum?.length > 0) return SchemaFormat.Enum;
     if (schema?.type === 'string') return SchemaFormat.String;
     if (schema?.type === 'number' || schema?.type === 'integer') return SchemaFormat.Number;
     if (schema?.type === 'object' && schema?.format === 'map') return SchemaFormat.Map;

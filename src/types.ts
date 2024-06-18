@@ -72,6 +72,7 @@ export type FieldConfig = {
 // Visualization
 
 export type DataVisualizationType = {
-    data: unknown;
+    data?: object;
     schema: RJSFSchema;
+    name?: string
 }

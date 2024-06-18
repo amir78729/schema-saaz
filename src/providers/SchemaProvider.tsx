@@ -2,9 +2,10 @@ import React, {createContext, Dispatch, ReactNode, useContext, useReducer} from 
 import {JsonSchemaBuilder} from "../builder/JsonSchemaBuilder";
 import {FieldConfig, JsonSchema} from "../types";
 import {PROPERTIES} from "../constants";
+import {RJSFSchema} from "@rjsf/utils";
 
 
-interface SchemaAction {
+export interface SchemaAction {
     type: "ADD_PROPERTY" | "UPDATE_PROPERTY" | "DELETE_PROPERTY" | "ADD_REQUIRED" | "DELETE_REQUIRED";
     payload: { name: string; schema?: JsonSchema; value?: any };
 }
@@ -18,87 +19,13 @@ const addAnnotations = (builder: JsonSchemaBuilder, state: JsonSchema) => {
     if (state.writeOnly) builder.setWriteOnly(state.writeOnly);
 };
 
-const sampleSchema = {
-    "title": "Example Schema",
-    "description": "A rich JSON schema example without dependencies and no nested objects.",
-    "type": "object",
-    "properties": {
-        "id": {
-            "title": "Identifier",
-            "description": "A unique identifier for the item.",
-            "type": "string",
-            "pattern": "^[a-zA-Z0-9-]+$"
-        },
-        "name": {
-            "title": "Name",
-            "description": "The name of the item.",
-            "type": "string",
-            "minLength": 1
-        },
-        "price": {
-            "title": "Price",
-            "description": "The price of the item.",
-            "type": "number",
-            "minimum": 0
-        },
-        "tags": {
-            "title": "Tags",
-            "description": "Tags associated with the item.",
-            "type": "array",
-            "items": {
-                "type": "string"
-            },
-            "uniqueItems": true
-        },
-        "length": {
-            "title": "Length",
-            "description": "The length of the item.",
-            "type": "number",
-            "minimum": 0
-        },
-        "width": {
-            "title": "Width",
-            "description": "The width of the item.",
-            "type": "number",
-            "minimum": 0
-        },
-        "height": {
-            "title": "Height",
-            "description": "The height of the item.",
-            "type": "number",
-            "minimum": 0
-        },
-        "latitude": {
-            "title": "Latitude",
-            "description": "Latitude of the warehouse location.",
-            "type": "number",
-            "minimum": -90,
-            "maximum": 90
-        },
-        "longitude": {
-            "title": "Longitude",
-            "description": "Longitude of the warehouse location.",
-            "type": "number",
-            "minimum": -180,
-            "maximum": 180
-        },
-        "inStock": {
-            "title": "In Stock",
-            "description": "Indicates if the item is in stock.",
-            "type": "boolean"
-        }
-    },
-    "required": ["id", "name", "price"],
-    "additionalProperties": false
-};
 
 export const SchemaContext = createContext<{
     schema: JsonSchema;
     dispatch: Dispatch<SchemaAction>;
     fields: FieldConfig[];
 }>({
-    schema: sampleSchema,
-    // schema: new JsonSchemaBuilder().setType("object").build(),
+    schema: new JsonSchemaBuilder().setType("object").build(),
     dispatch: () => null,
     fields: []
 });
@@ -191,12 +118,13 @@ const schemaReducer = (state: JsonSchema, action: SchemaAction): JsonSchema => {
 type Props = {
     extraFields: FieldConfig[];
     children: ReactNode;
+    value?: RJSFSchema;
 };
 
-export const SchemaProvider = ({children, extraFields}: Props) => {
+export const SchemaProvider = ({children, extraFields, value}: Props) => {
     const [schema, dispatch] = useReducer(
         schemaReducer,
-        sampleSchema
+        value || new JsonSchemaBuilder().setType("object").build()
     );
 
     return (

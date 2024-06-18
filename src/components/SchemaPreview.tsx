@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {RJSFSchema} from "@rjsf/utils";
 import AddFieldModal from "./AddFieldModal";
 import Numbers from '@mui/icons-material/Numbers';
@@ -13,10 +13,20 @@ import {
     TextSnippet,
     ToggleOn
 } from "@mui/icons-material";
-import {Box, Collapse, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip, Typography} from "@mui/material";
+import {
+    Box, Button, Chip,
+    Collapse,
+    Dialog,
+    IconButton,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    Tooltip,
+    Typography
+} from "@mui/material";
 import {getSchemaFormatFromSchema} from "../utils";
 import {DataVisualizationType} from "../types";
-import {useSchema} from "../providers/SchemaProvider";
+import {SchemaAction, useSchema} from "../providers/SchemaProvider";
 
 type Props = {
     schema: RJSFSchema;
@@ -25,26 +35,56 @@ type Props = {
 }
 
 
+// TODO: refactor
 const renderHeader = ({icon, schema, onDelete, collapse, onCollapse}: {
     icon?: React.ReactNode,
     schema: RJSFSchema,
     onDelete?: () => void,
     collapse?: boolean;
-    onCollapse: () => void
-}) => (
-    <ListItem>
-        {icon && <ListItemIcon>{icon}</ListItemIcon>}
-        {schema?.title && <Tooltip title={schema?.description}><ListItemText primary={schema.title}/></Tooltip>}
-        {onDelete && <IconButton onClick={onDelete}><Delete fontSize="small"/></IconButton>}
-        <IconButton><Edit fontSize="small"/></IconButton>
-        {collapse !== undefined && <IconButton onClick={onCollapse}>{collapse ? <ExpandMore fontSize="small"/> :
-            <ExpandLess fontSize="small"/>}</IconButton>}
-    </ListItem>
-)
+    onCollapse?: () => void
+}) => {
+    const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState<boolean>(false);
 
-const handleDelete = (dispatch, name) => {
+    return (
+        <>
+            <Dialog open={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
+                <Box p={3}>
+                    <Typography>Are you sure you want to delete this field?</Typography>
+                    <Button color="error" onClick={() => setShowDeleteConfirmationModal(false)}>Cancel</Button>
+                    <Button variant="contained" color="error" onClick={() => {
+                        onDelete?.();
+                        setShowDeleteConfirmationModal(false)
+                    }}>Delete</Button>
+                </Box>
+            </Dialog>
+            <ListItem>
+                <ListItemText
+                    primary={(
+                        <>
+                            <Typography>{schema?.title} <Chip size="small" color="primary" variant="outlined" icon={icon} label={schema?.type} /></Typography>
+                            {schema?.description && (
+                                <Typography variant="caption">{schema?.description}</Typography>
+                            )}
+                        </>
+                    )}
+                />
+                {onDelete && <IconButton color="error" onClick={() => setShowDeleteConfirmationModal(true)}><Delete
+                    fontSize="small"/></IconButton>}
+                <IconButton><Edit fontSize="small"/></IconButton>
+                {collapse !== undefined && <IconButton onClick={onCollapse}>{collapse ? <ExpandMore fontSize="small"/> :
+                    <ExpandLess fontSize="small"/>}</IconButton>}
+            </ListItem>
+        </>
+    )
+}
+
+const handleDelete = (dispatch: React.Dispatch<SchemaAction>, name: string) => {
     dispatch({type: "DELETE_PROPERTY", payload: {name}});
     dispatch({type: "DELETE_REQUIRED", payload: {name}});
+}
+
+const handleEdit = (dispatch: React.Dispatch<SchemaAction>, name: string, schema: RJSFSchema) => {
+    dispatch({type: "UPDATE_PROPERTY", payload: {name, schema}});
 }
 
 const SchemaPreview = ({schema, data, name}: Props) => {
@@ -65,7 +105,7 @@ SchemaPreview.String = function String({schema, data, name}: DataVisualizationTy
     );
 };
 
-SchemaPreview.Number = function Number({schema, data, name}: DataVisualizationType) {
+SchemaPreview.Number = function Number({schema, name}: DataVisualizationType) {
     const {dispatch} = useSchema();
     return (
         <div>
@@ -74,7 +114,7 @@ SchemaPreview.Number = function Number({schema, data, name}: DataVisualizationTy
     );
 };
 
-SchemaPreview.Boolean = function BooleanVisualization({schema, data, name}: DataVisualizationType) {
+SchemaPreview.Boolean = function BooleanVisualization({schema, name}: DataVisualizationType) {
     const {dispatch} = useSchema();
     return (
         <div>
