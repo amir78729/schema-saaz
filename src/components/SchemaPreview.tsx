@@ -24,9 +24,11 @@ import {
     Tooltip,
     Typography
 } from "@mui/material";
-import {getSchemaFormatFromSchema} from "../utils";
+import {getFieldId, getSchemaFormatFromSchema} from "../utils";
 import {DataVisualizationType} from "../types";
 import {SchemaAction, useSchema} from "../providers/SchemaProvider";
+import Form from "@rjsf/mui";
+import validator from "@rjsf/validator-ajv8";
 
 type Props = {
     schema: RJSFSchema;
@@ -36,9 +38,10 @@ type Props = {
 
 
 // TODO: refactor
-const renderHeader = ({icon, schema, onDelete, collapse, onCollapse}: {
+const renderHeader = ({icon, schema, onDelete, collapse, onCollapse, name}: {
     icon?: React.ReactNode,
     schema: RJSFSchema,
+    name: string,
     onDelete?: () => void,
     collapse?: boolean;
     onCollapse?: () => void
@@ -47,6 +50,7 @@ const renderHeader = ({icon, schema, onDelete, collapse, onCollapse}: {
 
     return (
         <>
+            <Form schema={x.getBuilderSchema()} validator={validator} formData={schema} />
             <Dialog open={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
                 <Box p={3}>
                     <Typography>Are you sure you want to delete this field?</Typography>
@@ -61,7 +65,14 @@ const renderHeader = ({icon, schema, onDelete, collapse, onCollapse}: {
                 <ListItemText
                     primary={(
                         <>
-                            <Typography>{schema?.title} <Chip size="small" color="primary" variant="outlined" icon={icon} label={schema?.type} /></Typography>
+                            <Typography variant="h6">{schema?.title} <Chip
+                                size="small"
+                                color="primary"
+                                variant="outlined"
+                                icon={icon}
+                                label={`${schema?.type}${schema?.format ? `: ${schema?.format}` : ''}`}
+                            />
+                            </Typography>
                             {schema?.description && (
                                 <Typography variant="caption">{schema?.description}</Typography>
                             )}
@@ -100,7 +111,7 @@ SchemaPreview.String = function String({schema, data, name}: DataVisualizationTy
     const {dispatch} = useSchema();
     return (
         <div>
-            {renderHeader({schema, icon: <TextSnippet/>, onDelete: () => handleDelete(dispatch, name)})}
+            {renderHeader({name, schema, icon: <TextSnippet/>, onDelete: () => handleDelete(dispatch, name)})}
         </div>
     );
 };
@@ -109,7 +120,7 @@ SchemaPreview.Number = function Number({schema, name}: DataVisualizationType) {
     const {dispatch} = useSchema();
     return (
         <div>
-            {renderHeader({schema, icon: <Numbers/>, onDelete: () => handleDelete(dispatch, name)})}
+            {renderHeader({name, schema, icon: <Numbers/>, onDelete: () => handleDelete(dispatch, name)})}
         </div>
     );
 };
@@ -118,7 +129,7 @@ SchemaPreview.Boolean = function BooleanVisualization({schema, name}: DataVisual
     const {dispatch} = useSchema();
     return (
         <div>
-            {renderHeader({schema, icon: <ToggleOn/>, onDelete: () => handleDelete(dispatch, name)})}
+            {renderHeader({name, schema, icon: <ToggleOn/>, onDelete: () => handleDelete(dispatch, name)})}
         </div>
     );
 };
@@ -138,6 +149,7 @@ SchemaPreview.Object = function ObjectVisualization({schema, data, name}: DataVi
             style={{border: "#0005 solid 1px", padding: "20px", margin: "5px"}}
         >
             {renderHeader({
+                name,
                 schema,
                 icon: <DataObject/>,
                 collapse: open,
@@ -170,7 +182,7 @@ SchemaPreview.Array = function ArrayVisualization({schema, data, name}: DataVisu
     const {dispatch} = useSchema();
     return (
         <>
-            {renderHeader({schema, icon: <DataArray/>, onDelete: () => handleDelete(dispatch, name)})}
+            {renderHeader({name,schema, icon: <DataArray/>, onDelete: () => handleDelete(dispatch, name)})}
             {data?.map((item, index) => (
                 <div key={index} className="array-item">
                     <SchemaPreview

@@ -38,3 +38,14 @@ export const getSchemaFormatFromSchema = (
     if (schema?.type === 'array') return SchemaFormat.Array;
     return SchemaFormat.Unknown;
 };
+
+export const getFieldId = (schema: RJSFSchema) => {
+    if (schema?.type === 'boolean') return 'BOOLEAN';
+    if (schema?.format === 'date') return 'DATE';
+    if (schema?.format === 'date-time') return 'DATE_TIME';
+    if (schema?.format === 'time') return 'TIME';
+    if (schema?.type === 'string') return 'STRING';
+    if (schema?.type === 'number' || schema?.type === 'integer') return 'NUMBER';
+    if (schema?.type === 'object') return 'OBJECT';
+    if (schema?.type === 'array') return 'ARRAY';
+}
