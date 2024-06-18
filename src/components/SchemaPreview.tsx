@@ -16,61 +16,75 @@ import {
 import {Box, Collapse, IconButton, ListItem, ListItemIcon, ListItemText, Tooltip, Typography} from "@mui/material";
 import {getSchemaFormatFromSchema} from "../utils";
 import {DataVisualizationType} from "../types";
+import {useSchema} from "../providers/SchemaProvider";
 
 type Props = {
     schema: RJSFSchema;
     data: unknown;
+    name: string;
 }
 
 
-const renderHeader = ({icon, schema, onDelete, collapse, onCollapse}) => (
-    <ListItem display="flex" alignItems="center">
-        <Box flex={1} display="flex" alignItems="center">
-            {icon && <ListItemIcon>{icon}</ListItemIcon>}
-            {schema?.title && <Tooltip title={schema?.description}><ListItemText primary={schema.title}/></Tooltip>}
-        </Box>
-        <IconButton><Delete fontSize="small"/></IconButton>
+const renderHeader = ({icon, schema, onDelete, collapse, onCollapse}: {
+    icon?: React.ReactNode,
+    schema: RJSFSchema,
+    onDelete?: () => void,
+    collapse?: boolean;
+    onCollapse: () => void
+}) => (
+    <ListItem>
+        {icon && <ListItemIcon>{icon}</ListItemIcon>}
+        {schema?.title && <Tooltip title={schema?.description}><ListItemText primary={schema.title}/></Tooltip>}
+        {onDelete && <IconButton onClick={onDelete}><Delete fontSize="small"/></IconButton>}
         <IconButton><Edit fontSize="small"/></IconButton>
         {collapse !== undefined && <IconButton onClick={onCollapse}>{collapse ? <ExpandMore fontSize="small"/> :
             <ExpandLess fontSize="small"/>}</IconButton>}
     </ListItem>
 )
 
+const handleDelete = (dispatch, name) => {
+    dispatch({type: "DELETE_PROPERTY", payload: {name}});
+    dispatch({type: "DELETE_REQUIRED", payload: {name}});
+}
 
-const SchemaPreview = ({schema, data}: Props) => {
+const SchemaPreview = ({schema, data, name}: Props) => {
     const FormPreview = getSchemaFormatFromSchema(schema, SchemaPreview)
     return (
         <div>
-            <FormPreview {...{schema, data}} />
+            <FormPreview {...{schema, data, name}} />
         </div>
     )
 };
 
-SchemaPreview.String = function String({schema, data}: DataVisualizationType) {
+SchemaPreview.String = function String({schema, data, name}: DataVisualizationType) {
+    const {dispatch} = useSchema();
     return (
         <div>
-            {renderHeader({schema, icon: <TextSnippet/>})}
+            {renderHeader({schema, icon: <TextSnippet/>, onDelete: () => handleDelete(dispatch, name)})}
         </div>
     );
 };
 
-SchemaPreview.Number = function Number({schema, data}: DataVisualizationType) {
+SchemaPreview.Number = function Number({schema, data, name}: DataVisualizationType) {
+    const {dispatch} = useSchema();
     return (
         <div>
-            {renderHeader({schema, icon: <Numbers/>})}
+            {renderHeader({schema, icon: <Numbers/>, onDelete: () => handleDelete(dispatch, name)})}
         </div>
     );
 };
 
-SchemaPreview.Boolean = function BooleanVisualization({schema, data}: DataVisualizationType) {
+SchemaPreview.Boolean = function BooleanVisualization({schema, data, name}: DataVisualizationType) {
+    const {dispatch} = useSchema();
     return (
         <div>
-            {renderHeader({schema, icon: <ToggleOn/>})}
+            {renderHeader({schema, icon: <ToggleOn/>, onDelete: () => handleDelete(dispatch, name)})}
         </div>
     );
 };
 
-SchemaPreview.Object = function ObjectVisualization({schema, data}: DataVisualizationType) {
+SchemaPreview.Object = function ObjectVisualization({schema, data, name}: DataVisualizationType) {
+    const {dispatch} = useSchema();
     const properties = Object.keys(schema?.properties || {})
 
     const [open, setOpen] = React.useState(true);
@@ -83,7 +97,13 @@ SchemaPreview.Object = function ObjectVisualization({schema, data}: DataVisualiz
         <div
             style={{border: "#0005 solid 1px", padding: "20px", margin: "5px"}}
         >
-            {renderHeader({schema, icon: <DataObject/>, collapse: open, onCollapse: handleCollapse})}
+            {renderHeader({
+                schema,
+                icon: <DataObject/>,
+                collapse: open,
+                onCollapse: handleCollapse,
+                onDelete: () => handleDelete(dispatch, name)
+            })}
 
             <Collapse in={open} timeout="auto" unmountOnExit>
                 <Box display="flex" justifyContent="space-between">
@@ -92,6 +112,7 @@ SchemaPreview.Object = function ObjectVisualization({schema, data}: DataVisualiz
                 </Box>
                 {properties.length > 0 ? properties.map((property) => (
                     <SchemaPreview
+                        name={property}
                         schema={schema.properties[property]}
                         data={data[property]}
                     />
@@ -105,19 +126,18 @@ SchemaPreview.Object = function ObjectVisualization({schema, data}: DataVisualiz
     );
 };
 
-SchemaPreview.Array = function ArrayVisualization({schema, data}: DataVisualizationType) {
+SchemaPreview.Array = function ArrayVisualization({schema, data, name}: DataVisualizationType) {
+    const {dispatch} = useSchema();
     return (
         <>
-            {renderHeader({schema, icon: <DataArray/>})}
-            <Collapse in={open} timeout="auto" unmountOnExit>
-                {data?.map((item, index) => (
-                    <div key={index} className="array-item">
-                        <SchemaPreview
-                            {...{data: item, schema: schema.items}}
-                        />
-                    </div>
-                ))}
-            </Collapse>
+            {renderHeader({schema, icon: <DataArray/>, onDelete: () => handleDelete(dispatch, name)})}
+            {data?.map((item, index) => (
+                <div key={index} className="array-item">
+                    <SchemaPreview
+                        {...{data: item, schema: schema.items}}
+                    />
+                </div>
+            ))}
         </>
     );
 };
