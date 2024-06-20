@@ -77,3 +77,33 @@ export function updateNestedObjectByPath(obj: NestedObject, path: string, value:
 
     return newObject;
 }
+
+export function deleteNestedPropertyByPath(obj: NestedObject, path: string): NestedObject {
+    const keys = path.split('.');
+    const newObject = { ...obj };
+
+    if (keys.length === 0) {
+        return newObject;
+    }
+
+    let current = newObject;
+    const stack = [];
+
+    for (let i = 0; i < keys.length - 1; i++) {
+        stack.push(current);
+        current[keys[i]] = { ...current[keys[i]] };
+        current = current[keys[i]];
+    }
+
+    delete current[keys[keys.length - 1]];
+
+    for (let i = keys.length - 2; i >= 0; i--) {
+        const key = keys[i];
+        current = stack.pop();
+        if (Object.keys(current[key]).length === 0) {
+            delete current[key];
+        }
+    }
+
+    return newObject;
+}
