@@ -53,6 +53,11 @@ const AddFieldModal = () => {
     }
 
 
+    const handleTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const input = e.target.value;
+        setName(input)
+    }
+
     return (
         <>
             <IconButton onClick={() => setOpen(true)}><Add /></IconButton>
@@ -61,7 +66,7 @@ const AddFieldModal = () => {
                     <h1>{step !== 0 && <Button onClick={() => setStep(0)}>back</Button>}Adding Field</h1>
                     {step === 0 && (
                         <Stack gap={3}>
-                            <TextField label="Field Name" value={name} onChange={(e) => setName(e.target.value)}/>
+                            <TextField label="Field Name" helperText="This name should be a valid JS name, only containing english characters, underline and numbers" value={name} onChange={handleTitleChanged}/>
 
                             <FormControl>
                                 <InputLabel htmlFor="field-type">Field Type</InputLabel>

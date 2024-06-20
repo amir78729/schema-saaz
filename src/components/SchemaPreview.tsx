@@ -11,7 +11,7 @@ import {
     ExpandLess,
     ExpandMore,
     TextSnippet,
-    ToggleOn
+    ToggleOn, Visibility
 } from "@mui/icons-material";
 import {
     Box, Button, Card, Chip,
@@ -29,6 +29,7 @@ import {DataVisualizationType} from "../types";
 import {SchemaAction, useSchema} from "../providers/SchemaProvider";
 import Form from "@rjsf/mui";
 import validator from "@rjsf/validator-ajv8";
+import FieldPreview from "./FieldPreview";
 
 type Props = {
     schema: RJSFSchema;
@@ -48,6 +49,7 @@ const renderHeader = ({icon, schema, onDelete, name}: {
 }) => {
     const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState<boolean>(false);
     const [showEditModal, setShowEditModal] = useState<boolean>(false);
+    const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
     const {fields, dispatch} = useSchema();
     const SelectedFieldClass = fields.find(field => field.id === getFieldId(schema))?.Class
 
@@ -66,6 +68,21 @@ const renderHeader = ({icon, schema, onDelete, name}: {
                     }} schema={field?.getBuilderSchema()} formData={schema} validator={validator}/>
                 </DialogContent>
             </Dialog>
+
+            <Dialog open={showPreviewModal} onClose={() => setShowPreviewModal(false)}>
+                <DialogTitle><code>{name}</code> Field <span>{onDelete && <IconButton color="error" onClick={() => setShowDeleteConfirmationModal(true)}><Delete
+                    fontSize="small"/></IconButton>}
+                    <IconButton
+                        color="warning"
+                        onClick={() => setShowEditModal(true)}
+                    >
+                        <Edit fontSize="small"/>
+                    </IconButton></span></DialogTitle>
+                <DialogContent>
+                    <FieldPreview name={name} schema={field?.getBuilderSchema()} data={schema} />
+                </DialogContent>
+            </Dialog>
+
             <Dialog open={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
                 <DialogContent><Typography>Are you sure you want to delete this field?</Typography></DialogContent>
                 <DialogActions>
@@ -102,6 +119,13 @@ const renderHeader = ({icon, schema, onDelete, name}: {
                     onClick={() => setShowEditModal(true)}
                 >
                     <Edit fontSize="small"/>
+                </IconButton>
+
+                <IconButton
+                    color="info"
+                    onClick={() => setShowPreviewModal(true)}
+                >
+                    <Visibility fontSize="small"/>
                 </IconButton>
 
             </ListItem>

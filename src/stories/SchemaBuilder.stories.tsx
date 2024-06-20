@@ -4,8 +4,9 @@ import SchemaBuilder from '../components/SchemaBuilder';
 import {STRING_WIDGETS} from "../constants";
 import {SchemaProvider} from "../providers/SchemaProvider";
 import {createTheme, ThemeProvider} from "@mui/material";
+import {RJSFSchema} from "@rjsf/utils";
 
-const sampleSchema = {
+const sampleSchema: RJSFSchema = {
     "title": "Example Schema",
     "description": "A rich JSON schema example without dependencies and no nested objects.",
     "type": "object",
@@ -57,37 +58,11 @@ const sampleSchema = {
             },
             "uniqueItems": true
         },
-        "length": {
-            "title": "Length",
-            "description": "The length of the item.",
-            "type": "number",
-            "minimum": 0
-        },
-        "width": {
-            "title": "Width",
-            "description": "The width of the item.",
-            "type": "number",
-            "minimum": 0
-        },
-        "height": {
-            "title": "Height",
-            "description": "The height of the item.",
-            "type": "number",
-            "minimum": 0
-        },
-        "latitude": {
-            "title": "Latitude",
-            "description": "Latitude of the warehouse location.",
-            "type": "number",
-            "minimum": -90,
-            "maximum": 90
-        },
-        "longitude": {
-            "title": "Longitude",
-            "description": "Longitude of the warehouse location.",
-            "type": "number",
-            "minimum": -180,
-            "maximum": 180
+        "birthday": {
+            "title": "Birthday Date",
+            "type": "string",
+            "minimum": 0,
+            "format": "date"
         },
         "inStock": {
             "title": "In Stock",
@@ -146,7 +121,7 @@ Themed.args = {
     theme: {
         palette: {
             primary: {
-              main: '#ff5722'
+                main: '#ff5722'
             },
             mode: 'dark'
         }
