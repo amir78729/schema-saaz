@@ -1,4 +1,5 @@
 import {JsonSchema, JsonSchemaType, Format} from "../types";
+import {deleteNestedPropertyByPath, generatePath, updateNestedObjectByPath} from "../utils";
 
 
 /**
@@ -26,6 +27,13 @@ export class JsonSchemaBuilder {
       this.schema.properties = {};
     }
     this.schema.properties[name] = propSchema;
+    return this;
+  }
+  addNestedProperty(name: string, propSchema: JsonSchema): JsonSchemaBuilder {
+    if (!this.schema.properties) {
+      this.schema.properties = {};
+    }
+    this.schema = updateNestedObjectByPath(this.schema, name, propSchema);
     return this;
   }
 
@@ -158,9 +166,7 @@ export class JsonSchemaBuilder {
   }
 
   deleteProperty(name: string): JsonSchemaBuilder {
-    if (this.schema.properties && this.schema.properties[name]) {
-      delete this.schema.properties[name];
-    }
+    this.schema = deleteNestedPropertyByPath(this.schema, name)
     return this;
   }
 
@@ -172,9 +178,7 @@ export class JsonSchemaBuilder {
   }
 
   editProperty(name: string, propSchema: JsonSchema): JsonSchemaBuilder {
-    if (this.schema.properties && this.schema.properties[name]) {
-      this.schema.properties[name] = propSchema;
-    }
+    this.schema = updateNestedObjectByPath(this.schema, name, propSchema)
     return this;
   }
 

@@ -75,4 +75,7 @@ export type DataVisualizationType = {
     data?: object;
     schema: RJSFSchema;
     name?: string
+    path?: string
 }
+
+export type NestedObject = { [key: string]: any };

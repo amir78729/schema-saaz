@@ -94,7 +94,7 @@ const schemaReducer = (state: JsonSchema, action: SchemaAction): JsonSchema => {
 
     switch (action.type) {
         case "ADD_PROPERTY":
-            builder.addProperty(action.payload.name, action.payload.schema!);
+            builder.addNestedProperty(action.payload.name, action.payload.schema!);
             break;
         case "UPDATE_PROPERTY":
             builder.editProperty(action.payload.name, action.payload.schema!);
