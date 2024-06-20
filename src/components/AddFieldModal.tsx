@@ -8,8 +8,9 @@ import {JsonSchemaType} from "../types";
 import {JsonSchemaField} from "../fields/JsonSchemaField";
 import Select from "@mui/material/Select";
 import {Add} from "@mui/icons-material";
+import {generatePath} from "../utils";
 
-const AddFieldModal = () => {
+const AddFieldModal = ({ parentPath }) => {
     const [open, setOpen] = React.useState<boolean>(false);
     const [name, setName] = React.useState<string | null>(null);
     const [type, setType] = React.useState<JsonSchemaType | null>(null);
@@ -33,7 +34,7 @@ const AddFieldModal = () => {
             dispatch({
                 type: "ADD_PROPERTY",
                 payload: {
-                    name: field.getName() || 'newField',
+                    name: generatePath(parentPath, field.getName() || 'newField'),
                     schema: field.getSchema(),
                 },
             });
@@ -41,7 +42,7 @@ const AddFieldModal = () => {
                 dispatch({
                     type: "ADD_REQUIRED",
                     payload: {
-                        name: field.getName() || 'newField',
+                        name: generatePath(parentPath, field.getName() || 'newField'),
                     },
                 })
             }

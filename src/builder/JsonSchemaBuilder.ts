@@ -1,4 +1,5 @@
 import {JsonSchema, JsonSchemaType, Format} from "../types";
+import {generatePath, updateNestedObjectByPath} from "../utils";
 
 
 /**
@@ -26,6 +27,13 @@ export class JsonSchemaBuilder {
       this.schema.properties = {};
     }
     this.schema.properties[name] = propSchema;
+    return this;
+  }
+  addNestedProperty(name: string, propSchema: JsonSchema): JsonSchemaBuilder {
+    if (!this.schema.properties) {
+      this.schema.properties = {};
+    }
+    this.schema = updateNestedObjectByPath(this.schema, name, propSchema);
     return this;
   }
 

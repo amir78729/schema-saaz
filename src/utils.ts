@@ -1,5 +1,5 @@
 import {RJSFSchema} from "@rjsf/utils";
-import {DataVisualizationType} from "./types";
+import {DataVisualizationType, NestedObject} from "./types";
 
 export const getSchemaFormatFromSchema = (
     schema: RJSFSchema,
@@ -48,4 +48,32 @@ export const getFieldId = (schema: RJSFSchema) => {
     if (schema?.type === 'number' || schema?.type === 'integer') return 'NUMBER';
     if (schema?.type === 'object') return 'OBJECT';
     if (schema?.type === 'array') return 'ARRAY';
+}
+
+export const generatePath = (parentPath: string = '', fieldName: string): string => {
+    let path = parentPath;
+    if (path?.length > 0) path += '.';
+    path += fieldName;
+    return path;
+}
+
+export const accessToObjectFieldByPath = (object: object, path: string) => {
+    return path.split('.').reduce((o, i) => o[i], object)
+}
+
+export function updateNestedObjectByPath(obj: NestedObject, path: string, value: any): NestedObject {
+    const keys = path.split('.');
+    const newObject = { ...obj };
+
+    let current = newObject;
+    keys.forEach((key, index) => {
+        if (index === keys.length - 1) {
+            current[key] = value;
+        } else {
+            current[key] = current[key] ? { ...current[key] } : {};
+            current = current[key];
+        }
+    });
+
+    return newObject;
 }
