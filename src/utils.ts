@@ -61,16 +61,16 @@ export const accessToObjectFieldByPath = (object: object, path: string) => {
     return path.split('.').reduce((o, i) => o[i], object)
 }
 
-export function updateNestedObjectByPath(obj: NestedObject, path: string, value: any): NestedObject {
+export const updateNestedObjectByPath = (obj: NestedObject, path: string, value: any): NestedObject => {
     const keys = path.split('.');
-    const newObject = { ...obj };
+    const newObject = {...obj};
 
     let current = newObject;
     keys.forEach((key, index) => {
         if (index === keys.length - 1) {
             current[key] = value;
         } else {
-            current[key] = current[key] ? { ...current[key] } : {};
+            current[key] = current[key] ? {...current[key]} : {};
             current = current[key];
         }
     });
@@ -78,9 +78,9 @@ export function updateNestedObjectByPath(obj: NestedObject, path: string, value:
     return newObject;
 }
 
-export function deleteNestedPropertyByPath(obj: NestedObject, path: string): NestedObject {
+export const deleteNestedPropertyByPath = (obj: NestedObject, path: string): NestedObject => {
     const keys = path.split('.');
-    const newObject = { ...obj };
+    const newObject = {...obj};
 
     if (keys.length === 0) {
         return newObject;
@@ -91,7 +91,7 @@ export function deleteNestedPropertyByPath(obj: NestedObject, path: string): Nes
 
     for (let i = 0; i < keys.length - 1; i++) {
         stack.push(current);
-        current[keys[i]] = { ...current[keys[i]] };
+        current[keys[i]] = {...current[keys[i]]};
         current = current[keys[i]];
     }
 

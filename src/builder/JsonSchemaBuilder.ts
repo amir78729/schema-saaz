@@ -178,9 +178,7 @@ export class JsonSchemaBuilder {
   }
 
   editProperty(name: string, propSchema: JsonSchema): JsonSchemaBuilder {
-    if (this.schema.properties && this.schema.properties[name]) {
-      this.schema.properties[name] = propSchema;
-    }
+    this.schema = updateNestedObjectByPath(this.schema, name, propSchema)
     return this;
   }
 
