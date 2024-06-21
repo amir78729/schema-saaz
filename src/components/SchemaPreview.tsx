@@ -20,9 +20,9 @@ import {
     IconButton,
     ListItem,
     ListItemIcon,
-    ListItemText, Stack,
+    ListItemText, Paper, Stack,
     Tooltip,
-    Typography
+    Typography, useTheme
 } from "@mui/material";
 import {generatePath, getFieldId, getSchemaFormatFromSchema} from "../utils";
 import {DataVisualizationType} from "../types";
@@ -148,16 +148,14 @@ const handleEdit = (dispatch: React.Dispatch<SchemaAction>, name: string, schema
 const SchemaPreview = ({schema, data, name, path}: Props) => {
     const FormPreview = getSchemaFormatFromSchema(schema, SchemaPreview)
     return (
-        <div>
             <FormPreview {...{schema, data, name, path}} />
-        </div>
     )
 };
 
 SchemaPreview.String = function String({schema, path, data, name}: DataVisualizationType) {
     const {dispatch} = useSchema();
     return (
-        <div>
+        <Paper>
             {renderHeader({
                 description: schema.description,
                 name,
@@ -166,15 +164,15 @@ SchemaPreview.String = function String({schema, path, data, name}: DataVisualiza
                 icon: <TextSnippet/>,
                 onDelete: () => handleDelete(dispatch, path)
             })}
-        </div>
+        </Paper>
     );
 };
 
-SchemaPreview.Enum = function String({schema, path, data, name}: DataVisualizationType) {
+SchemaPreview.Enum = function Enum({schema, path, data, name}: DataVisualizationType) {
     const {dispatch} = useSchema();
     const enums = schema.enum
     return (
-        <div>
+        <Paper>
             {renderHeader({
                 description: <>{schema.description} <Typography variant="caption">Options:</Typography> <Box gap={1} display="flex" flexDirection='row'>{enums.map(e => (
                         <Chip size="small" label={schema?.enumNames[enums.indexOf(e)] || e}/>))}</Box></>,
@@ -184,14 +182,14 @@ SchemaPreview.Enum = function String({schema, path, data, name}: DataVisualizati
                 icon: <Checklist/>,
                 onDelete: () => handleDelete(dispatch, path)
             })}
-        </div>
+        </Paper>
     );
 };
 
 SchemaPreview.Number = function Number({schema, path, name}: DataVisualizationType) {
     const {dispatch} = useSchema();
     return (
-        <div>
+        <Paper>
             {renderHeader({
                 description: schema.description,
                 name,
@@ -200,14 +198,14 @@ SchemaPreview.Number = function Number({schema, path, name}: DataVisualizationTy
                 icon: <Numbers/>,
                 onDelete: () => handleDelete(dispatch, path)
             })}
-        </div>
+        </Paper>
     );
 };
 
 SchemaPreview.Boolean = function BooleanVisualization({schema, path, name}: DataVisualizationType) {
     const {dispatch} = useSchema();
     return (
-        <div>
+        <Paper>
             {renderHeader({
                 description: schema.description,
                 name,
@@ -216,7 +214,7 @@ SchemaPreview.Boolean = function BooleanVisualization({schema, path, name}: Data
                 icon: <ToggleOn/>,
                 onDelete: () => handleDelete(dispatch, path)
             })}
-        </div>
+        </Paper>
     );
 };
 
@@ -230,8 +228,10 @@ SchemaPreview.Object = function ObjectVisualization({schema, path, data, name}: 
         setOpen(!open);
     };
 
+    const theme = useTheme();
+
     return (
-        <Card sx={{p: 2, m: 2}}>
+        <Paper>
             {renderHeader({
                 description: schema.description,
                 name,
@@ -242,7 +242,7 @@ SchemaPreview.Object = function ObjectVisualization({schema, path, data, name}: 
                 onCollapse: handleCollapse,
                 onDelete: () => handleDelete(dispatch, path)
             })}
-            <Card sx={{p: 2, m: 2}}>
+            <Paper sx={{ p: 1 }}>
                 <Box
                     px={2} display="flex" justifyContent="space-between">
                     <Typography flex={1}>Properties</Typography>
@@ -252,30 +252,32 @@ SchemaPreview.Object = function ObjectVisualization({schema, path, data, name}: 
                             <ExpandLess fontSize="small"/>}</IconButton>}
                 </Box>
                 <Collapse in={open} timeout="auto" unmountOnExit>
-                    {properties?.length > 0 ? properties?.map((property) => (
-                        <>
-                            <SchemaPreview
-                                name={property}
-                                schema={schema.properties[property]}
-                                path={generatePath(path, generatePath('properties', property))}
-                            />
-                        </>
-                    )) : (
-                        <Typography alignItems="center" textAlign="center" p={3}>
-                            Click on <Add fontSize="small"/> button to add properties
-                        </Typography>
-                    )}
+                    <Stack gap={2}>
+                        {properties?.length > 0 ? properties?.map((property) => (
+                            <>
+                                <SchemaPreview
+                                    name={property}
+                                    schema={schema.properties[property]}
+                                    path={generatePath(path, generatePath('properties', property))}
+                                />
+                            </>
+                        )) : (
+                            <Typography alignItems="center" textAlign="center" p={3}>
+                                Click on <Add fontSize="small"/> button to add properties
+                            </Typography>
+                        )}
+                    </Stack>
                 </Collapse>
-            </Card>
-        </Card>
+            </Paper>
+        </Paper>
     );
 };
 
 SchemaPreview.Array = function ArrayVisualization({schema, path, data, name}: DataVisualizationType) {
     const {dispatch} = useSchema();
+    const theme = useTheme();
     return (
-        <>
-            <Card sx={{p: 2, m: 2}}>
+        <Paper sx={{ p: 1 }}>
                 {renderHeader({
                     description: schema.description,
                     name,
@@ -284,11 +286,12 @@ SchemaPreview.Array = function ArrayVisualization({schema, path, data, name}: Da
                     icon: <DataArray/>,
                     onDelete: () => handleDelete(dispatch, path)
                 })}
+            <Box>
                 <SchemaPreview
                     {...{schema: schema.items, name, path: generatePath(path, 'items')}}
                 />
-            </Card>
-        </>
+            </Box>
+        </Paper>
     );
 };
 

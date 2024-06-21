@@ -1,4 +1,15 @@
-import {Box, Button, Dialog, FormControl, IconButton, InputLabel, MenuItem, Stack, TextField,} from "@mui/material";
+import {
+    Box,
+    Button,
+    Dialog,
+    FormControl,
+    IconButton,
+    InputLabel,
+    MenuItem,
+    Stack,
+    TextField,
+    Tooltip,
+} from "@mui/material";
 import Form from "@rjsf/mui";
 
 import validator from "@rjsf/validator-ajv8";
@@ -61,7 +72,7 @@ const AddFieldModal = ({ parentPath }) => {
 
     return (
         <>
-            <IconButton onClick={() => setOpen(true)}><Add /></IconButton>
+            <Tooltip title="Add Property" arrow placement="left"><IconButton onClick={() => setOpen(true)}><Add /></IconButton></Tooltip>
             <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
                 <Box p={3} key={JSON.stringify(fields)}>
                     <h1>{step !== 0 && <Button onClick={() => setStep(0)}>back</Button>}Adding Field</h1>

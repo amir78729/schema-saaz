@@ -36,6 +36,21 @@ const sampleSchema: RJSFSchema = {
             "type": "number",
             "minimum": 0
         },
+        "location": {
+            "title": "Location",
+            "description": "The coordination.",
+            "type": "object",
+            properties: {
+                lat: {
+                    type: 'number',
+                    title: "latitude"
+                },
+                long: {
+                    type: 'number',
+                    title: "longitude"
+                },
+            }
+        },
         "tags": {
             "title": "Tags",
             "description": "Tags associated with the item.",
