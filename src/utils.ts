@@ -30,7 +30,7 @@ export const getSchemaFormatFromSchema = (
     // if (schema?.type === 'string' && schema?.ui?.widget === 'color') return SchemaFormat.Color;
     // if (schema?.format === 'date') return SchemaFormat.Date;
     // if (schema?.format === 'date-time') return SchemaFormat.DateTime;
-    // if (schema?.type === 'string' && schema?.enum?.length > 0) return SchemaFormat.Enum;
+    if (schema?.type === 'string' && schema?.enum?.length > 0) return SchemaFormat.Enum;
     if (schema?.type === 'string') return SchemaFormat.String;
     if (schema?.type === 'number' || schema?.type === 'integer') return SchemaFormat.Number;
     if (schema?.type === 'object' && schema?.format === 'map') return SchemaFormat.Map;

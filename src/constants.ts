@@ -9,6 +9,7 @@ import {TimeField} from "./fields/widgets/TimeField";
 import {DateTimeField} from "./fields/widgets/DateTimeField";
 import {FaqWidget} from "./fields/patterns/FaqWidget";
 import {FieldConfig} from "./types";
+import {SelectField} from "./fields/widgets/SelectField";
 
 export const PRIMITIVE_PROPERTIES: FieldConfig[] = [
     {
@@ -72,6 +73,12 @@ export const STRING_WIDGETS: FieldConfig[] = [
         title: 'Time Field',
         description: 'a time field',
         Class: TimeField,
+    },
+    {
+        id: 'SELECT',
+        title: 'Select Field',
+        description: 'a select field with a list of options',
+        Class: SelectField,
     }
 ];
 

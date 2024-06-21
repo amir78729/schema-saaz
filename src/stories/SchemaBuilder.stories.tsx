@@ -23,6 +23,13 @@ const sampleSchema: RJSFSchema = {
             "type": "string",
             "minLength": 1
         },
+        "type": {
+            "title": "Type",
+            "description": "The type of the item.",
+            "type": "string",
+            enum: ['grocery', 'cloths'],
+            enumNames: ['Grocery', 'Cloths'],
+        },
         "price": {
             "title": "Price",
             "description": "The price of the item.",
@@ -124,6 +131,13 @@ Themed.args = {
                 main: '#ff5722'
             },
             mode: 'dark'
+        },
+        components: {
+            MuiInput: {
+                defaultProps: {
+                    size: 'small'
+                }
+            }
         }
     }
 };

@@ -3,7 +3,7 @@ import {RJSFSchema} from "@rjsf/utils";
 import AddFieldModal from "./AddFieldModal";
 import Numbers from '@mui/icons-material/Numbers';
 import {
-    Add,
+    Add, Checklist,
     DataArray,
     DataObject,
     Delete,
@@ -20,7 +20,7 @@ import {
     IconButton,
     ListItem,
     ListItemIcon,
-    ListItemText,
+    ListItemText, Stack,
     Tooltip,
     Typography
 } from "@mui/material";
@@ -39,10 +39,12 @@ type Props = {
 }
 
 // TODO: refactor
-const renderHeader = ({icon, schema, onDelete, name, path}: {
+const renderHeader = ({icon, schema, onDelete, name, path, description}: {
     icon?: React.ReactNode,
     schema: RJSFSchema,
-    name: string,
+    description?: React.ReactNode,
+    path: string,
+    name?: string,
     onDelete?: () => void,
     collapse?: boolean;
     onCollapse?: () => void
@@ -107,8 +109,8 @@ const renderHeader = ({icon, schema, onDelete, name, path}: {
                                 label={`${schema?.type}${schema?.format ? `: ${schema?.format}` : ''}`}
                             />
                             </Typography>
-                            {schema?.description && (
-                                <Typography variant="caption">{schema?.description}</Typography>
+                            {description && (
+                                <Typography variant="caption">{description}</Typography>
                             )}
                         </>
                     )}
@@ -156,7 +158,32 @@ SchemaPreview.String = function String({schema, path, data, name}: DataVisualiza
     const {dispatch} = useSchema();
     return (
         <div>
-            {renderHeader({name, path, schema, icon: <TextSnippet/>, onDelete: () => handleDelete(dispatch, path)})}
+            {renderHeader({
+                description: schema.description,
+                name,
+                path,
+                schema,
+                icon: <TextSnippet/>,
+                onDelete: () => handleDelete(dispatch, path)
+            })}
+        </div>
+    );
+};
+
+SchemaPreview.Enum = function String({schema, path, data, name}: DataVisualizationType) {
+    const {dispatch} = useSchema();
+    const enums = schema.enum
+    return (
+        <div>
+            {renderHeader({
+                description: <>{schema.description} <Typography variant="caption">Options:</Typography> <Box gap={1} display="flex" flexDirection='row'>{enums.map(e => (
+                        <Chip size="small" label={schema?.enumNames[enums.indexOf(e)] || e}/>))}</Box></>,
+                name,
+                path,
+                schema,
+                icon: <Checklist/>,
+                onDelete: () => handleDelete(dispatch, path)
+            })}
         </div>
     );
 };
@@ -165,7 +192,14 @@ SchemaPreview.Number = function Number({schema, path, name}: DataVisualizationTy
     const {dispatch} = useSchema();
     return (
         <div>
-            {renderHeader({name, path, schema, icon: <Numbers/>, onDelete: () => handleDelete(dispatch, path)})}
+            {renderHeader({
+                description: schema.description,
+                name,
+                path,
+                schema,
+                icon: <Numbers/>,
+                onDelete: () => handleDelete(dispatch, path)
+            })}
         </div>
     );
 };
@@ -174,7 +208,14 @@ SchemaPreview.Boolean = function BooleanVisualization({schema, path, name}: Data
     const {dispatch} = useSchema();
     return (
         <div>
-            {renderHeader({name, path, schema, icon: <ToggleOn/>, onDelete: () => handleDelete(dispatch, path)})}
+            {renderHeader({
+                description: schema.description,
+                name,
+                path,
+                schema,
+                icon: <ToggleOn/>,
+                onDelete: () => handleDelete(dispatch, path)
+            })}
         </div>
     );
 };
@@ -192,6 +233,7 @@ SchemaPreview.Object = function ObjectVisualization({schema, path, data, name}: 
     return (
         <Card sx={{p: 2, m: 2}}>
             {renderHeader({
+                description: schema.description,
                 name,
                 path,
                 schema,
@@ -234,7 +276,14 @@ SchemaPreview.Array = function ArrayVisualization({schema, path, data, name}: Da
     return (
         <>
             <Card sx={{p: 2, m: 2}}>
-                {renderHeader({name,path,  schema, icon: <DataArray/>, onDelete: () => handleDelete(dispatch, path)})}
+                {renderHeader({
+                    description: schema.description,
+                    name,
+                    path,
+                    schema,
+                    icon: <DataArray/>,
+                    onDelete: () => handleDelete(dispatch, path)
+                })}
                 <SchemaPreview
                     {...{schema: schema.items, name, path: generatePath(path, 'items')}}
                 />
