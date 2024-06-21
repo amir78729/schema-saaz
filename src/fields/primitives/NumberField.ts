@@ -97,5 +97,4 @@ export class NumberField extends JsonSchemaField {
     if (schema.exclusiveMaximum) this.setExclusiveMaximum(schema.exclusiveMaximum)
     if (schema.exclusiveMinimum) this.setExclusiveMinimum(schema.exclusiveMinimum)
   }
-
 }

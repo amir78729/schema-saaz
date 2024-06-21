@@ -76,6 +76,15 @@ FieldPreview.String = function String({schema, data, name}: DataVisualizationTyp
     );
 };
 
+FieldPreview.Enum = function Enum({schema, data, name}: DataVisualizationType) {
+    return (
+        <TableRow>
+            <TableCell>{schema?.title}</TableCell>
+            <TableCell>{data || '-'}</TableCell>
+        </TableRow>
+    );
+};
+
 FieldPreview.Number = function Number({schema, name, data}: DataVisualizationType) {
     return (
         <TableRow>

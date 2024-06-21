@@ -17,6 +17,11 @@ export class JsonSchemaField {
 
     protected writeOnly?: boolean;
 
+    protected enum?: string[];
+
+    protected enumNames?: string[];
+
+
     constructor(name: string) {
         this.name = name;
         this.type = 'object';
@@ -46,6 +51,16 @@ export class JsonSchemaField {
         return this;
     }
 
+    setEnum(_enum: string[]): this {
+        this.enum = _enum;
+        return this;
+    }
+
+    setEnumNames(enumNames: string[]): this {
+        this.enumNames = enumNames;
+        return this;
+    }
+
     private setDefault(value: unknown): JsonSchemaField {
         this.default = value;
         return this;
@@ -66,7 +81,12 @@ export class JsonSchemaField {
         return this;
     }
 
-    public setSchema(schema: SchemaAnnotation & { isRequired?: boolean }): void {
+    public setSchema(schema: SchemaAnnotation & {
+        isRequired?: boolean, options: {
+            enum: string;
+            enumNames: string;
+        }[]
+    }): void {
         if (schema.type) this.setType(schema.type)
         if (schema.title) this.setTitle(schema.title)
         if (schema.description) this.setDescription(schema.description)
@@ -74,6 +94,14 @@ export class JsonSchemaField {
         if (schema.readOnly) this.setReadOnly(schema.readOnly)
         if (schema.writeOnly) this.setWriteOnly(schema.writeOnly)
         if (schema.isRequired) this.setIsRequired(schema.isRequired)
+
+        const options = {
+            enum: schema.options?.map((option) => option.enum) || [],
+            enumNames: schema.options?.map((option) => option.enumNames) || [],
+        }
+
+        if (options.enum?.length > 0) this.setEnum(options.enum)
+        if (options.enumNames?.length > 0) this.setEnumNames(options.enumNames)
     }
 
 
@@ -84,7 +112,9 @@ export class JsonSchemaField {
             description: this.description,
             default: this.default,
             readOnly: this.readOnly,
-            writeOnly: this.writeOnly
+            writeOnly: this.writeOnly,
+            enum: this.enum,
+            enumNames: this.enumNames
         };
 
     }
@@ -121,6 +151,27 @@ export class JsonSchemaField {
                 isRequired: {
                     type: 'boolean',
                     title: 'Field is required'
+                },
+                options: {
+                    type: "array",
+                    title: "Options",
+                    description: "Here you can add options for the select field",
+                    items: {
+                        type: "object",
+                        properties: {
+                            enum: {
+                                type: this.getSchema()?.type || 'string',
+                                title: "Value of the option",
+                                description: "The value that is going to be in the form",
+                            },
+                            enumNames: {
+                                type: "string",
+                                title: "Title of the option",
+                                description: "The title that is going to be shown to user",
+                            },
+                        },
+                        required: ["enum", "enumNames"],
+                    }
                 }
             },
             required: ['title', 'type'],
