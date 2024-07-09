@@ -61,6 +61,15 @@ FieldPreview.Number = function Number({ schema, data }: DataVisualizationType) {
   );
 };
 
+FieldPreview.Integer = function Integer({ schema, data }: DataVisualizationType) {
+  return (
+    <TableRow>
+      <TableCell>{schema?.title}</TableCell>
+      <TableCell>{data || '-'}</TableCell>
+    </TableRow>
+  );
+};
+
 FieldPreview.Boolean = function BooleanVisualization({ schema, data }: DataVisualizationType) {
   return (
     <TableRow>

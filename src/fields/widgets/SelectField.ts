@@ -1,6 +1,7 @@
 import { StringField, StringFieldType } from '../primitives/StringField';
 import { JsonSchema } from '../../types';
 import { produce } from 'immer';
+import { SCHEMA_TYPE } from '../../constants';
 
 export type SelectFieldType = StringFieldType & {
   options: {
@@ -31,20 +32,20 @@ export class SelectField extends StringField {
   getBuilderSchema(): JsonSchema {
     const enumSchema: Record<string, JsonSchema> = {
       options: {
-        type: 'array',
+        type: SCHEMA_TYPE.ARRAY,
         title: 'Options',
         minItems: 1,
         description: 'Here you can add options for the select field',
         items: {
-          type: 'object',
+          type: SCHEMA_TYPE.OBJECT,
           properties: {
             enum: {
-              type: 'string',
+              type: SCHEMA_TYPE.STRING,
               title: 'Value of the option',
               description: 'The value that is going to be in the form',
             },
             enumNames: {
-              type: 'string',
+              type: SCHEMA_TYPE.STRING,
               title: 'Title of the option',
               description: 'The title that is going to be shown to user',
             },

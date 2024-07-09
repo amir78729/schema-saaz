@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
 import { JsonSchemaBuilder } from '../builder/JsonSchemaBuilder';
 import { FieldConfig, JsonSchema } from '../types';
-import { PROPERTIES } from '../constants';
+import { PROPERTIES, SCHEMA_TYPE } from '../constants';
 import { RJSFSchema } from '@rjsf/utils';
 
 export interface SchemaAction {
@@ -30,7 +30,7 @@ export const SchemaContext = createContext<{
 
 const addSpecificProperties = (builder: JsonSchemaBuilder, state: JsonSchema) => {
   switch (state.type) {
-    case 'string':
+    case SCHEMA_TYPE.STRING:
       if (state.maxLength) builder.setMaxLength(state.maxLength);
       if (state.minLength) builder.setMinLength(state.minLength);
       if (state.pattern) builder.setPattern(state.pattern);
@@ -38,14 +38,14 @@ const addSpecificProperties = (builder: JsonSchemaBuilder, state: JsonSchema) =>
       if (state.contentEncoding) builder.setContentEncoding(state.contentEncoding);
       if (state.contentMediaType) builder.setContentMediaType(state.contentMediaType);
       break;
-    case 'number':
+    case SCHEMA_TYPE.NUMBER:
       if (state.multipleOf) builder.setMultipleOf(state.multipleOf);
       if (state.maximum) builder.setMaximum(state.maximum);
       if (state.minimum) builder.setMinimum(state.minimum);
       if (state.exclusiveMaximum) builder.setExclusiveMaximum(state.exclusiveMaximum);
       if (state.exclusiveMinimum) builder.setExclusiveMinimum(state.exclusiveMinimum);
       break;
-    case 'object':
+    case SCHEMA_TYPE.OBJECT:
       if (state.properties) {
         Object.keys(state.properties).forEach((key) => {
           if (state.properties?.[key]) builder.addProperty(key, state.properties[key]);
@@ -58,7 +58,7 @@ const addSpecificProperties = (builder: JsonSchemaBuilder, state: JsonSchema) =>
       if (state.additionalProperties) builder.setAdditionalProperties(state.additionalProperties);
 
       break;
-    case 'array':
+    case SCHEMA_TYPE.ARRAY:
       if (state.items) builder.setItems(state.items);
       if (state.prefixItems) builder.setPrefixItems(state.prefixItems);
       if (state.unevaluatedItems) builder.setUnevaluatedItems(state.unevaluatedItems);

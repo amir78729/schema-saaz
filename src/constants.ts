@@ -11,6 +11,15 @@ import { FaqWidget } from './fields/patterns/FaqWidget';
 import { FieldConfig } from './types';
 import { SelectField } from './fields/widgets/SelectField';
 
+export const SCHEMA_TYPE = {
+  STRING: 'string',
+  NUMBER: 'number',
+  INTEGER: 'integer',
+  OBJECT: 'object',
+  ARRAY: 'array',
+  BOOLEAN: 'boolean',
+};
+
 export const PRIMITIVE_PROPERTIES: FieldConfig[] = [
   {
     id: 'STRING',

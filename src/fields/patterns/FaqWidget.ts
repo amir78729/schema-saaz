@@ -3,6 +3,7 @@ import { ObjectField, ObjectFieldType } from '../containers/ObjectField';
 import { produce } from 'immer';
 import { ArrayField } from '../containers/ArrayField';
 import { JsonSchema } from '../../types';
+import { SCHEMA_TYPE } from '../../constants';
 
 export type FaqType = ObjectFieldType;
 
@@ -14,11 +15,11 @@ export class FaqWidget extends ArrayField {
       items: {
         // @ts-expect-error TODO: fix
         question: {
-          type: 'string',
+          type: SCHEMA_TYPE.STRING,
           title: 'FAQ Question',
         },
         answer: {
-          type: 'string',
+          type: SCHEMA_TYPE.STRING,
           title: 'FAQ Answer',
         },
       },

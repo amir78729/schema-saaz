@@ -1,6 +1,7 @@
 import { JsonSchemaField } from '../JsonSchemaField';
 import { JsonSchema, SchemaAnnotation } from '../../types';
 import { produce } from 'immer';
+import { SCHEMA_TYPE } from '../../constants';
 
 export type NumberFieldType = SchemaAnnotation & {
   multipleOf?: number;
@@ -19,7 +20,7 @@ export class NumberField extends JsonSchemaField {
 
   constructor(name: string) {
     super(name);
-    this.type = 'number';
+    this.type = SCHEMA_TYPE.NUMBER;
   }
 
   setMultipleOf(multipleOf: number): this {
@@ -50,23 +51,23 @@ export class NumberField extends JsonSchemaField {
   getBuilderSchema(): JsonSchema {
     const numberSchema: Record<string, JsonSchema> = {
       multipleOf: {
-        type: 'number',
+        type: SCHEMA_TYPE.NUMBER,
         title: 'Multiple Of',
       },
       maximum: {
-        type: 'number',
+        type: SCHEMA_TYPE.NUMBER,
         title: 'Maximum',
       },
       minimum: {
-        type: 'number',
+        type: SCHEMA_TYPE.NUMBER,
         title: 'Minimum',
       },
       exclusiveMaximum: {
-        type: 'boolean',
+        type: SCHEMA_TYPE.BOOLEAN,
         title: 'Field has exclusive maximum',
       },
       exclusiveMinimum: {
-        type: 'boolean',
+        type: SCHEMA_TYPE.BOOLEAN,
         title: 'Field has exclusive minimum',
       },
     };

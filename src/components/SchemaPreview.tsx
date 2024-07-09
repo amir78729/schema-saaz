@@ -100,7 +100,7 @@ const renderHeader = ({
           </span>
         </DialogTitle>
         <DialogContent>
-          <FieldPreview name={name} schema={field?.getBuilderSchema()} data={schema} />
+          <FieldPreview name={name || ''} schema={field?.getBuilderSchema()} data={schema} />
         </DialogContent>
       </Dialog>
 

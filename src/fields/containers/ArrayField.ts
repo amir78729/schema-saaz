@@ -1,6 +1,7 @@
 import { JsonSchemaField } from '../JsonSchemaField';
 import { produce } from 'immer';
 import { JsonSchema, JsonSchemaType, SchemaAnnotation } from '../../types';
+import { SCHEMA_TYPE } from '../../constants';
 
 export type ArrayFieldType = SchemaAnnotation & {
   items?: JsonSchema | JsonSchema[];
@@ -26,7 +27,7 @@ export class ArrayField extends JsonSchemaField {
 
   constructor(name: string) {
     super(name);
-    this.type = 'array';
+    this.type = SCHEMA_TYPE.ARRAY;
   }
 
   setItems(items: JsonSchema | JsonSchema[]): this {
@@ -77,24 +78,24 @@ export class ArrayField extends JsonSchemaField {
     const arraySchema: Record<string, JsonSchema> = {
       itemsType: {
         title: 'Items Type',
-        type: 'string',
-        enum: ['string', 'number', 'boolean', 'integer', 'array', 'object'],
+        type: SCHEMA_TYPE.STRING,
+        enum: Object.values(SCHEMA_TYPE.OBJECT),
       },
       prefixItems: {
         title: 'prefixItems',
-        type: 'object',
+        type: SCHEMA_TYPE.OBJECT,
       },
       unevaluatedItems: {
         title: 'unevaluatedItems',
-        type: 'object',
+        type: SCHEMA_TYPE.OBJECT,
       },
       minItems: {
         title: 'minItems',
-        type: 'number',
+        type: SCHEMA_TYPE.NUMBER,
       },
       maxItems: {
         title: 'maxItems',
-        type: 'number',
+        type: SCHEMA_TYPE.NUMBER,
       },
     };
 

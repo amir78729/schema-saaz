@@ -1,6 +1,7 @@
 import { JsonSchemaField } from '../JsonSchemaField';
 import { produce } from 'immer';
 import { JsonSchema, SchemaAnnotation } from '../../types';
+import { SCHEMA_TYPE } from '../../constants';
 
 export type ObjectFieldType = SchemaAnnotation & {
   properties?: Record<string, JsonSchema>;
@@ -17,7 +18,7 @@ export class ObjectField extends JsonSchemaField {
 
   constructor(name: string) {
     super(name);
-    this.type = 'object';
+    this.type = SCHEMA_TYPE.OBJECT;
   }
 
   addProperty(name: string, propSchema: JsonSchema): this {
@@ -59,15 +60,15 @@ export class ObjectField extends JsonSchemaField {
   getBuilderSchema(): JsonSchema {
     const objectSchema: Record<string, JsonSchema> = {
       properties: {
-        type: 'object',
+        type: SCHEMA_TYPE.OBJECT,
         title: 'Properties',
       },
       patternProperties: {
-        type: 'object',
+        type: SCHEMA_TYPE.OBJECT,
         title: 'Pattern Properties',
       },
       additionalProperties: {
-        type: 'object',
+        type: SCHEMA_TYPE.OBJECT,
         title: 'Additional Properties',
       },
     };

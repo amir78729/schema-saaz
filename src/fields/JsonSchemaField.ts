@@ -1,4 +1,5 @@
 import { JsonSchemaType, JsonSchema, SchemaAnnotation } from '../types';
+import { SCHEMA_TYPE } from '../constants';
 
 export class JsonSchemaField {
   protected name: string;
@@ -120,51 +121,51 @@ export class JsonSchemaField {
 
   public getBuilderSchema(): JsonSchema {
     return {
-      type: 'object',
+      type: SCHEMA_TYPE.OBJECT,
       properties: {
         type: {
-          type: 'string',
+          type: SCHEMA_TYPE.STRING,
           title: 'Field type',
-          enum: ['string', 'number', 'boolean', 'integer', 'array', 'object'],
+          enum: Object.values(SCHEMA_TYPE),
         },
         title: {
-          type: 'string',
+          type: SCHEMA_TYPE.STRING,
           title: 'Field Title',
         },
         description: {
-          type: 'string',
+          type: SCHEMA_TYPE.STRING,
           title: 'Field Description',
         },
         default: {
-          type: 'string',
+          type: SCHEMA_TYPE.STRING,
           title: 'Field Default',
         },
         readOnly: {
-          type: 'boolean',
+          type: SCHEMA_TYPE.BOOLEAN,
           title: 'Field is ReadOnly',
         },
         writeOnly: {
-          type: 'boolean',
+          type: SCHEMA_TYPE.BOOLEAN,
           title: 'Field is WriteOnly',
         },
         isRequired: {
-          type: 'boolean',
+          type: SCHEMA_TYPE.BOOLEAN,
           title: 'Field is required',
         },
         options: {
-          type: 'array',
+          type: SCHEMA_TYPE.ARRAY,
           title: 'Options',
           description: 'Here you can add options for the select field',
           items: {
-            type: 'object',
+            type: SCHEMA_TYPE.OBJECT,
             properties: {
               enum: {
-                type: this.getSchema()?.type || 'string',
+                type: this.getSchema()?.type || SCHEMA_TYPE.STRING,
                 title: 'Value of the option',
                 description: 'The value that is going to be in the form',
               },
               enumNames: {
-                type: 'string',
+                type: SCHEMA_TYPE.STRING,
                 title: 'Title of the option',
                 description: 'The title that is going to be shown to user',
               },

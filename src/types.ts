@@ -1,11 +1,12 @@
-import { StringFieldType } from './fields/primitives/StringField';
-import { NumberFieldType } from './fields/primitives/NumberField';
-import { ObjectFieldType } from './fields/containers/ObjectField';
-import { ArrayFieldType } from './fields/containers/ArrayField';
-import { IntegerFieldType } from './fields/primitives/IntegerField';
-import { BooleanFieldType } from './fields/primitives/BooleanField';
+import { StringField, StringFieldType } from './fields/primitives/StringField';
+import { NumberField, NumberFieldType } from './fields/primitives/NumberField';
+import { ObjectField, ObjectFieldType } from './fields/containers/ObjectField';
+import { ArrayField, ArrayFieldType } from './fields/containers/ArrayField';
+import { IntegerField, IntegerFieldType } from './fields/primitives/IntegerField';
+import { BooleanField, BooleanFieldType } from './fields/primitives/BooleanField';
 import { JsonSchemaField } from './fields/JsonSchemaField';
 import { RJSFSchema } from '@rjsf/utils';
+import { SCHEMA_TYPE } from './constants';
 
 export type BuiltInFormats =
   | 'date-time'
@@ -31,7 +32,7 @@ export type BuiltInFormats =
 // TODO: fix
 export type Format = BuiltInFormats | string;
 
-export type JsonSchemaType = 'string' | 'number' | 'integer' | 'object' | 'array' | 'boolean';
+export type JsonSchemaType = (typeof SCHEMA_TYPE)[keyof typeof SCHEMA_TYPE];
 
 export interface SchemaAnnotation {
   type?: JsonSchemaType;
@@ -56,7 +57,7 @@ export type FieldConfig = {
   id: string;
   title: string;
   description: string;
-  Class: JsonSchemaField;
+  Class: Partial<JsonSchemaField & StringField & NumberField & BooleanField & ObjectField & ArrayField & IntegerField>;
 };
 
 export type DataVisualizationType = {

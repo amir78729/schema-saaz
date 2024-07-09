@@ -1,6 +1,7 @@
 import { JsonSchemaField } from '../JsonSchemaField';
 import { Format, SchemaAnnotation, JsonSchema } from '../../types';
 import { produce } from 'immer';
+import { SCHEMA_TYPE } from '../../constants';
 
 export type StringFieldType = SchemaAnnotation & {
   maxLength?: number;
@@ -26,7 +27,7 @@ export class StringField extends JsonSchemaField {
 
   constructor(name: string) {
     super(name);
-    this.setType('string');
+    this.setType(SCHEMA_TYPE.STRING);
   }
 
   setMaxLength(maxLength: number): this {
@@ -62,19 +63,19 @@ export class StringField extends JsonSchemaField {
   getBuilderSchema(): JsonSchema {
     const stringSchema: Record<string, JsonSchema> = {
       maxLength: {
-        type: 'integer',
+        type: SCHEMA_TYPE.INTEGER,
         title: 'Max Length',
       },
       minLength: {
-        type: 'integer',
+        type: SCHEMA_TYPE.INTEGER,
         title: 'Min Length',
       },
       pattern: {
-        type: 'string',
+        type: SCHEMA_TYPE.STRING,
         title: 'RegEx Pattern',
       },
       format: {
-        type: 'string',
+        type: SCHEMA_TYPE.STRING,
         title: 'Format',
         enum: [
           'date-time',

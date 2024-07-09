@@ -1,5 +1,6 @@
 import { RJSFSchema } from '@rjsf/utils';
 import { DataVisualizationType, NestedObject } from './types';
+import { SCHEMA_TYPE } from './constants';
 
 export const getSchemaFormatFromSchema = (
   schema: RJSFSchema,
@@ -11,11 +12,12 @@ export const getSchemaFormatFromSchema = (
     Array({ schema, data, name, path }: DataVisualizationType): JSX.Element;
     Enum({ schema, data, name, path }: DataVisualizationType): JSX.Element;
     Number({ schema, data, name, path }: DataVisualizationType): JSX.Element;
+    Integer({ schema, data, name, path }: DataVisualizationType): JSX.Element;
     Unknown({ schema, data, name, path }: DataVisualizationType): JSX.Element;
   },
 ) => {
   if (schema?.enum?.length > 0) return SchemaFormat.Enum;
-  if (schema?.type === 'boolean') return SchemaFormat.Boolean;
+  if (schema?.type === SCHEMA_TYPE.BOOLEAN) return SchemaFormat.Boolean;
   // if (schema?.type === 'string' && schema?.format === 'image-url') return SchemaFormat.Image;
   // if (schema?.type === 'string' && schema?.format === 'video-url') return SchemaFormat.Video;
   // if (schema?.type === 'string' && schema?.format === 'uri') return SchemaFormat.Url;
@@ -23,12 +25,13 @@ export const getSchemaFormatFromSchema = (
   // if (schema?.type === 'string' && schema?.ui?.widget === 'color') return SchemaFormat.Color;
   // if (schema?.format === 'date') return SchemaFormat.Date;
   // if (schema?.format === 'date-time') return SchemaFormat.DateTime;
-  if (schema?.type === 'string') return SchemaFormat.String;
-  if (schema?.type === 'number' || schema?.type === 'integer') return SchemaFormat.Number;
+  if (schema?.type === SCHEMA_TYPE.STRING) return SchemaFormat.String;
+  if (schema?.type === SCHEMA_TYPE.NUMBER) return SchemaFormat.Number;
+  if (schema?.type === SCHEMA_TYPE.INTEGER) return SchemaFormat.Integer;
   // if (schema?.type === 'object' && schema?.format === 'map')
   //   return SchemaFormat.Map;
-  if (schema?.type === 'object') return SchemaFormat.Object;
-  if (schema?.type === 'array') return SchemaFormat.Array;
+  if (schema?.type === SCHEMA_TYPE.OBJECT) return SchemaFormat.Object;
+  if (schema?.type === SCHEMA_TYPE.ARRAY) return SchemaFormat.Array;
   return SchemaFormat.Unknown;
 };
 
@@ -38,7 +41,8 @@ export const getFieldId = (schema: RJSFSchema) => {
   if (schema?.format === 'date-time') return 'DATE_TIME';
   if (schema?.format === 'time') return 'TIME';
   if (schema?.type === 'string') return 'STRING';
-  if (schema?.type === 'number' || schema?.type === 'integer') return 'NUMBER';
+  if (schema?.type === 'integer') return 'INTEGER';
+  if (schema?.type === 'number') return 'NUMBER';
   if (schema?.type === 'object') return 'OBJECT';
   if (schema?.type === 'array') return 'ARRAY';
 };
