@@ -1,19 +1,20 @@
 import { RJSFSchema } from '@rjsf/utils';
 import { DataVisualizationType, NestedObject } from './types';
 import { SCHEMA_TYPE } from './constants';
+import React from 'react';
 
 export const getSchemaFormatFromSchema = (
   schema: RJSFSchema,
   SchemaFormat: {
-    ({ schema, data, name, path }: DataVisualizationType): JSX.Element;
-    String({ schema, data, name, path }: DataVisualizationType): JSX.Element;
-    Boolean({ schema, data, name, path }: DataVisualizationType): JSX.Element;
-    Object({ schema, data, name, path }: DataVisualizationType): JSX.Element;
-    Array({ schema, data, name, path }: DataVisualizationType): JSX.Element;
-    Enum({ schema, data, name, path }: DataVisualizationType): JSX.Element;
-    Number({ schema, data, name, path }: DataVisualizationType): JSX.Element;
-    Integer({ schema, data, name, path }: DataVisualizationType): JSX.Element;
-    Unknown({ schema, data, name, path }: DataVisualizationType): JSX.Element;
+    ({ schema, data, name, path }: DataVisualizationType): React.JSX.Element;
+    String({ schema, data, name, path }: DataVisualizationType): React.JSX.Element;
+    Boolean({ schema, data, name, path }: DataVisualizationType): React.JSX.Element;
+    Object({ schema, data, name, path }: DataVisualizationType): React.JSX.Element;
+    Array({ schema, data, name, path }: DataVisualizationType): React.JSX.Element;
+    Enum({ schema, data, name, path }: DataVisualizationType): React.JSX.Element;
+    Number({ schema, data, name, path }: DataVisualizationType): React.JSX.Element;
+    Integer({ schema, data, name, path }: DataVisualizationType): React.JSX.Element;
+    Unknown({ schema, data, name, path }: DataVisualizationType): React.JSX.Element;
   },
 ) => {
   if (schema?.enum?.length > 0) return SchemaFormat.Enum;

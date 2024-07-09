@@ -232,6 +232,22 @@ SchemaPreview.Number = function Number({ schema, path, name }: DataVisualization
   );
 };
 
+SchemaPreview.Integer = function Number({ schema, path, name }: DataVisualizationType) {
+  const { dispatch } = useSchema();
+  return (
+    <Paper>
+      {renderHeader({
+        description: schema.description,
+        name,
+        path,
+        schema,
+        icon: <Numbers />,
+        onDelete: () => handleDelete(dispatch, path),
+      })}
+    </Paper>
+  );
+};
+
 SchemaPreview.Boolean = function BooleanVisualization({ schema, path, name }: DataVisualizationType) {
   const { dispatch } = useSchema();
   return (
