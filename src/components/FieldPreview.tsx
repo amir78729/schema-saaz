@@ -1,16 +1,7 @@
 import React from 'react';
 import { RJSFSchema } from '@rjsf/utils';
 import { Check, Close, DataArray } from '@mui/icons-material';
-import {
-  Card,
-  ListItem,
-  ListItemText,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Card, ListItem, ListItemText, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { getSchemaFormatFromSchema } from '../utils';
 import { DataVisualizationType } from '../types';
 
@@ -29,9 +20,7 @@ const renderHeader = ({ schema }: { data: unknown; schema: RJSFSchema }) => {
           primary={
             <>
               <Typography variant="h6">{schema?.title}</Typography>
-              {schema?.description && (
-                <Typography variant="caption">{schema?.description}</Typography>
-              )}
+              {schema?.description && <Typography variant="caption">{schema?.description}</Typography>}
             </>
           }
         />
@@ -72,10 +61,7 @@ FieldPreview.Number = function Number({ schema, data }: DataVisualizationType) {
   );
 };
 
-FieldPreview.Boolean = function BooleanVisualization({
-  schema,
-  data,
-}: DataVisualizationType) {
+FieldPreview.Boolean = function BooleanVisualization({ schema, data }: DataVisualizationType) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -84,11 +70,7 @@ FieldPreview.Boolean = function BooleanVisualization({
   );
 };
 
-FieldPreview.Object = function ObjectVisualization({
-  schema,
-  data,
-  name,
-}: DataVisualizationType) {
+FieldPreview.Object = function ObjectVisualization({ schema, data, name }: DataVisualizationType) {
   const properties = Object.keys(schema?.properties || {});
   return (
     <Table>
@@ -100,22 +82,14 @@ FieldPreview.Object = function ObjectVisualization({
         {properties
           ?.filter((property) => data[property] !== undefined)
           ?.map((property) => (
-            <FieldPreview
-              key={property}
-              data={data[property]}
-              name={property}
-              schema={schema.properties[property]}
-            />
+            <FieldPreview key={property} data={data[property]} name={property} schema={schema.properties[property]} />
           ))}
       </TableBody>
     </Table>
   );
 };
 
-FieldPreview.Array = function ArrayVisualization({
-  schema,
-  name,
-}: DataVisualizationType) {
+FieldPreview.Array = function ArrayVisualization({ schema, name }: DataVisualizationType) {
   return (
     <>
       <Card>

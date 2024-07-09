@@ -26,13 +26,9 @@ const SchemaBuilder = () => {
           <Tab label="Form Preview"></Tab>
         </Tabs>
 
-        {tab === TABS.BUILDER && (
-          <SchemaPreview name="" schema={schema} data={{}} />
-        )}
+        {tab === TABS.BUILDER && <SchemaPreview name="" schema={schema} data={{}} />}
         {tab === TABS.SCHEMA && <pre>{JSON.stringify(schema, null, 2)}</pre>}
-        {tab === TABS.FORM_PREVIEW && (
-          <Form schema={schema} validator={validator} />
-        )}
+        {tab === TABS.FORM_PREVIEW && <Form schema={schema} validator={validator} />}
       </div>
     </>
   );

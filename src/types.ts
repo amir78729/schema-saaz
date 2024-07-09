@@ -31,13 +31,7 @@ export type BuiltInFormats =
 // TODO: fix
 export type Format = BuiltInFormats | string;
 
-export type JsonSchemaType =
-  | 'string'
-  | 'number'
-  | 'integer'
-  | 'object'
-  | 'array'
-  | 'boolean';
+export type JsonSchemaType = 'string' | 'number' | 'integer' | 'object' | 'array' | 'boolean';
 
 export interface SchemaAnnotation {
   type?: JsonSchemaType;
@@ -64,8 +58,6 @@ export type FieldConfig = {
   description: string;
   Class: JsonSchemaField;
 };
-
-// Visualization
 
 export type DataVisualizationType = {
   schema: RJSFSchema;

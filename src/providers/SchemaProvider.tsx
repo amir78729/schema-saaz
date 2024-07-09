@@ -1,22 +1,11 @@
-import React, {
-  createContext,
-  Dispatch,
-  ReactNode,
-  useContext,
-  useReducer,
-} from 'react';
+import React, { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
 import { JsonSchemaBuilder } from '../builder/JsonSchemaBuilder';
 import { FieldConfig, JsonSchema } from '../types';
 import { PROPERTIES } from '../constants';
 import { RJSFSchema } from '@rjsf/utils';
 
 export interface SchemaAction {
-  type:
-    | 'ADD_PROPERTY'
-    | 'UPDATE_PROPERTY'
-    | 'DELETE_PROPERTY'
-    | 'ADD_REQUIRED'
-    | 'DELETE_REQUIRED';
+  type: 'ADD_PROPERTY' | 'UPDATE_PROPERTY' | 'DELETE_PROPERTY' | 'ADD_REQUIRED' | 'DELETE_REQUIRED';
   payload: { name: string; schema?: JsonSchema; value?: never };
 }
 
@@ -39,51 +28,40 @@ export const SchemaContext = createContext<{
   fields: [],
 });
 
-const addSpecificProperties = (
-  builder: JsonSchemaBuilder,
-  state: JsonSchema,
-) => {
+const addSpecificProperties = (builder: JsonSchemaBuilder, state: JsonSchema) => {
   switch (state.type) {
     case 'string':
       if (state.maxLength) builder.setMaxLength(state.maxLength);
       if (state.minLength) builder.setMinLength(state.minLength);
       if (state.pattern) builder.setPattern(state.pattern);
       if (state.format) builder.setFormat(state.format);
-      if (state.contentEncoding)
-        builder.setContentEncoding(state.contentEncoding);
-      if (state.contentMediaType)
-        builder.setContentMediaType(state.contentMediaType);
+      if (state.contentEncoding) builder.setContentEncoding(state.contentEncoding);
+      if (state.contentMediaType) builder.setContentMediaType(state.contentMediaType);
       break;
     case 'number':
       if (state.multipleOf) builder.setMultipleOf(state.multipleOf);
       if (state.maximum) builder.setMaximum(state.maximum);
       if (state.minimum) builder.setMinimum(state.minimum);
-      if (state.exclusiveMaximum)
-        builder.setExclusiveMaximum(state.exclusiveMaximum);
-      if (state.exclusiveMinimum)
-        builder.setExclusiveMinimum(state.exclusiveMinimum);
+      if (state.exclusiveMaximum) builder.setExclusiveMaximum(state.exclusiveMaximum);
+      if (state.exclusiveMinimum) builder.setExclusiveMinimum(state.exclusiveMinimum);
       break;
     case 'object':
       if (state.properties) {
         Object.keys(state.properties).forEach((key) => {
-          if (state.properties?.[key])
-            builder.addProperty(key, state.properties[key]);
+          if (state.properties?.[key]) builder.addProperty(key, state.properties[key]);
         });
       }
       if (state.required) {
         builder.addRequired(...state.required);
       }
-      if (state.patternProperties)
-        builder.setPatternProperties(state.patternProperties);
-      if (state.additionalProperties)
-        builder.setAdditionalProperties(state.additionalProperties);
+      if (state.patternProperties) builder.setPatternProperties(state.patternProperties);
+      if (state.additionalProperties) builder.setAdditionalProperties(state.additionalProperties);
 
       break;
     case 'array':
       if (state.items) builder.setItems(state.items);
       if (state.prefixItems) builder.setPrefixItems(state.prefixItems);
-      if (state.unevaluatedItems)
-        builder.setUnevaluatedItems(state.unevaluatedItems);
+      if (state.unevaluatedItems) builder.setUnevaluatedItems(state.unevaluatedItems);
       if (state.maxItems) builder.setMaxItems(state.maxItems);
       if (state.minItems) builder.setMinItems(state.minItems);
       break;
@@ -131,15 +109,10 @@ type Props = {
 };
 
 export const SchemaProvider = ({ children, extraFields, value }: Props) => {
-  const [schema, dispatch] = useReducer(
-    schemaReducer,
-    value || new JsonSchemaBuilder().setType('object').build(),
-  );
+  const [schema, dispatch] = useReducer(schemaReducer, value || new JsonSchemaBuilder().setType('object').build());
 
   return (
-    <SchemaContext.Provider
-      value={{ schema, dispatch, fields: [...PROPERTIES, ...extraFields] }}
-    >
+    <SchemaContext.Provider value={{ schema, dispatch, fields: [...PROPERTIES, ...extraFields] }}>
       {children}
     </SchemaContext.Provider>
   );

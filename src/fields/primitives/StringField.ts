@@ -114,8 +114,7 @@ export class StringField extends JsonSchemaField {
     if (schema.pattern) this.setPattern(schema.pattern);
     if (schema.format) this.setFormat(schema.format);
     if (schema.contentEncoding) this.setContentEncoding(schema.contentEncoding);
-    if (schema.contentMediaType)
-      this.setContentMediaType(schema.contentMediaType);
+    if (schema.contentMediaType) this.setContentMediaType(schema.contentMediaType);
   }
 
   public getSchema(): JsonSchema {

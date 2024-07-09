@@ -56,14 +56,11 @@ const renderHeader = ({
   collapse?: boolean;
   onCollapse?: () => void;
 }) => {
-  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
-    useState<boolean>(false);
+  const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
   const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
   const { fields, dispatch } = useSchema();
-  const SelectedFieldClass = fields.find(
-    (field) => field.id === getFieldId(schema),
-  )?.Class;
+  const SelectedFieldClass = fields.find((field) => field.id === getFieldId(schema))?.Class;
 
   let field;
   if (SelectedFieldClass) {
@@ -88,18 +85,12 @@ const renderHeader = ({
         </DialogContent>
       </Dialog>
 
-      <Dialog
-        open={showPreviewModal}
-        onClose={() => setShowPreviewModal(false)}
-      >
+      <Dialog open={showPreviewModal} onClose={() => setShowPreviewModal(false)}>
         <DialogTitle>
           <code>{name}</code> Field{' '}
           <span>
             {onDelete && (
-              <IconButton
-                color="error"
-                onClick={() => setShowDeleteConfirmationModal(true)}
-              >
+              <IconButton color="error" onClick={() => setShowDeleteConfirmationModal(true)}>
                 <Delete fontSize="small" />
               </IconButton>
             )}
@@ -109,27 +100,16 @@ const renderHeader = ({
           </span>
         </DialogTitle>
         <DialogContent>
-          <FieldPreview
-            name={name}
-            schema={field?.getBuilderSchema()}
-            data={schema}
-          />
+          <FieldPreview name={name} schema={field?.getBuilderSchema()} data={schema} />
         </DialogContent>
       </Dialog>
 
-      <Dialog
-        open={showDeleteConfirmationModal}
-        onClose={() => setShowDeleteConfirmationModal(false)}
-      >
+      <Dialog open={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
         <DialogContent>
           <Typography>Are you sure you want to delete this field?</Typography>
         </DialogContent>
         <DialogActions>
-          <Button
-            fullWidth
-            color="error"
-            onClick={() => setShowDeleteConfirmationModal(false)}
-          >
+          <Button fullWidth color="error" onClick={() => setShowDeleteConfirmationModal(false)}>
             Cancel
           </Button>
           <Button
@@ -159,17 +139,12 @@ const renderHeader = ({
                   label={`${schema?.type}${schema?.format ? `: ${schema?.format}` : ''}`}
                 />
               </Typography>
-              {description && (
-                <Typography variant="caption">{description}</Typography>
-              )}
+              {description && <Typography variant="caption">{description}</Typography>}
             </>
           }
         />
         {onDelete && (
-          <IconButton
-            color="error"
-            onClick={() => setShowDeleteConfirmationModal(true)}
-          >
+          <IconButton color="error" onClick={() => setShowDeleteConfirmationModal(true)}>
             <Delete fontSize="small" />
           </IconButton>
         )}
@@ -190,11 +165,7 @@ const handleDelete = (dispatch: React.Dispatch<SchemaAction>, name: string) => {
   dispatch({ type: 'DELETE_REQUIRED', payload: { name } });
 };
 
-const handleEdit = (
-  dispatch: React.Dispatch<SchemaAction>,
-  name: string,
-  schema: RJSFSchema,
-) => {
+const handleEdit = (dispatch: React.Dispatch<SchemaAction>, name: string, schema: RJSFSchema) => {
   dispatch({ type: 'UPDATE_PROPERTY', payload: { name, schema } });
 };
 
@@ -203,11 +174,7 @@ const SchemaPreview = ({ schema, data, name, path }: DataVisualizationType) => {
   return <FormPreview {...{ schema, data, name, path }} />;
 };
 
-SchemaPreview.String = function String({
-  schema,
-  path,
-  name,
-}: DataVisualizationType) {
+SchemaPreview.String = function String({ schema, path, name }: DataVisualizationType) {
   const { dispatch } = useSchema();
   return (
     <Paper>
@@ -223,11 +190,7 @@ SchemaPreview.String = function String({
   );
 };
 
-SchemaPreview.Enum = function Enum({
-  schema,
-  path,
-  name,
-}: DataVisualizationType) {
+SchemaPreview.Enum = function Enum({ schema, path, name }: DataVisualizationType) {
   const { dispatch } = useSchema();
   const enums = schema.enum;
   return (
@@ -235,15 +198,10 @@ SchemaPreview.Enum = function Enum({
       {renderHeader({
         description: (
           <>
-            {schema.description}{' '}
-            <Typography variant="caption">Options:</Typography>{' '}
+            {schema.description} <Typography variant="caption">Options:</Typography>{' '}
             <Box gap={1} display="flex" flexDirection="row">
               {enums.map((e) => (
-                <Chip
-                  key={e}
-                  size="small"
-                  label={schema?.enumNames[enums.indexOf(e)] || e}
-                />
+                <Chip key={e} size="small" label={schema?.enumNames[enums.indexOf(e)] || e} />
               ))}
             </Box>
           </>
@@ -258,11 +216,7 @@ SchemaPreview.Enum = function Enum({
   );
 };
 
-SchemaPreview.Number = function Number({
-  schema,
-  path,
-  name,
-}: DataVisualizationType) {
+SchemaPreview.Number = function Number({ schema, path, name }: DataVisualizationType) {
   const { dispatch } = useSchema();
   return (
     <Paper>
@@ -278,11 +232,7 @@ SchemaPreview.Number = function Number({
   );
 };
 
-SchemaPreview.Boolean = function BooleanVisualization({
-  schema,
-  path,
-  name,
-}: DataVisualizationType) {
+SchemaPreview.Boolean = function BooleanVisualization({ schema, path, name }: DataVisualizationType) {
   const { dispatch } = useSchema();
   return (
     <Paper>
@@ -298,11 +248,7 @@ SchemaPreview.Boolean = function BooleanVisualization({
   );
 };
 
-SchemaPreview.Object = function ObjectVisualization({
-  schema,
-  path,
-  name,
-}: DataVisualizationType) {
+SchemaPreview.Object = function ObjectVisualization({ schema, path, name }: DataVisualizationType) {
   const { dispatch } = useSchema();
   const properties = Object.keys(schema?.properties || {});
 
@@ -330,11 +276,7 @@ SchemaPreview.Object = function ObjectVisualization({
           <AddFieldModal parentPath={generatePath(path, 'properties')} />
           {open !== undefined && (
             <IconButton onClick={handleCollapse}>
-              {!open ? (
-                <ExpandMore fontSize="small" />
-              ) : (
-                <ExpandLess fontSize="small" />
-              )}
+              {!open ? <ExpandMore fontSize="small" /> : <ExpandLess fontSize="small" />}
             </IconButton>
           )}
         </Box>
@@ -346,10 +288,7 @@ SchemaPreview.Object = function ObjectVisualization({
                   <SchemaPreview
                     name={property}
                     schema={schema.properties[property]}
-                    path={generatePath(
-                      path,
-                      generatePath('properties', property),
-                    )}
+                    path={generatePath(path, generatePath('properties', property))}
                   />
                 </>
               ))
@@ -365,11 +304,7 @@ SchemaPreview.Object = function ObjectVisualization({
   );
 };
 
-SchemaPreview.Array = function ArrayVisualization({
-  schema,
-  path,
-  name,
-}: DataVisualizationType) {
+SchemaPreview.Array = function ArrayVisualization({ schema, path, name }: DataVisualizationType) {
   const { dispatch } = useSchema();
   return (
     <Paper sx={{ p: 1 }}>
@@ -382,9 +317,7 @@ SchemaPreview.Array = function ArrayVisualization({
         onDelete: () => handleDelete(dispatch, path),
       })}
       <Box>
-        <SchemaPreview
-          {...{ schema: schema.items, name, path: generatePath(path, 'items') }}
-        />
+        <SchemaPreview {...{ schema: schema.items, name, path: generatePath(path, 'items') }} />
       </Box>
     </Paper>
   );

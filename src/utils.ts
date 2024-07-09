@@ -24,10 +24,9 @@ export const getSchemaFormatFromSchema = (
   // if (schema?.format === 'date') return SchemaFormat.Date;
   // if (schema?.format === 'date-time') return SchemaFormat.DateTime;
   if (schema?.type === 'string') return SchemaFormat.String;
-  if (schema?.type === 'number' || schema?.type === 'integer')
-    return SchemaFormat.Number;
-  if (schema?.type === 'object' && schema?.format === 'map')
-    return SchemaFormat.Map;
+  if (schema?.type === 'number' || schema?.type === 'integer') return SchemaFormat.Number;
+  // if (schema?.type === 'object' && schema?.format === 'map')
+  //   return SchemaFormat.Map;
   if (schema?.type === 'object') return SchemaFormat.Object;
   if (schema?.type === 'array') return SchemaFormat.Array;
   return SchemaFormat.Unknown;
@@ -44,10 +43,7 @@ export const getFieldId = (schema: RJSFSchema) => {
   if (schema?.type === 'array') return 'ARRAY';
 };
 
-export const generatePath = (
-  parentPath: string = '',
-  fieldName: string,
-): string => {
+export const generatePath = (parentPath: string = '', fieldName: string): string => {
   let path = parentPath;
   if (path?.length > 0) path += '.';
   path += fieldName;
@@ -58,11 +54,7 @@ export const accessToObjectFieldByPath = (object: object, path: string) => {
   return path.split('.').reduce((o, i) => o[i], object);
 };
 
-export const updateNestedObjectByPath = (
-  obj: NestedObject,
-  path: string,
-  value: never,
-): NestedObject => {
+export const updateNestedObjectByPath = (obj: NestedObject, path: string, value: unknown): NestedObject => {
   const keys = path.split('.');
   const newObject = { ...obj };
 
@@ -79,10 +71,7 @@ export const updateNestedObjectByPath = (
   return newObject;
 };
 
-export const deleteNestedPropertyByPath = (
-  obj: NestedObject,
-  path: string,
-): NestedObject => {
+export const deleteNestedPropertyByPath = (obj: NestedObject, path: string): NestedObject => {
   const keys = path.split('.');
   const newObject = { ...obj };
 

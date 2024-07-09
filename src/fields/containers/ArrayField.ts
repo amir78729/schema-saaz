@@ -70,8 +70,7 @@ export class ArrayField extends JsonSchemaField {
     if (schema.maxItems) this.setMaxItems(schema.maxItems);
     if (schema.minItems) this.setMinItems(schema.minItems);
     if (schema.prefixItems) this.setPrefixItems(schema.prefixItems);
-    if (schema.unevaluatedItems)
-      this.setUnevaluatedItems(schema.unevaluatedItems);
+    if (schema.unevaluatedItems) this.setUnevaluatedItems(schema.unevaluatedItems);
   }
 
   getBuilderSchema(): JsonSchema {

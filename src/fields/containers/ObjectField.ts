@@ -24,7 +24,6 @@ export class ObjectField extends JsonSchemaField {
     if (!this.properties) {
       this.properties = {};
     }
-    fix;
     this.properties[name] = propSchema;
     return this;
   }
@@ -50,14 +49,11 @@ export class ObjectField extends JsonSchemaField {
   setSchema(schema: ObjectFieldType) {
     super.setSchema(schema);
     Object.keys(schema.properties || {}).forEach((property) => {
-      if (schema.properties)
-        this.addProperty(property, schema.properties[property]);
+      if (schema.properties) this.addProperty(property, schema.properties[property]);
     });
     if (schema.required) this.addRequired(...schema.required);
-    if (schema.patternProperties)
-      this.setPatternProperties(schema.patternProperties);
-    if (schema.additionalProperties)
-      this.setAdditionalProperties(schema.additionalProperties);
+    if (schema.patternProperties) this.setPatternProperties(schema.patternProperties);
+    if (schema.additionalProperties) this.setAdditionalProperties(schema.additionalProperties);
   }
 
   getBuilderSchema(): JsonSchema {

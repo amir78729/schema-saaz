@@ -171,9 +171,7 @@ export class JsonSchemaBuilder {
 
   deleteRequired(name: string): JsonSchemaBuilder {
     if (this.schema.required) {
-      this.schema.required = this.schema.required.filter(
-        (req: string) => req !== name,
-      );
+      this.schema.required = this.schema.required.filter((req: string) => req !== name);
     }
     return this;
   }

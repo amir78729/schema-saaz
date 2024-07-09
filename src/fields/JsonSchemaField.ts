@@ -82,7 +82,7 @@ export class JsonSchemaField {
   public setSchema(
     schema: SchemaAnnotation & {
       isRequired?: boolean;
-      options: {
+      options?: {
         enum: string;
         enumNames: string;
       }[];

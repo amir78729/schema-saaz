@@ -8,8 +8,7 @@ import { RJSFSchema } from '@rjsf/utils';
 
 const sampleSchema: RJSFSchema = {
   title: 'Example Schema',
-  description:
-    'A rich JSON schema example without dependencies and no nested objects.',
+  description: 'A rich JSON schema example without dependencies and no nested objects.',
   type: 'object',
   properties: {
     id: {

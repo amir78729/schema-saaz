@@ -1,15 +1,4 @@
-import {
-  Box,
-  Button,
-  Dialog,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Stack,
-  TextField,
-  Tooltip,
-} from '@mui/material';
+import { Box, Button, Dialog, FormControl, IconButton, InputLabel, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
 import Form from '@rjsf/mui';
 
 import validator from '@rjsf/validator-ajv8';
@@ -104,22 +93,14 @@ const AddFieldModal = ({ parentPath }: Props) => {
                   onChange={(e) => setType(e.target.value as JsonSchemaType)}
                 >
                   {fields.map((property) => (
-                    <MenuItem
-                      title={property.description}
-                      key={property.id}
-                      value={property.id}
-                    >
+                    <MenuItem title={property.description} key={property.id} value={property.id}>
                       {property.title}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
 
-              <Button
-                disabled={!name || !type}
-                variant="contained"
-                onClick={() => handleSelectType()}
-              >
+              <Button disabled={!name || !type} variant="contained" onClick={() => handleSelectType()}>
                 Continue
               </Button>
             </Stack>
