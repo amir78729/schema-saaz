@@ -1,81 +1,77 @@
-import {StringFieldType} from "./fields/primitives/StringField";
-import {NumberFieldType} from "./fields/primitives/NumberField";
-import {ObjectFieldType} from "./fields/containers/ObjectField";
-import {ArrayFieldType} from "./fields/containers/ArrayField";
-import {IntegerFieldType} from "./fields/primitives/IntegerField";
-import {BooleanFieldType} from "./fields/primitives/BooleanField";
-import {JsonSchemaField} from "./fields/JsonSchemaField";
-import {RJSFSchema} from "@rjsf/utils";
+import { StringFieldType } from './fields/primitives/StringField';
+import { NumberFieldType } from './fields/primitives/NumberField';
+import { ObjectFieldType } from './fields/containers/ObjectField';
+import { ArrayFieldType } from './fields/containers/ArrayField';
+import { IntegerFieldType } from './fields/primitives/IntegerField';
+import { BooleanFieldType } from './fields/primitives/BooleanField';
+import { JsonSchemaField } from './fields/JsonSchemaField';
+import { RJSFSchema } from '@rjsf/utils';
 
 export type BuiltInFormats =
-    | "date-time"
-    | "time"
-    | "date"
-    | "duration"
-    | "email"
-    | "idn-email"
-    | "hostname"
-    | "idn-hostname"
-    | "ipv4"
-    | "ipv6"
-    | "uuid"
-    | "uri"
-    | "uri-reference"
-    | "iri"
-    | "iri-reference"
-    | "uri-template"
-    | "json-pointer"
-    | "relative-json-pointer"
-    | "regex";
+  | 'date-time'
+  | 'time'
+  | 'date'
+  | 'duration'
+  | 'email'
+  | 'idn-email'
+  | 'hostname'
+  | 'idn-hostname'
+  | 'ipv4'
+  | 'ipv6'
+  | 'uuid'
+  | 'uri'
+  | 'uri-reference'
+  | 'iri'
+  | 'iri-reference'
+  | 'uri-template'
+  | 'json-pointer'
+  | 'relative-json-pointer'
+  | 'regex';
 
 // TODO: fix
 export type Format = BuiltInFormats | string;
 
-
 export type JsonSchemaType =
-    | "string"
-    | "number"
-    | "integer"
-    | "object"
-    | "array"
-    | "boolean";
-
+  | 'string'
+  | 'number'
+  | 'integer'
+  | 'object'
+  | 'array'
+  | 'boolean';
 
 export interface SchemaAnnotation {
-    type?: JsonSchemaType;
-    title?: string;
-    description?: string;
-    default?: unknown;
-    readOnly?: boolean;
-    writeOnly?: boolean;
-    enum?: string[]; // TODO: Generalize enum values
-    enumNames?: string[];
+  type?: JsonSchemaType;
+  title?: string;
+  description?: string;
+  default?: unknown;
+  readOnly?: boolean;
+  writeOnly?: boolean;
+  enum?: string[]; // TODO: Generalize enum values
+  enumNames?: string[];
 }
 
-export type JsonSchema =
-    SchemaAnnotation
-    & StringFieldType
-    & NumberFieldType
-    & BooleanFieldType
-    & ObjectFieldType
-    & ArrayFieldType
-    & IntegerFieldType
+export type JsonSchema = SchemaAnnotation &
+  StringFieldType &
+  NumberFieldType &
+  BooleanFieldType &
+  ObjectFieldType &
+  ArrayFieldType &
+  IntegerFieldType;
 
 export type FieldConfig = {
-    id: string;
-    title: string;
-    description: string;
-    Class: JsonSchemaField;
-}
-
+  id: string;
+  title: string;
+  description: string;
+  Class: JsonSchemaField;
+};
 
 // Visualization
 
 export type DataVisualizationType = {
-    data?: object;
-    schema: RJSFSchema;
-    name?: string
-    path?: string
-}
+  schema: RJSFSchema;
+  data: unknown;
+  name: string;
+  path?: string;
+};
 
-export type NestedObject = { [key: string]: any };
+export type NestedObject = { [key: string]: never };

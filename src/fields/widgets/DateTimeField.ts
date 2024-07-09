@@ -1,10 +1,10 @@
-import {StringField, StringFieldType} from "../primitives/StringField";
+import { StringField, StringFieldType } from '../primitives/StringField';
 
 export type DateTimeType = StringFieldType;
 
 export class DateTimeField extends StringField {
-   constructor(name: string) {
+  constructor(name: string) {
     super(name);
-    this.format = "date-time"
+    this.format = 'date-time';
   }
 }

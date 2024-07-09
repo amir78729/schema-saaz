@@ -1,6 +1,5 @@
-import {JsonSchema, JsonSchemaType, Format} from "../types";
-import {deleteNestedPropertyByPath, generatePath, updateNestedObjectByPath} from "../utils";
-
+import { Format, JsonSchema, JsonSchemaType } from '../types';
+import { deleteNestedPropertyByPath, updateNestedObjectByPath } from '../utils';
 
 /**
  * Builder class for constructing JSON Schema objects.
@@ -166,19 +165,21 @@ export class JsonSchemaBuilder {
   }
 
   deleteProperty(name: string): JsonSchemaBuilder {
-    this.schema = deleteNestedPropertyByPath(this.schema, name)
+    this.schema = deleteNestedPropertyByPath(this.schema, name);
     return this;
   }
 
   deleteRequired(name: string): JsonSchemaBuilder {
     if (this.schema.required) {
-      this.schema.required = this.schema.required.filter((req: string) => req !== name);
+      this.schema.required = this.schema.required.filter(
+        (req: string) => req !== name,
+      );
     }
     return this;
   }
 
   editProperty(name: string, propSchema: JsonSchema): JsonSchemaBuilder {
-    this.schema = updateNestedObjectByPath(this.schema, name, propSchema)
+    this.schema = updateNestedObjectByPath(this.schema, name, propSchema);
     return this;
   }
 
