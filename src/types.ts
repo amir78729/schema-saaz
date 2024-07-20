@@ -41,7 +41,7 @@ export interface SchemaAnnotation {
   default?: unknown;
   readOnly?: boolean;
   writeOnly?: boolean;
-  enum?: string[]; // TODO: Generalize enum values
+  enum?: unknown[];
   enumNames?: string[];
 }
 

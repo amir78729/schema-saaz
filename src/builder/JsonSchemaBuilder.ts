@@ -1,15 +1,109 @@
 import { Format, JsonSchema, JsonSchemaType } from '../types';
-import { deleteNestedPropertyByPath, updateNestedObjectByPath } from '../utils';
+import { SCHEMA_TYPE } from '../constants';
 
 /**
  * Builder class for constructing JSON Schema objects.
  */
 export class JsonSchemaBuilder {
-  private schema: JsonSchema;
+  private schema: JsonSchema = {};
 
-  constructor() {
-    this.schema = {};
+  constructor(schema?: JsonSchema) {
+    if (schema) {
+      this.setType(schema.type || 'object');
+      if (schema.title) this.setTitle(schema.title);
+      if (schema.description) this.setDescription(schema.description);
+      if (schema.default) this.setDefault(schema.default);
+      if (schema.readOnly) this.setReadOnly(schema.readOnly);
+      if (schema.writeOnly) this.setWriteOnly(schema.writeOnly);
+      if (schema.enum) this.setEnum(schema.enum);
+      if (schema.enumNames) this.setEnumNames(schema.enumNames);
+      switch (schema.type) {
+        case SCHEMA_TYPE.STRING:
+          if (schema.maxLength) this.setMaxLength(schema.maxLength);
+          if (schema.minLength) this.setMinLength(schema.minLength);
+          if (schema.pattern) this.setPattern(schema.pattern);
+          if (schema.format) this.setFormat(schema.format);
+          if (schema.contentEncoding) this.setContentEncoding(schema.contentEncoding);
+          if (schema.contentMediaType) this.setContentMediaType(schema.contentMediaType);
+          break;
+        case SCHEMA_TYPE.NUMBER:
+          if (schema.multipleOf) this.setMultipleOf(schema.multipleOf);
+          if (schema.maximum) this.setMaximum(schema.maximum);
+          if (schema.minimum) this.setMinimum(schema.minimum);
+          if (schema.exclusiveMaximum) this.setExclusiveMaximum(schema.exclusiveMaximum);
+          if (schema.exclusiveMinimum) this.setExclusiveMinimum(schema.exclusiveMinimum);
+          break;
+        case SCHEMA_TYPE.OBJECT:
+          if (schema.properties) {
+            Object.keys(schema.properties).forEach((key) => {
+              if (schema.properties?.[key]) this.addProperty(key, schema.properties[key]);
+            });
+          }
+          if (schema.required) {
+            this.addRequired(...schema.required);
+          }
+          if (schema.patternProperties) this.setPatternProperties(schema.patternProperties);
+          if (schema.additionalProperties) this.setAdditionalProperties(schema.additionalProperties);
+          break;
+        case SCHEMA_TYPE.ARRAY:
+          if (schema.items) this.setItems(schema.items);
+          if (schema.prefixItems) this.setPrefixItems(schema.prefixItems);
+          if (schema.unevaluatedItems) this.setUnevaluatedItems(schema.unevaluatedItems);
+          if (schema.maxItems) this.setMaxItems(schema.maxItems);
+          if (schema.minItems) this.setMinItems(schema.minItems);
+          break;
+        default:
+          break;
+      }
+    }
   }
+
+  private deleteNestedPropertyByPath = (obj: JsonSchema, path: string): JsonSchema => {
+    const keys = path.split('.');
+    const newObject = { ...obj };
+
+    if (keys.length === 0) {
+      return newObject;
+    }
+
+    let current = newObject;
+    const stack = [];
+
+    for (let i = 0; i < keys.length - 1; i++) {
+      stack.push(current);
+      current[keys[i]] = { ...current[keys[i]] };
+      current = current[keys[i]];
+    }
+
+    delete current[keys[keys.length - 1]];
+
+    for (let i = keys.length - 2; i >= 0; i--) {
+      const key = keys[i];
+      current = stack.pop();
+      if (Object.keys(current[key]).length === 0) {
+        delete current[key];
+      }
+    }
+
+    return newObject;
+  };
+
+  private updateNestedObjectByPath = (obj: JsonSchema, path: string, value: unknown): JsonSchema => {
+    const keys = path.split('.');
+    const newObject = { ...obj };
+
+    let current = newObject;
+    keys.forEach((key, index) => {
+      if (index === keys.length - 1) {
+        current[key] = value;
+      } else {
+        current[key] = current[key] ? { ...current[key] } : {};
+        current = current[key];
+      }
+    });
+
+    return newObject;
+  };
 
   setTitle(title: string): JsonSchemaBuilder {
     this.schema.title = title;
@@ -28,11 +122,12 @@ export class JsonSchemaBuilder {
     this.schema.properties[name] = propSchema;
     return this;
   }
+
   addNestedProperty(name: string, propSchema: JsonSchema): JsonSchemaBuilder {
     if (!this.schema.properties) {
       this.schema.properties = {};
     }
-    this.schema = updateNestedObjectByPath(this.schema, name, propSchema);
+    this.schema = this.updateNestedObjectByPath(this.schema, name, propSchema);
     return this;
   }
 
@@ -165,7 +260,7 @@ export class JsonSchemaBuilder {
   }
 
   deleteProperty(name: string): JsonSchemaBuilder {
-    this.schema = deleteNestedPropertyByPath(this.schema, name);
+    this.schema = this.deleteNestedPropertyByPath(this.schema, name);
     return this;
   }
 
@@ -177,7 +272,7 @@ export class JsonSchemaBuilder {
   }
 
   editProperty(name: string, propSchema: JsonSchema): JsonSchemaBuilder {
-    this.schema = updateNestedObjectByPath(this.schema, name, propSchema);
+    this.schema = this.updateNestedObjectByPath(this.schema, name, propSchema);
     return this;
   }
 

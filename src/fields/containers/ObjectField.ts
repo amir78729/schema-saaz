@@ -11,7 +11,7 @@ export type ObjectFieldType = SchemaAnnotation & {
 };
 
 export class ObjectField extends JsonSchemaField {
-  protected properties?: JsonSchema;
+  protected properties?: Record<string, JsonSchema>;
   protected required?: string[];
   protected patternProperties?: object;
   protected additionalProperties?: object;
@@ -59,18 +59,18 @@ export class ObjectField extends JsonSchemaField {
 
   getBuilderSchema(): JsonSchema {
     const objectSchema: Record<string, JsonSchema> = {
-      properties: {
-        type: SCHEMA_TYPE.OBJECT,
-        title: 'Properties',
-      },
-      patternProperties: {
-        type: SCHEMA_TYPE.OBJECT,
-        title: 'Pattern Properties',
-      },
-      additionalProperties: {
-        type: SCHEMA_TYPE.OBJECT,
-        title: 'Additional Properties',
-      },
+      // properties: {
+      //   type: SCHEMA_TYPE.OBJECT,
+      //   title: 'Properties',
+      // },
+      // patternProperties: {
+      //   type: SCHEMA_TYPE.OBJECT,
+      //   title: 'Pattern Properties',
+      // },
+      // additionalProperties: {
+      //   type: SCHEMA_TYPE.OBJECT,
+      //   title: 'Additional Properties',
+      // },
     };
     return produce(super.getBuilderSchema(), (draft: JsonSchema) => {
       Object.keys(objectSchema).forEach((key) => {

@@ -11,9 +11,9 @@ export type SelectFieldType = StringFieldType & {
 };
 
 export class SelectField extends StringField {
-  protected enum?: string[];
-
-  protected enumNames?: string[];
+  // protected enum?: string[];
+  //
+  // protected enumNames?: string[];
 
   constructor(name: string) {
     super(name);
