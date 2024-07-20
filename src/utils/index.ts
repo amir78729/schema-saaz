@@ -1,6 +1,6 @@
 import { RJSFSchema } from '@rjsf/utils';
-import { DataVisualizationType } from './types';
-import { SCHEMA_TYPE } from './constants';
+import { DataVisualizationType } from '../types';
+import { SCHEMA_TYPE } from '../constants';
 import React from 'react';
 
 export const getSchemaFormatFromSchema = (
@@ -55,13 +55,16 @@ export const generatePath = (parentPath: string = '', fieldName: string): string
   return path;
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 export const accessToObjectFieldByPath = (object: object, path: string) => {
+  // @ts-expect-error
   return path.split('.').reduce((o, i) => o[i], object);
 };
 
 export const accessToObjectFieldParentByPath = (object: object, path: string) => {
-  return path
-    ?.split('.')
-    ?.slice(0, path?.split('.').length - 2)
-    ?.reduce((o, i) => o[i], object);
+  if (!path) return undefined;
+  const pathArray = path.split('.').slice(0, -1);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  if (pathArray.length === 0) return undefined; //@ts-expect-error
+  return pathArray.reduce((o, i) => (o && o[i] !== undefined ? o[i] : undefined), object);
 };
