@@ -1,7 +1,158 @@
 {
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "rules": {
+    "import/no-unresolved": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "prettier/prettier": "error",
+    "import/no-extraneous-dependencies": "off",
+    "object-curly-newline": "off",
+    "jsx-a11y/href-no-hash": "off",
+
+    "jsx-a11y/label-has-for": "warn",
+
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
+
+    "react/prefer-stateless-function": "off",
+
+    "max-len": ["error", { "code": 130, "tabWidth": 2 }],
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/anchor-has-content": "off",
+    "react/jsx-no-target-blank": "off",
+    "react/forbid-prop-types": "off",
+    "no-console": "off",
+    "import/prefer-default-export": "off",
+    "no-plusplus": "off",
+    "func-names": "off",
+    "no-case-declarations": "off",
+    "no-param-reassign": "off",
+    "react/no-array-index-key": "off",
+    "no-use-before-define": "off",
+    "react/no-did-update-set-state": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "react/destructuring-assignment": "off",
+    "react/static-property-placement": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
+    "react/button-has-type": "off",
+    "import/extensions": [
+      "error",
+      "always",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never",
+        "mjs": "never"
+      }
+    ]
+  },
   "settings": {
     "import/resolver": {
-      "typescript": {}
+      "typescript": {},
+      "node": {
+        "moduleDirectory": ["node_modules", "src"],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+        "typescript": {
+          "alwaysTryTypes": true
+        }
+      }
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        
+        "@typescript-eslint/no-explicit-any": "off"
+      }
+    },
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "plugins": ["@typescript-eslint", "prettier"],
+      "parserOptions": {
+        "sourceType": "module",
+        "project": null
+      },
+      "extends": ["airbnb", "plugin:@typescript-eslint/recommended", "prettier"],
+      "rules": {
+        "prettier/prettier": ["error"],
+        "object-curly-newline": "off",
+        "max-len": ["error", { "code": 130, "tabWidth": 2 }],
+        "react/require-default-props": "off",
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": "off",
+        "jsx-a11y/anchor-has-content": "off",
+        "import/prefer-default-export": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-unsafe-call": "off",
+        "@typescript-eslint/await-thenable": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/unbound-method": "off",
+        "@typescript-eslint/no-for-in-array": "off",
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-unsafe-return": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-unsafe-argument": "off",
+        "@typescript-eslint/no-misused-promises": "off",
+        "@typescript-eslint/no-unsafe-assignment": "off",
+        "@typescript-eslint/restrict-plus-operands": "off",
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/restrict-template-expressions": "off",
+        "class-methods-use-this": "off",
+        "react/prop-types": "off",
+        "no-plusplus": "off",
+        "react/jsx-props-no-spreading": "off",
+        "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", "tsx"] }],
+        "import/extensions": [
+          "error",
+          "always",
+          {
+            "js": "never",
+            "jsx": "never",
+            "ts": "never",
+            "tsx": "never",
+            "mjs": "never"
+          }
+        ]
+      },
+      "settings": {
+        "import/resolver": {
+          "typescript": {},
+          "node": {
+            "moduleDirectory": ["node_modules", "src"],
+            "extensions": [".js", ".jsx", ".ts", ".tsx"],
+            "typescript": {
+              "alwaysTryTypes": true,
+            }
+          }
+        }
+      }
+    }
+  ]
 }

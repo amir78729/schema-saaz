@@ -1,6 +1,7 @@
-import {JsonSchemaField} from "../JsonSchemaField";
-import {JsonSchema, SchemaAnnotation} from "../../types";
-import {produce} from "immer";
+import { JsonSchemaField } from '../JsonSchemaField';
+import { JsonSchema, SchemaAnnotation } from '../../types';
+import { produce } from 'immer';
+import { SCHEMA_TYPE } from '../../constants';
 
 export type NumberFieldType = SchemaAnnotation & {
   multipleOf?: number;
@@ -8,7 +9,7 @@ export type NumberFieldType = SchemaAnnotation & {
   minimum?: number;
   exclusiveMaximum?: boolean;
   exclusiveMinimum?: boolean;
-}
+};
 
 export class NumberField extends JsonSchemaField {
   protected multipleOf?: number;
@@ -17,9 +18,9 @@ export class NumberField extends JsonSchemaField {
   protected exclusiveMaximum?: boolean;
   protected exclusiveMinimum?: boolean;
 
-   constructor(name: string) {
+  constructor(name: string) {
     super(name);
-    this.type = "number";
+    this.type = SCHEMA_TYPE.NUMBER;
   }
 
   setMultipleOf(multipleOf: number): this {
@@ -50,31 +51,31 @@ export class NumberField extends JsonSchemaField {
   getBuilderSchema(): JsonSchema {
     const numberSchema: Record<string, JsonSchema> = {
       multipleOf: {
-        type: "number",
-        title: "Multiple Of",
+        type: SCHEMA_TYPE.NUMBER,
+        title: 'Multiple Of',
       },
       maximum: {
-        type: "number",
-        title: "Maximum",
+        type: SCHEMA_TYPE.NUMBER,
+        title: 'Maximum',
       },
       minimum: {
-        type: "number",
-        title: "Minimum",
+        type: SCHEMA_TYPE.NUMBER,
+        title: 'Minimum',
       },
       exclusiveMaximum: {
-        type: "boolean",
-        title: "Field has exclusive maximum",
+        type: SCHEMA_TYPE.BOOLEAN,
+        title: 'Field has exclusive maximum',
       },
       exclusiveMinimum: {
-        type: "boolean",
-        title: "Field has exclusive minimum",
+        type: SCHEMA_TYPE.BOOLEAN,
+        title: 'Field has exclusive minimum',
       },
-    }
+    };
 
     return produce(super.getBuilderSchema(), (draft: JsonSchema) => {
-      Object.keys(numberSchema).forEach(key => {
+      Object.keys(numberSchema).forEach((key) => {
         if (draft.properties) draft.properties[key] = numberSchema[key];
-      })
+      });
     });
   }
 
@@ -86,15 +87,15 @@ export class NumberField extends JsonSchemaField {
       minimum: this.minimum,
       exclusiveMaximum: this.exclusiveMaximum,
       exclusiveMinimum: this.exclusiveMinimum,
-    }
+    };
   }
 
   public setSchema(schema: NumberFieldType): void {
     super.setSchema(schema);
-    if (schema.multipleOf) this.setMultipleOf(schema.multipleOf)
-    if (schema.maximum) this.setMaximum(schema.maximum)
-    if (schema.minimum) this.setMinimum(schema.minimum)
-    if (schema.exclusiveMaximum) this.setExclusiveMaximum(schema.exclusiveMaximum)
-    if (schema.exclusiveMinimum) this.setExclusiveMinimum(schema.exclusiveMinimum)
+    if (schema.multipleOf) this.setMultipleOf(schema.multipleOf);
+    if (schema.maximum) this.setMaximum(schema.maximum);
+    if (schema.minimum) this.setMinimum(schema.minimum);
+    if (schema.exclusiveMaximum) this.setExclusiveMaximum(schema.exclusiveMaximum);
+    if (schema.exclusiveMinimum) this.setExclusiveMinimum(schema.exclusiveMinimum);
   }
 }
