@@ -57,12 +57,12 @@ export type FieldConfig = {
   id: string;
   title: string;
   description: string;
-  Class: Partial<JsonSchemaField & StringField & NumberField & BooleanField & ObjectField & ArrayField & IntegerField>;
+  Class: JsonSchemaField | StringField | NumberField | BooleanField | ObjectField | ArrayField | IntegerField;
 };
 
-export type DataVisualizationType = {
+export type DataVisualizationType<T = unknown> = {
   schema: RJSFSchema;
-  data: unknown;
+  data: T;
   name?: string;
   path?: string;
 };

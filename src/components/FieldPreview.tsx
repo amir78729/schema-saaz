@@ -1,6 +1,6 @@
 import React from 'react';
 import { RJSFSchema } from '@rjsf/utils';
-import { Check, Close, DataArray } from '@mui/icons-material';
+import { Check, Close } from '@mui/icons-material';
 import { Card, ListItem, ListItemText, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { getSchemaFormatFromSchema } from '../utils';
 import { DataVisualizationType } from '../types';
@@ -8,11 +8,11 @@ import { DataVisualizationType } from '../types';
 type Props = {
   schema: RJSFSchema;
   data: unknown;
-  name: string;
+  name?: string;
 };
 
 // TODO: refactor
-const renderHeader = ({ schema }: { data: unknown; schema: RJSFSchema }) => {
+const renderHeader = ({ schema }: { schema: RJSFSchema }) => {
   return (
     <>
       <ListItem>
@@ -34,7 +34,7 @@ const FieldPreview = ({ schema, data, name }: Props) => {
   return <FormPreview {...{ schema, data, name }} />;
 };
 
-FieldPreview.String = function String({ schema, data }: DataVisualizationType) {
+FieldPreview.String = function String({ schema, data }: DataVisualizationType<string>) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -43,7 +43,7 @@ FieldPreview.String = function String({ schema, data }: DataVisualizationType) {
   );
 };
 
-FieldPreview.Enum = function Enum({ schema, data }: DataVisualizationType) {
+FieldPreview.Enum = function Enum({ schema, data }: DataVisualizationType<number | string>) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -52,7 +52,7 @@ FieldPreview.Enum = function Enum({ schema, data }: DataVisualizationType) {
   );
 };
 
-FieldPreview.Number = function Number({ schema, data }: DataVisualizationType) {
+FieldPreview.Number = function Number({ schema, data }: DataVisualizationType<number>) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -61,7 +61,7 @@ FieldPreview.Number = function Number({ schema, data }: DataVisualizationType) {
   );
 };
 
-FieldPreview.Integer = function Integer({ schema, data }: DataVisualizationType) {
+FieldPreview.Integer = function Integer({ schema, data }: DataVisualizationType<number>) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -70,7 +70,7 @@ FieldPreview.Integer = function Integer({ schema, data }: DataVisualizationType)
   );
 };
 
-FieldPreview.Boolean = function BooleanVisualization({ schema, data }: DataVisualizationType) {
+FieldPreview.Boolean = function BooleanVisualization({ schema, data }: DataVisualizationType<boolean>) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -79,12 +79,11 @@ FieldPreview.Boolean = function BooleanVisualization({ schema, data }: DataVisua
   );
 };
 
-FieldPreview.Object = function ObjectVisualization({ schema, data, name }: DataVisualizationType) {
+FieldPreview.Object = function ObjectVisualization({ schema, data }: DataVisualizationType<Record<string, unknown>>) {
   const properties = Object.keys(schema?.properties || {});
   return (
     <Table>
       {renderHeader({
-        name,
         schema,
       })}
       <TableBody>
@@ -98,12 +97,12 @@ FieldPreview.Object = function ObjectVisualization({ schema, data, name }: DataV
   );
 };
 
-FieldPreview.Array = function ArrayVisualization({ schema, name }: DataVisualizationType) {
+FieldPreview.Array = function ArrayVisualization({ schema, name, data }: DataVisualizationType<unknown[]>) {
   return (
     <>
       <Card>
-        {renderHeader({ name, schema, icon: <DataArray /> })}
-        <FieldPreview {...{ schema: schema.items, name }} />
+        {renderHeader({ schema })}
+        <FieldPreview {...{ schema: schema.items, name, data }} />
       </Card>
     </>
   );

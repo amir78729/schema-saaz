@@ -4,7 +4,7 @@ import Form from '@rjsf/mui';
 import validator from '@rjsf/validator-ajv8';
 import React from 'react';
 import { useSchema } from '../providers/SchemaProvider';
-import { JsonSchemaType } from '../types';
+import { JsonSchema, JsonSchemaType } from '../types';
 import { JsonSchemaField } from '../fields/JsonSchemaField';
 import Select from '@mui/material/Select';
 import { Add } from '@mui/icons-material';
@@ -31,7 +31,7 @@ const AddFieldModal = ({ parentPath }: Props) => {
     }
   };
 
-  const handleSubmit = (formData) => {
+  const handleSubmit = (formData: JsonSchema) => {
     if (field) {
       field.setSchema(formData);
       dispatch({
