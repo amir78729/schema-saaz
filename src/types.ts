@@ -63,8 +63,8 @@ export type FieldConfig = {
 export type DataVisualizationType = {
   schema: RJSFSchema;
   data: unknown;
-  name: string;
+  name?: string;
   path?: string;
 };
 
-export type NestedObject = { [key: string]: never };
+export type NestedObject = { [key: string]: unknown };

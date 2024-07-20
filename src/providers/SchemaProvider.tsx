@@ -56,8 +56,8 @@ const addSpecificProperties = (builder: JsonSchemaBuilder, state: JsonSchema) =>
       }
       if (state.patternProperties) builder.setPatternProperties(state.patternProperties);
       if (state.additionalProperties) builder.setAdditionalProperties(state.additionalProperties);
-
       break;
+
     case SCHEMA_TYPE.ARRAY:
       if (state.items) builder.setItems(state.items);
       if (state.prefixItems) builder.setPrefixItems(state.prefixItems);

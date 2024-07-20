@@ -42,7 +42,7 @@ const SchemaBuilder = () => {
           <Tab label="Form Preview"></Tab>
         </Tabs>
 
-        {tab === TABS.BUILDER && <SchemaPreview name="" schema={schema} data={{}} />}
+        {tab === TABS.BUILDER && <SchemaPreview schema={schema} data={{}} />}
         {tab === TABS.SCHEMA && <Box dangerouslySetInnerHTML={{ __html: highlightedSchema }}></Box>}
         {tab === TABS.FORM_PREVIEW && <Form schema={schema} validator={validator} />}
       </div>
