@@ -58,3 +58,10 @@ export const generatePath = (parentPath: string = '', fieldName: string): string
 export const accessToObjectFieldByPath = (object: object, path: string) => {
   return path.split('.').reduce((o, i) => o[i], object);
 };
+
+export const accessToObjectFieldParentByPath = (object: object, path: string) => {
+  return path
+    ?.split('.')
+    ?.slice(0, path?.split('.').length - 2)
+    ?.reduce((o, i) => o[i], object);
+};

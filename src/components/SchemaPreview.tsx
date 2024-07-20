@@ -11,6 +11,7 @@ import {
   Edit,
   ExpandLess,
   ExpandMore,
+  Star,
   TextSnippet,
   ToggleOn,
   Visibility,
@@ -31,7 +32,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material';
-import { generatePath, getFieldId, getSchemaFormatFromSchema } from '../utils';
+import { accessToObjectFieldParentByPath, generatePath, getFieldId, getSchemaFormatFromSchema } from '../utils';
 import { DataVisualizationType } from '../types';
 import { SchemaAction, useSchema } from '../providers/SchemaProvider';
 import Form from '@rjsf/mui';
@@ -46,8 +47,9 @@ const renderHeader = ({
   name,
   path,
   description,
+  isRequired,
 }: {
-  icon?: React.ReactNode;
+  icon?: React.ReactElement;
   schema: RJSFSchema;
   description?: React.ReactNode;
   path: string;
@@ -55,6 +57,7 @@ const renderHeader = ({
   onDelete?: () => void;
   collapse?: boolean;
   onCollapse?: () => void;
+  isRequired?: boolean;
 }) => {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState<boolean>(false);
   const [showEditModal, setShowEditModal] = useState<boolean>(false);
@@ -137,7 +140,8 @@ const renderHeader = ({
                   variant="outlined"
                   icon={icon}
                   label={`${schema?.type}${schema?.format ? `: ${schema?.format}` : ''}`}
-                />
+                />{' '}
+                {isRequired && <Chip size="small" color="error" variant="outlined" icon={<Star />} label={'Required'} />}
               </Typography>
               {description && <Typography variant="caption">{description}</Typography>}
             </>
@@ -175,7 +179,8 @@ const SchemaPreview = ({ schema, data, name, path }: DataVisualizationType) => {
 };
 
 SchemaPreview.String = function String({ schema, path, name }: DataVisualizationType) {
-  const { dispatch } = useSchema();
+  const { dispatch, schema: fullSchema } = useSchema();
+
   return (
     <Paper>
       {renderHeader({
@@ -185,13 +190,14 @@ SchemaPreview.String = function String({ schema, path, name }: DataVisualization
         schema,
         icon: <TextSnippet />,
         onDelete: () => handleDelete(dispatch, path),
+        isRequired: accessToObjectFieldParentByPath(fullSchema, path)?.required?.includes?.(name),
       })}
     </Paper>
   );
 };
 
 SchemaPreview.Enum = function Enum({ schema, path, name }: DataVisualizationType) {
-  const { dispatch } = useSchema();
+  const { dispatch, schema: fullSchema } = useSchema();
   const enums = schema.enum;
   return (
     <Paper>
@@ -211,13 +217,14 @@ SchemaPreview.Enum = function Enum({ schema, path, name }: DataVisualizationType
         schema,
         icon: <Checklist />,
         onDelete: () => handleDelete(dispatch, path),
+        isRequired: accessToObjectFieldParentByPath(fullSchema, path)?.required?.includes?.(name),
       })}
     </Paper>
   );
 };
 
 SchemaPreview.Number = function Number({ schema, path, name }: DataVisualizationType) {
-  const { dispatch } = useSchema();
+  const { dispatch, schema: fullSchema } = useSchema();
   return (
     <Paper>
       {renderHeader({
@@ -227,13 +234,14 @@ SchemaPreview.Number = function Number({ schema, path, name }: DataVisualization
         schema,
         icon: <Numbers />,
         onDelete: () => handleDelete(dispatch, path),
+        isRequired: accessToObjectFieldParentByPath(fullSchema, path)?.required?.includes?.(name),
       })}
     </Paper>
   );
 };
 
 SchemaPreview.Integer = function Number({ schema, path, name }: DataVisualizationType) {
-  const { dispatch } = useSchema();
+  const { dispatch, schema: fullSchema } = useSchema();
   return (
     <Paper>
       {renderHeader({
@@ -243,13 +251,14 @@ SchemaPreview.Integer = function Number({ schema, path, name }: DataVisualizatio
         schema,
         icon: <Numbers />,
         onDelete: () => handleDelete(dispatch, path),
+        isRequired: accessToObjectFieldParentByPath(fullSchema, path)?.required?.includes?.(name),
       })}
     </Paper>
   );
 };
 
 SchemaPreview.Boolean = function BooleanVisualization({ schema, path, name }: DataVisualizationType) {
-  const { dispatch } = useSchema();
+  const { dispatch, schema: fullSchema } = useSchema();
   return (
     <Paper>
       {renderHeader({
@@ -259,13 +268,14 @@ SchemaPreview.Boolean = function BooleanVisualization({ schema, path, name }: Da
         schema,
         icon: <ToggleOn />,
         onDelete: () => handleDelete(dispatch, path),
+        isRequired: accessToObjectFieldParentByPath(fullSchema, path)?.required?.includes?.(name),
       })}
     </Paper>
   );
 };
 
 SchemaPreview.Object = function ObjectVisualization({ schema, path, name }: DataVisualizationType) {
-  const { dispatch } = useSchema();
+  const { dispatch, schema: fullSchema } = useSchema();
   const properties = Object.keys(schema?.properties || {});
 
   const [open, setOpen] = React.useState(true);
@@ -285,6 +295,7 @@ SchemaPreview.Object = function ObjectVisualization({ schema, path, name }: Data
         collapse: open,
         onCollapse: handleCollapse,
         onDelete: () => handleDelete(dispatch, path),
+        isRequired: accessToObjectFieldParentByPath(fullSchema, path)?.required?.includes?.(name),
       })}
       <Paper sx={{ p: 1 }}>
         <Box px={2} display="flex" justifyContent="space-between">
@@ -321,7 +332,7 @@ SchemaPreview.Object = function ObjectVisualization({ schema, path, name }: Data
 };
 
 SchemaPreview.Array = function ArrayVisualization({ schema, path, name }: DataVisualizationType) {
-  const { dispatch } = useSchema();
+  const { dispatch, schema: fullSchema } = useSchema();
   return (
     <Paper sx={{ p: 1 }}>
       {renderHeader({
@@ -331,6 +342,7 @@ SchemaPreview.Array = function ArrayVisualization({ schema, path, name }: DataVi
         schema,
         icon: <DataArray />,
         onDelete: () => handleDelete(dispatch, path),
+        isRequired: accessToObjectFieldParentByPath(fullSchema, path)?.required?.includes?.(name),
       })}
       <Box>
         <SchemaPreview {...{ schema: schema.items, name, path: generatePath(path, 'items') }} />
