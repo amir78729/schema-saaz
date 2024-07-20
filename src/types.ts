@@ -1,11 +1,11 @@
-import { StringField, StringFieldType } from './fields/primitives/StringField';
-import { NumberField, NumberFieldType } from './fields/primitives/NumberField';
-import { ObjectField, ObjectFieldType } from './fields/containers/ObjectField';
-import { ArrayField, ArrayFieldType } from './fields/containers/ArrayField';
-import { IntegerField, IntegerFieldType } from './fields/primitives/IntegerField';
-import { BooleanField, BooleanFieldType } from './fields/primitives/BooleanField';
-import { JsonSchemaField } from './fields/JsonSchemaField';
-import { RJSFSchema } from '@rjsf/utils';
+import type { StringFieldType } from './fields/primitives/StringField';
+import type { NumberFieldType } from './fields/primitives/NumberField';
+import type { ObjectFieldType } from './fields/containers/ObjectField';
+import type { ArrayFieldType } from './fields/containers/ArrayField';
+import type { IntegerFieldType } from './fields/primitives/IntegerField';
+import type { BooleanFieldType } from './fields/primitives/BooleanField';
+import type { JsonSchemaField } from './fields/JsonSchemaField';
+import type { RJSFSchema } from '@rjsf/utils';
 import { SCHEMA_TYPE } from './constants';
 
 export type BuiltInFormats =
@@ -57,14 +57,14 @@ export type FieldConfig = {
   id: string;
   title: string;
   description: string;
-  Class: JsonSchemaField | StringField | NumberField | BooleanField | ObjectField | ArrayField | IntegerField;
+  Class: new (...args: string[]) => JsonSchemaField; // a class that extends JsonSchemaField
 };
 
 export type DataVisualizationType<T = unknown> = {
   schema: RJSFSchema;
   data: T;
-  name?: string;
-  path?: string;
+  name: string;
+  path: string;
 };
 
 export type NestedObject = { [key: string]: unknown };

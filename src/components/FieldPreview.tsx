@@ -8,7 +8,7 @@ import { DataVisualizationType } from '../types';
 type Props = {
   schema: RJSFSchema;
   data: unknown;
-  name?: string;
+  name: string;
 };
 
 // TODO: refactor
@@ -31,7 +31,7 @@ const renderHeader = ({ schema }: { schema: RJSFSchema }) => {
 
 const FieldPreview = ({ schema, data, name }: Props) => {
   const FormPreview = getSchemaFormatFromSchema(schema, FieldPreview);
-  return <FormPreview {...{ schema, data, name }} />;
+  return <FormPreview {...{ schema, data, name, path: '' }} />;
 };
 
 FieldPreview.String = function String({ schema, data }: DataVisualizationType<string>) {
@@ -88,9 +88,9 @@ FieldPreview.Object = function ObjectVisualization({ schema, data }: DataVisuali
       })}
       <TableBody>
         {properties
-          ?.filter((property) => data[property] !== undefined)
+          ?.filter((property) => data?.[property] !== undefined)
           ?.map((property) => (
-            <FieldPreview key={property} data={data[property]} name={property} schema={schema.properties[property]} />
+            <FieldPreview key={property} data={data?.[property]} name={property} schema={schema.properties[property]} />
           ))}
       </TableBody>
     </Table>
