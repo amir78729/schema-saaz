@@ -102,5 +102,5 @@ export const PROPERTIES = [
   ...PRIMITIVE_PROPERTIES,
   ...CONTAINER_PROPERTIES,
   // ...STRING_WIDGETS,
-  // ...PATTERNS
+  // ...PATTERNS,
 ];

@@ -18,7 +18,7 @@ export class JsonSchemaField {
 
   protected writeOnly?: boolean;
 
-  protected enum?: string[];
+  protected enum?: unknown[];
 
   protected enumNames?: string[];
 
@@ -50,7 +50,7 @@ export class JsonSchemaField {
     return this;
   }
 
-  setEnum(_enum: string[]): this {
+  setEnum(_enum: unknown[]): this {
     this.enum = _enum;
     return this;
   }
@@ -84,7 +84,7 @@ export class JsonSchemaField {
     schema: SchemaAnnotation & {
       isRequired?: boolean;
       options?: {
-        enum: string;
+        enum: unknown;
         enumNames: string;
       }[];
     },

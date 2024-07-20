@@ -1,6 +1,6 @@
 import React from 'react';
 import { RJSFSchema } from '@rjsf/utils';
-import { Check, Close, DataArray } from '@mui/icons-material';
+import { Check, Close } from '@mui/icons-material';
 import { Card, ListItem, ListItemText, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { getSchemaFormatFromSchema } from '../utils';
 import { DataVisualizationType } from '../types';
@@ -12,7 +12,7 @@ type Props = {
 };
 
 // TODO: refactor
-const renderHeader = ({ schema }: { data: unknown; schema: RJSFSchema }) => {
+const renderHeader = ({ schema }: { schema: RJSFSchema }) => {
   return (
     <>
       <ListItem>
@@ -31,10 +31,10 @@ const renderHeader = ({ schema }: { data: unknown; schema: RJSFSchema }) => {
 
 const FieldPreview = ({ schema, data, name }: Props) => {
   const FormPreview = getSchemaFormatFromSchema(schema, FieldPreview);
-  return <FormPreview {...{ schema, data, name }} />;
+  return <FormPreview {...{ schema, data, name, path: '' }} />;
 };
 
-FieldPreview.String = function String({ schema, data }: DataVisualizationType) {
+FieldPreview.String = function String({ schema, data }: DataVisualizationType<string>) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -43,7 +43,7 @@ FieldPreview.String = function String({ schema, data }: DataVisualizationType) {
   );
 };
 
-FieldPreview.Enum = function Enum({ schema, data }: DataVisualizationType) {
+FieldPreview.Enum = function Enum({ schema, data }: DataVisualizationType<number | string>) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -52,7 +52,7 @@ FieldPreview.Enum = function Enum({ schema, data }: DataVisualizationType) {
   );
 };
 
-FieldPreview.Number = function Number({ schema, data }: DataVisualizationType) {
+FieldPreview.Number = function Number({ schema, data }: DataVisualizationType<number>) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -61,7 +61,7 @@ FieldPreview.Number = function Number({ schema, data }: DataVisualizationType) {
   );
 };
 
-FieldPreview.Integer = function Integer({ schema, data }: DataVisualizationType) {
+FieldPreview.Integer = function Integer({ schema, data }: DataVisualizationType<number>) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -70,7 +70,7 @@ FieldPreview.Integer = function Integer({ schema, data }: DataVisualizationType)
   );
 };
 
-FieldPreview.Boolean = function BooleanVisualization({ schema, data }: DataVisualizationType) {
+FieldPreview.Boolean = function BooleanVisualization({ schema, data }: DataVisualizationType<boolean>) {
   return (
     <TableRow>
       <TableCell>{schema?.title}</TableCell>
@@ -79,31 +79,30 @@ FieldPreview.Boolean = function BooleanVisualization({ schema, data }: DataVisua
   );
 };
 
-FieldPreview.Object = function ObjectVisualization({ schema, data, name }: DataVisualizationType) {
+FieldPreview.Object = function ObjectVisualization({ schema, data }: DataVisualizationType<Record<string, unknown>>) {
   const properties = Object.keys(schema?.properties || {});
   return (
     <Table>
       {renderHeader({
-        name,
         schema,
       })}
       <TableBody>
         {properties
-          ?.filter((property) => data[property] !== undefined)
+          ?.filter((property) => data?.[property] !== undefined)
           ?.map((property) => (
-            <FieldPreview key={property} data={data[property]} name={property} schema={schema.properties[property]} />
+            <FieldPreview key={property} data={data?.[property]} name={property} schema={schema.properties[property]} />
           ))}
       </TableBody>
     </Table>
   );
 };
 
-FieldPreview.Array = function ArrayVisualization({ schema, name }: DataVisualizationType) {
+FieldPreview.Array = function ArrayVisualization({ schema, name, data }: DataVisualizationType<unknown[]>) {
   return (
     <>
       <Card>
-        {renderHeader({ name, schema, icon: <DataArray /> })}
-        <FieldPreview {...{ schema: schema.items, name }} />
+        {renderHeader({ schema })}
+        <FieldPreview {...{ schema: schema.items, name, data }} />
       </Card>
     </>
   );

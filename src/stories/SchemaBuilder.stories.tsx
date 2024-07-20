@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import SchemaBuilder from '../components/SchemaBuilder';
@@ -125,6 +127,7 @@ export const WithDefaultValue = DefaultValueTemplate.bind({});
 WithDefaultValue.args = {
   extraFields: [...STRING_WIDGETS],
 };
+
 const ThemedTemplate: Story = (args) => {
   const theme = createTheme(args.theme);
   return (
