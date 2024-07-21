@@ -65,12 +65,15 @@ export class JsonSchemaBuilder {
     if (keys.length === 0) {
       return newObject;
     }
-
-    let current = newObject;
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let current: any = newObject;
     const stack = [];
 
     for (let i = 0; i < keys.length - 1; i++) {
       stack.push(current);
+      if (!current[keys[i]]) {
+        current[keys[i]] = {};
+      }
       current[keys[i]] = { ...current[keys[i]] };
       current = current[keys[i]];
     }
@@ -91,13 +94,17 @@ export class JsonSchemaBuilder {
   private updateNestedObjectByPath = (obj: JsonSchema, path: string, value: unknown): JsonSchema => {
     const keys = path.split('.');
     const newObject = { ...obj };
-
-    let current = newObject;
+    //eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let current: any = newObject;
     keys.forEach((key, index) => {
       if (index === keys.length - 1) {
-        current[key] = value;
+        // @ts-expect-error  eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        current[key] = { ...current[key], ...value };
       } else {
-        current[key] = current[key] ? { ...current[key] } : {};
+        if (!current[key]) {
+          current[key] = {};
+        }
+        current[key] = { ...current[key] };
         current = current[key];
       }
     });
@@ -259,8 +266,8 @@ export class JsonSchemaBuilder {
     return this;
   }
 
-  deleteProperty(name: string): JsonSchemaBuilder {
-    this.schema = this.deleteNestedPropertyByPath(this.schema, name);
+  deleteProperty(path: string): JsonSchemaBuilder {
+    this.schema = this.deleteNestedPropertyByPath(this.schema, path);
     return this;
   }
 

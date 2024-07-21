@@ -66,5 +66,3 @@ export type DataVisualizationType<T = unknown> = {
   name: string;
   path: string;
 };
-
-export type NestedObject = { [key: string]: unknown };
