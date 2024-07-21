@@ -1,4 +1,4 @@
-import { JsonSchemaBuilder } from './JsonSchemaBuilder';
+import { JsonSchemaBuilder } from '../builder/JsonSchemaBuilder';
 import { SCHEMA_TYPE } from '../constants';
 import { Format, JsonSchema } from '../types';
 

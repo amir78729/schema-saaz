@@ -1,4 +1,4 @@
-import { accessToObjectFieldByPath, accessToObjectFieldParentByPath } from './index'; // Adjust the import to match your file structure
+import { accessToObjectFieldByPath, accessToObjectFieldParentByPath } from '../utils'; // Adjust the import to match your file structure
 
 describe('accessToObjectFieldByPath', () => {
   const testObject = {
