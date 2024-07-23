@@ -165,4 +165,29 @@ describe('JsonSchemaBuilder', () => {
     const schema = builderWithInput.build();
     expect(schema).toEqual(inputSchema);
   });
+
+  test('should add template schema', () => {
+    const templateSchema = {
+      title: 'FAQ',
+      type: 'array',
+      items: {
+        type: 'object',
+        title: 'List of Questions',
+        properties: {
+          question: {
+            title: 'question',
+            type: 'string',
+          },
+          answer: {
+            title: 'answer',
+            type: 'string',
+          },
+        },
+      },
+      uniqueItems: true,
+    };
+    builder.addProperty('faq', templateSchema);
+    const schema = builder.build();
+    expect(schema.properties?.faq).toEqual(templateSchema);
+  });
 });
