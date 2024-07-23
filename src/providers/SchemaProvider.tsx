@@ -48,13 +48,13 @@ const schemaReducer = (state: JsonSchema, action: SchemaAction): JsonSchema => {
 };
 
 type Props = {
-  extraFields: FieldConfig[];
   children: ReactNode;
   value?: RJSFSchema;
   templates?: TemplateType[];
+  extraFields?: FieldConfig[];
 };
 
-export const SchemaProvider = ({ children, extraFields, value, templates = [] }: Props) => {
+export const SchemaProvider = ({ children, extraFields = [], value, templates = [] }: Props) => {
   const [schema, dispatch] = useReducer(schemaReducer, value || new JsonSchemaBuilder().setType('object').build());
 
   return (

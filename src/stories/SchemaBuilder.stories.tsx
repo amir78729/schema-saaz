@@ -185,7 +185,7 @@ const customTemplate = {
 };
 
 const FaqTemplate: Story = (args) => (
-  <SchemaProvider extraFields={[]} templates={[customTemplate]}>
+  <SchemaProvider templates={[customTemplate]}>
     <SchemaBuilder {...args} />
   </SchemaProvider>
 );
