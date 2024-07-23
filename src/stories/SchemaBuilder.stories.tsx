@@ -104,7 +104,7 @@ export default {
 };
 
 const PrimitivesTemplate: Story = (args) => (
-  <SchemaProvider extraFields={args.extraFields || []} templates={[template]}>
+  <SchemaProvider extraFields={args.extraFields || []}>
     <SchemaBuilder {...args} />
   </SchemaProvider>
 );
