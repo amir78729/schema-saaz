@@ -7,7 +7,6 @@ import { ArrayField } from './fields/containers/ArrayField';
 import { DateField } from './fields/widgets/DateField';
 import { TimeField } from './fields/widgets/TimeField';
 import { DateTimeField } from './fields/widgets/DateTimeField';
-import { FaqWidget } from './fields/patterns/FaqWidget';
 import { FieldConfig } from './types';
 import { SelectField } from './fields/widgets/SelectField';
 
@@ -89,18 +88,4 @@ export const STRING_WIDGETS: FieldConfig[] = [
   },
 ];
 
-export const PATTERNS: FieldConfig[] = [
-  {
-    id: 'FAQ',
-    title: 'FAQ',
-    description: 'a FAQ form',
-    Class: FaqWidget,
-  },
-];
-
-export const PROPERTIES = [
-  ...PRIMITIVE_PROPERTIES,
-  ...CONTAINER_PROPERTIES,
-  // ...STRING_WIDGETS,
-  // ...PATTERNS,
-];
+export const PROPERTIES = [...PRIMITIVE_PROPERTIES, ...CONTAINER_PROPERTIES, ...STRING_WIDGETS];

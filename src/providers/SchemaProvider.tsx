@@ -1,6 +1,6 @@
 import React, { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
 import { JsonSchemaBuilder } from '../builder/JsonSchemaBuilder';
-import { FieldConfig, JsonSchema } from '../types';
+import { FieldConfig, JsonSchema, TemplateType } from '../types';
 import { PROPERTIES } from '../constants';
 import type { RJSFSchema } from '@rjsf/utils';
 
@@ -13,10 +13,12 @@ export const SchemaContext = createContext<{
   schema: JsonSchema;
   dispatch: Dispatch<SchemaAction>;
   fields: FieldConfig[];
+  templates: TemplateType[];
 }>({
   schema: new JsonSchemaBuilder().setType('object').build(),
   dispatch: () => null,
   fields: [],
+  templates: [],
 });
 
 const schemaReducer = (state: JsonSchema, action: SchemaAction): JsonSchema => {
@@ -49,13 +51,14 @@ type Props = {
   extraFields: FieldConfig[];
   children: ReactNode;
   value?: RJSFSchema;
+  templates?: TemplateType[];
 };
 
-export const SchemaProvider = ({ children, extraFields, value }: Props) => {
+export const SchemaProvider = ({ children, extraFields, value, templates }: Props) => {
   const [schema, dispatch] = useReducer(schemaReducer, value || new JsonSchemaBuilder().setType('object').build());
 
   return (
-    <SchemaContext.Provider value={{ schema, dispatch, fields: [...PROPERTIES, ...extraFields] }}>
+    <SchemaContext.Provider value={{ schema, dispatch, fields: [...PROPERTIES, ...extraFields], templates: templates || [] }}>
       {children}
     </SchemaContext.Provider>
   );

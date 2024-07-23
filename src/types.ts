@@ -60,6 +60,13 @@ export type FieldConfig = {
   Class: new (...args: string[]) => JsonSchemaField; // a class that extends JsonSchemaField
 };
 
+export type TemplateType = {
+  id: string;
+  title: string;
+  description: string;
+  schema: JsonSchema;
+};
+
 export type DataVisualizationType<T = unknown> = {
   schema: RJSFSchema;
   data: T;

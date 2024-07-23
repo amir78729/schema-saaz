@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Story } from '@storybook/react';
 import SchemaBuilder from '../components/SchemaBuilder';
 import { STRING_WIDGETS } from '../constants';
 import { SchemaProvider } from '../providers/SchemaProvider';
@@ -98,13 +98,105 @@ const sampleSchema: RJSFSchema = {
   additionalProperties: false,
 };
 
+const template = {
+  id: 'Example_Schema',
+  title: 'Example Schema',
+  description: 'A rich JSON schema example without dependencies and no nested objects.',
+  schema: {
+    type: 'object',
+    properties: {
+      id: {
+        title: 'Identifier',
+        description: 'A unique identifier for the item.',
+        type: 'string',
+        pattern: '^[a-zA-Z0-9-]+$',
+      },
+      name: {
+        title: 'Name',
+        description: 'The name of the item.',
+        type: 'string',
+        minLength: 1,
+      },
+      type: {
+        title: 'Type',
+        description: 'The type of the item.',
+        type: 'string',
+        enum: ['grocery', 'cloths'],
+        enumNames: ['Grocery', 'Cloths'],
+      },
+      price: {
+        title: 'Price',
+        description: 'The price of the item.',
+        type: 'number',
+        minimum: 0,
+      },
+      location: {
+        title: 'Location',
+        description: 'The coordination.',
+        type: 'object',
+        properties: {
+          lat: {
+            type: 'number',
+            title: 'latitude',
+          },
+          long: {
+            type: 'number',
+            title: 'longitude',
+          },
+        },
+      },
+      tags: {
+        title: 'Tags',
+        description: 'Tags associated with the item.',
+        type: 'array',
+        items: {
+          type: 'string',
+          title: 'Tag Name',
+        },
+        uniqueItems: true,
+      },
+      faq: {
+        title: 'FAQ',
+        type: 'array',
+        items: {
+          type: 'object',
+          title: 'List of Questions',
+          properties: {
+            question: {
+              title: 'question',
+              type: 'string',
+            },
+            answer: {
+              title: 'answer',
+              type: 'string',
+            },
+          },
+        },
+        uniqueItems: true,
+      },
+      birthday: {
+        title: 'Birthday Date',
+        type: 'string',
+        minimum: 0,
+        format: 'date',
+      },
+      inStock: {
+        title: 'In Stock',
+        description: 'Indicates if the item is in stock.',
+        type: 'boolean',
+      },
+    },
+    required: ['id', 'name', 'price'],
+  },
+};
+
 export default {
   title: 'SchemaBuilder',
   component: SchemaBuilder,
-} as Meta;
+};
 
 const Template: Story = (args) => (
-  <SchemaProvider extraFields={args.extraFields || []}>
+  <SchemaProvider extraFields={args.extraFields || []} templates={[template]}>
     <SchemaBuilder {...args} />
   </SchemaProvider>
 );
