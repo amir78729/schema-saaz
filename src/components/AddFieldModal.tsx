@@ -4,7 +4,7 @@ import Form from '@rjsf/mui';
 import validator from '@rjsf/validator-ajv8';
 import React from 'react';
 import { useSchema } from '../providers/SchemaProvider';
-import { JsonSchema, JsonSchemaType } from '../types';
+import { JsonSchema } from '../types';
 import { JsonSchemaField } from '../fields/JsonSchemaField';
 import Select from '@mui/material/Select';
 import { Add } from '@mui/icons-material';
@@ -17,17 +17,37 @@ type Props = {
 const AddFieldModal = ({ parentPath }: Props) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const [name, setName] = React.useState<string | null>(null);
-  const [type, setType] = React.useState<JsonSchemaType | null>(null);
+  const [type, setType] = React.useState<string | null>(null);
   const [field, setField] = React.useState<null | JsonSchemaField>(null);
-  const { dispatch, fields } = useSchema();
+  const { dispatch, fields, templates } = useSchema();
   const [step, setStep] = React.useState<number>(0);
 
-  const SelectedFieldClass = fields.find((f) => f.id === type)?.Class;
-
   const handleSelectType = () => {
+    const SelectedFieldClass = fields.find((f) => f.id === type)?.Class;
     if (name && type && SelectedFieldClass) {
       setField(new SelectedFieldClass(name));
       setStep(1);
+    }
+
+    const SelectedTemplateSchema = templates.find((f) => f.id === type)?.schema;
+    if (name && type && SelectedTemplateSchema) {
+      dispatch({
+        type: 'ADD_PROPERTY',
+        payload: {
+          name: generatePath(parentPath, name || 'newField'),
+          schema: SelectedTemplateSchema,
+        },
+      });
+      dispatch({
+        type: 'ADD_REQUIRED',
+        payload: {
+          name: generatePath(parentPath, name || 'newField'),
+        },
+      });
+      setOpen(false);
+      setType(null);
+      setName(null);
+      setStep(0);
     }
   };
 
@@ -85,14 +105,13 @@ const AddFieldModal = ({ parentPath }: Props) => {
 
               <FormControl>
                 <InputLabel htmlFor="field-type">Field Type</InputLabel>
-                <Select
-                  defaultValue=""
-                  value={type}
-                  id="field-type"
-                  label="Field Type"
-                  onChange={(e) => setType(e.target.value as JsonSchemaType)}
-                >
+                <Select defaultValue="" value={type} id="field-type" label="Field Type" onChange={(e) => setType(e.target.value)}>
                   {fields.map((property) => (
+                    <MenuItem title={property.description} key={property.id} value={property.id}>
+                      {property.title}
+                    </MenuItem>
+                  ))}
+                  {templates?.map((property) => (
                     <MenuItem title={property.description} key={property.id} value={property.id}>
                       {property.title}
                     </MenuItem>

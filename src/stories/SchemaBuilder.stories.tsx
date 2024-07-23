@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import React from 'react';
-import { Story, Meta } from '@storybook/react';
+import { Story } from '@storybook/react';
 import SchemaBuilder from '../components/SchemaBuilder';
 import { STRING_WIDGETS } from '../constants';
 import { SchemaProvider } from '../providers/SchemaProvider';
@@ -101,18 +101,18 @@ const sampleSchema: RJSFSchema = {
 export default {
   title: 'SchemaBuilder',
   component: SchemaBuilder,
-} as Meta;
+};
 
-const Template: Story = (args) => (
-  <SchemaProvider extraFields={args.extraFields || []}>
+const PrimitivesTemplate: Story = (args) => (
+  <SchemaProvider extraFields={args.extraFields || []} templates={[template]}>
     <SchemaBuilder {...args} />
   </SchemaProvider>
 );
 
-export const Primitives = Template.bind({});
+export const Primitives = PrimitivesTemplate.bind({});
 Primitives.args = {};
 
-export const Formats = Template.bind({});
+export const Formats = PrimitivesTemplate.bind({});
 Formats.args = {
   extraFields: [...STRING_WIDGETS],
 };
@@ -158,3 +158,36 @@ Themed.args = {
     },
   },
 };
+
+const customTemplate = {
+  id: 'FAQ_TEMPLATE',
+  title: 'FAQ Template',
+  description: 'A template schema for FAQ type.',
+  schema: {
+    title: 'FAQ',
+    type: 'array',
+    items: {
+      type: 'object',
+      title: 'List of Questions',
+      properties: {
+        question: {
+          title: 'question',
+          type: 'string',
+        },
+        answer: {
+          title: 'answer',
+          type: 'string',
+        },
+      },
+    },
+    uniqueItems: true,
+  },
+};
+
+const FaqTemplate: Story = (args) => (
+  <SchemaProvider templates={[customTemplate]}>
+    <SchemaBuilder {...args} />
+  </SchemaProvider>
+);
+
+export const CustomTemplate = FaqTemplate.bind({});
