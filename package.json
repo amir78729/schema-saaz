@@ -1,7 +1,7 @@
 {
-  "name": "schema-builder",
+  "name": "schemaBuilder",
   "version": "0.0.0",
-  "description": "",
+  "description": "A Simple User Interface for creating JSON Schema without writing JSON!",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -22,9 +22,9 @@
       "prettier --write"
     ]
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["JSON schema", "form builder"],
+  "author": "Amirhossein Alibakhshi",
+  "license": "MIT",
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
