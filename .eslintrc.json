@@ -88,7 +88,7 @@
       "files": ["*.ts", "*.tsx"],
       "rules": {
         "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/ban-ts-comment": "off"
+        "@typescript-eslint/ban-ts-comment": "warn"
       }
     },
     {
@@ -148,7 +148,7 @@
             "moduleDirectory": ["node_modules", "src"],
             "extensions": [".js", ".jsx", ".ts", ".tsx"],
             "typescript": {
-              "alwaysTryTypes": true,
+              "alwaysTryTypes": true
             }
           }
         }
