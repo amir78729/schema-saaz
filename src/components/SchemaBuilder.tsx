@@ -18,11 +18,7 @@ const SchemaBuilder = ({ onChange, hideSchemaTab = false, hideFormTab = false }:
   const { schema } = useSchema();
   const [highlightedSchema, setHighlightedSchema] = useState<string>('');
   const [tab, setTab] = useState<number>(0);
-  const TABS: Record<'BUILDER' | 'SCHEMA' | 'FORM_PREVIEW', number> = {
-    BUILDER: 0,
-    SCHEMA: 1,
-    FORM_PREVIEW: 2,
-  };
+  const TABS: string[] = ['BUILDER', ...(!hideSchemaTab ? ['SCHEMA'] : []), ...(!hideFormTab ? ['FORM_PREVIEW'] : [])];
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
   };
@@ -57,9 +53,9 @@ const SchemaBuilder = ({ onChange, hideSchemaTab = false, hideFormTab = false }:
           <CopyButton />
         </Box>
 
-        {tab === TABS.BUILDER && <SchemaPreview name="Schema Builder" schema={schema} data={{}} path="" />}
-        {tab === TABS.SCHEMA && <Box dangerouslySetInnerHTML={{ __html: highlightedSchema }}></Box>}
-        {tab === TABS.FORM_PREVIEW && <Form schema={schema} validator={validator} />}
+        {tab === TABS.indexOf('BUILDER') && <SchemaPreview name="Schema Builder" schema={schema} data={{}} path="" />}
+        {tab === TABS.indexOf('SCHEMA') && <Box dangerouslySetInnerHTML={{ __html: highlightedSchema }}></Box>}
+        {tab === TABS.indexOf('FORM_PREVIEW') && <Form schema={schema} validator={validator} />}
       </Box>
     </>
   );
