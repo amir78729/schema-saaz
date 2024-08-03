@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import React from 'react';
-import { Story } from '@storybook/react';
+import React, { useState } from 'react';
+import { Meta, Story } from '@storybook/react';
 import SchemaBuilder from '../components/SchemaBuilder';
 import { STRING_WIDGETS } from '../constants';
 import { SchemaProvider } from '../providers/SchemaProvider';
@@ -98,9 +98,19 @@ const sampleSchema: RJSFSchema = {
   additionalProperties: false,
 };
 
-export default {
-  title: 'SchemaBuilder',
+const meta: Meta<typeof SchemaBuilder> = {
+  title: 'Schema Builder',
   component: SchemaBuilder,
+  argTypes: {
+    hideSchemaTab: {
+      control: 'boolean',
+      description: 'Should the schema preview tab be visible?',
+    },
+    hideFormTab: {
+      control: 'boolean',
+      description: 'Should the form preview tab be visible?',
+    },
+  },
 };
 
 const PrimitivesTemplate: Story = (args) => (
@@ -189,5 +199,22 @@ const FaqTemplate: Story = (args) => (
     <SchemaBuilder {...args} />
   </SchemaProvider>
 );
-
 export const CustomTemplate = FaqTemplate.bind({});
+
+const ControlledTemplate: Story = (args) => {
+  const [schema, setSchema] = useState();
+  return (
+    <>
+      <div>
+        state:
+        <pre>{JSON.stringify(schema, null, 2)}</pre>
+      </div>
+      <SchemaProvider>
+        <SchemaBuilder onChange={(updatedSchema) => setSchema(updatedSchema)} {...args} />
+      </SchemaProvider>
+    </>
+  );
+};
+export const ControlledComponent = ControlledTemplate.bind({});
+
+export default meta;

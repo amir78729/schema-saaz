@@ -1,10 +1,10 @@
 {
-  "name": "schemaBuilder",
+  "name": "schemabuilder",
   "version": "0.0.0",
   "description": "A Simple User Interface for creating JSON Schema without writing JSON!",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "build": "tsc",
@@ -28,14 +28,12 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
-    "@lit/react": "^1.0.5",
     "@mui/icons-material": "^5.15.20",
     "@mui/material": "^5.15.19",
     "@rjsf/core": "^5.18.4",
     "@rjsf/mui": "^5.18.4",
     "@rjsf/utils": "^5.18.4",
     "@rjsf/validator-ajv8": "^5.18.4",
-    "@tapsioss/web-components": "0.0.0-alpha-2",
     "immer": "^10.1.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

@@ -5,8 +5,16 @@ import { useSchema } from '../providers/SchemaProvider';
 import { Box, CssBaseline, Tab, Tabs } from '@mui/material';
 import SchemaPreview from './SchemaPreview';
 import { codeToHtml } from 'shiki';
+import { JsonSchema } from '../types';
+import CopyButton from './CopyButton';
 
-const SchemaBuilder = () => {
+type SchemaBuilderProps = {
+  onChange?: (schema: JsonSchema) => void;
+  hideSchemaTab?: boolean;
+  hideFormTab?: boolean;
+};
+
+const SchemaBuilder = ({ onChange, hideSchemaTab = false, hideFormTab = false }: SchemaBuilderProps) => {
   const { schema } = useSchema();
   const [highlightedSchema, setHighlightedSchema] = useState<string>('');
   const [tab, setTab] = useState<number>(0);
@@ -18,6 +26,10 @@ const SchemaBuilder = () => {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
   };
+
+  useEffect(() => {
+    onChange?.(schema);
+  }, [schema]);
 
   useEffect(() => {
     const getHighlightedCode = async (code: string) => {
@@ -35,17 +47,20 @@ const SchemaBuilder = () => {
   return (
     <>
       <CssBaseline />
-      <div>
-        <Tabs value={tab} onChange={handleTabChange}>
-          <Tab label="Builder"></Tab>
-          <Tab label="Schema"></Tab>
-          <Tab label="Form Preview"></Tab>
-        </Tabs>
+      <Box>
+        <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Tabs value={tab} onChange={handleTabChange}>
+            <Tab label="Builder" />
+            {!hideSchemaTab && <Tab label="Schema" />}
+            {!hideFormTab && <Tab label="Form Preview" />}
+          </Tabs>
+          <CopyButton />
+        </Box>
 
         {tab === TABS.BUILDER && <SchemaPreview name="Schema Builder" schema={schema} data={{}} path="" />}
         {tab === TABS.SCHEMA && <Box dangerouslySetInnerHTML={{ __html: highlightedSchema }}></Box>}
         {tab === TABS.FORM_PREVIEW && <Form schema={schema} validator={validator} />}
-      </div>
+      </Box>
     </>
   );
 };

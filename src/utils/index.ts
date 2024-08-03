@@ -55,9 +55,8 @@ export const generatePath = (parentPath: string = '', fieldName: string): string
   return path;
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 export const accessToObjectFieldByPath = (object: object, path: string) => {
-  // @ts-expect-error
+  // @ts-expect-error fix it later
   return path.split('.').reduce((o, i) => o[i], object);
 };
 
