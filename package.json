@@ -1,5 +1,5 @@
 {
-  "name": "schemaBuilder",
+  "name": "schemabuilder",
   "version": "0.0.0",
   "description": "A Simple User Interface for creating JSON Schema without writing JSON!",
   "main": "index.js",
