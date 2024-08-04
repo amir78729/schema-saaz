@@ -8,8 +8,7 @@
       "skipLibCheck": true,
       "forceConsistentCasingInFileNames": true,
       "declaration": true,
-      "outDir": "./lib"
+      "outDir": "./dist",
     },
     "include": ["src"]
   }
-  

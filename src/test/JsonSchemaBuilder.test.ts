@@ -1,6 +1,6 @@
 import { JsonSchemaBuilder } from '../builder/JsonSchemaBuilder';
 import { SCHEMA_TYPE } from '../constants';
-import { Format, JsonSchema } from '../types';
+import type { Format, JsonSchema } from '../types';
 
 describe('JsonSchemaBuilder', () => {
   let builder: JsonSchemaBuilder;

@@ -73,3 +73,8 @@ export type DataVisualizationType<T = unknown> = {
   name: string;
   path: string;
 };
+
+export type SchemaAction = {
+  type: 'ADD_PROPERTY' | 'UPDATE_PROPERTY' | 'DELETE_PROPERTY' | 'ADD_REQUIRED' | 'DELETE_REQUIRED';
+  payload: { name: string; schema?: JsonSchema; value?: never };
+};

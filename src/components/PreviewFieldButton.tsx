@@ -5,7 +5,7 @@ import DeleteFieldButton from './DeleteFieldButton';
 import FieldPreview from './FieldPreview';
 import { Visibility } from '@mui/icons-material';
 import { JsonSchemaField } from '../fields/JsonSchemaField';
-import { JsonSchema } from '../types';
+import type { JsonSchema } from '../types';
 type Props = {
   field?: JsonSchemaField;
   schema: JsonSchema;

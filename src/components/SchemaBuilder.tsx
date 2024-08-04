@@ -5,7 +5,7 @@ import { useSchema } from '../providers/SchemaProvider';
 import { Box, CssBaseline, Tab, Tabs } from '@mui/material';
 import SchemaPreview from './SchemaPreview';
 import { codeToHtml } from 'shiki';
-import { JsonSchema } from '../types';
+import type { JsonSchema } from '../types';
 import CopyButton from './CopyButton';
 
 type SchemaBuilderProps = {

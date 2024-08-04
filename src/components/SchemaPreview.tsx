@@ -4,7 +4,7 @@ import Numbers from '@mui/icons-material/Numbers';
 import { Add, Checklist, DataArray, DataObject, ExpandLess, ExpandMore, TextSnippet, ToggleOn } from '@mui/icons-material';
 import { Box, Chip, Collapse, IconButton, Paper, Stack, Typography } from '@mui/material';
 import { accessToObjectFieldParentByPath, generatePath, getSchemaFormatFromSchema } from '../utils';
-import { DataVisualizationType, JsonSchema } from '../types';
+import type { DataVisualizationType, JsonSchema } from '../types';
 import { useSchema } from '../providers/SchemaProvider';
 import FieldBuilderView from './FieldBuilderView';
 

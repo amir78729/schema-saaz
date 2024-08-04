@@ -1,10 +1,9 @@
 import { Box, Button, Dialog, FormControl, IconButton, InputLabel, MenuItem, Stack, TextField, Tooltip } from '@mui/material';
 import Form from '@rjsf/mui';
-
 import validator from '@rjsf/validator-ajv8';
 import React from 'react';
 import { useSchema } from '../providers/SchemaProvider';
-import { JsonSchema } from '../types';
+import type { JsonSchema } from '../types';
 import { JsonSchemaField } from '../fields/JsonSchemaField';
 import Select from '@mui/material/Select';
 import { Add } from '@mui/icons-material';

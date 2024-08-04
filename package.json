@@ -2,7 +2,9 @@
   "name": "schemabuilder",
   "version": "0.0.0",
   "description": "A Simple User Interface for creating JSON Schema without writing JSON!",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest --coverage",
     "storybook": "storybook dev -p 6006",
@@ -13,7 +15,7 @@
     "lint:fix": "eslint 'src/**/*.{js,ts,jsx,tsx}' --fix",
     "format": "prettier --write 'src/**/*.{js,ts,jsx,tsx,json,css,scss,md}'",
     "postinstall": "husky install",
-    "prepack": "pinst --disable",
+    "prepack": "pinst --disable && pnpm build",
     "postpack": "pinst --enable"
   },
   "lint-staged": {
@@ -22,9 +24,26 @@
       "prettier --write"
     ]
   },
-  "keywords": ["JSON schema", "form builder"],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amir78729/schema-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/amir78729/schema-builder/issues"
+  },
+  "homepage": "https://github.com/amir78729/schema-builder#readme",
+  "keywords": [
+    "JSON schema",
+    "form builder",
+    "schema",
+    "builder",
+    "react"
+  ],
   "author": "Amirhossein Alibakhshi",
   "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -70,10 +89,17 @@
     "lint-staged": "^15.2.7",
     "pinst": "^3.0.0",
     "prettier": "^3.3.2",
+    "rollup": "^3.20.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.32.1",
     "shiki": "^1.10.3",
     "storybook": "^8.1.6",
     "ts-jest": "^29.2.3",
     "typescript": "^5.4.5",
     "typescript-eslint": "^7.12.0"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   }
 }

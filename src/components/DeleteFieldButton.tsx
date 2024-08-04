@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Delete } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Typography } from '@mui/material';
-import { SchemaAction, useSchema } from '../providers/SchemaProvider';
+import { useSchema } from '../providers/SchemaProvider';
+import type { SchemaAction } from '../types';
 
 type Props = {
   path: string;
