@@ -3,7 +3,7 @@ import { RJSFSchema } from '@rjsf/utils';
 import { Check, Close } from '@mui/icons-material';
 import { Card, ListItem, ListItemText, Table, TableBody, TableCell, TableRow, Typography } from '@mui/material';
 import { getSchemaFormatFromSchema } from '../utils';
-import { DataVisualizationType } from '../types';
+import type { DataVisualizationType } from '../types';
 
 type Props = {
   schema: RJSFSchema;

@@ -1,4 +1,4 @@
-import { Format, JsonSchema, JsonSchemaType } from '../types';
+import type { Format, JsonSchema, JsonSchemaType } from '../types';
 import { SCHEMA_TYPE } from '../constants';
 
 /**

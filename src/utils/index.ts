@@ -1,5 +1,5 @@
 import { RJSFSchema } from '@rjsf/utils';
-import { DataVisualizationType } from '../types';
+import type { DataVisualizationType } from '../types';
 import { SCHEMA_TYPE } from '../constants';
 import React from 'react';
 

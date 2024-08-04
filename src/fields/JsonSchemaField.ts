@@ -1,4 +1,4 @@
-import { JsonSchemaType, JsonSchema, SchemaAnnotation } from '../types';
+import type { JsonSchemaType, JsonSchema, SchemaAnnotation } from '../types';
 import { SCHEMA_TYPE } from '../constants';
 
 export class JsonSchemaField {

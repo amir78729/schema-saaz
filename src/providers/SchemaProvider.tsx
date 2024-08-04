@@ -1,13 +1,8 @@
 import React, { createContext, Dispatch, ReactNode, useContext, useReducer } from 'react';
 import { JsonSchemaBuilder } from '../builder/JsonSchemaBuilder';
-import { FieldConfig, JsonSchema, TemplateType } from '../types';
+import type { FieldConfig, JsonSchema, SchemaAction, TemplateType } from '../types';
 import { PROPERTIES } from '../constants';
 import type { RJSFSchema } from '@rjsf/utils';
-
-export interface SchemaAction {
-  type: 'ADD_PROPERTY' | 'UPDATE_PROPERTY' | 'DELETE_PROPERTY' | 'ADD_REQUIRED' | 'DELETE_REQUIRED';
-  payload: { name: string; schema?: JsonSchema; value?: never };
-}
 
 export const SchemaContext = createContext<{
   schema: JsonSchema;
