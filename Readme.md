@@ -5,8 +5,11 @@
 [![npm](https://img.shields.io/npm/v/schema-saaz)](https://www.npmjs.com/package/schema-saaz)
 
 
-# Schema Sasz
+# Schema Saaz
+
+
+</div>
+
 
 Schema Saaz ("ساز": the Persian word for "Builder") is a simple UI for creating [JSON Schema](https://json-schema.org/) without writing any JSON!
 
-</div>
