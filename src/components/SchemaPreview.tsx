@@ -1,39 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { RJSFSchema } from '@rjsf/utils';
 import AddFieldModal from './AddFieldModal';
 import Numbers from '@mui/icons-material/Numbers';
-import {
-  Add,
-  Checklist,
-  DataArray,
-  DataObject,
-  ExpandLess,
-  ExpandMore,
-  Star,
-  TextSnippet,
-  ToggleOn,
-  Visibility,
-} from '@mui/icons-material';
-import {
-  Box,
-  Chip,
-  Collapse,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  ListItem,
-  ListItemText,
-  Paper,
-  Stack,
-  Typography,
-} from '@mui/material';
+import { Add, Checklist, DataArray, DataObject, ExpandLess, ExpandMore, Star, TextSnippet, ToggleOn } from '@mui/icons-material';
+import { Box, Chip, Collapse, IconButton, ListItem, ListItemText, Paper, Stack, Typography } from '@mui/material';
 import { accessToObjectFieldParentByPath, generatePath, getFieldId, getSchemaFormatFromSchema } from '../utils';
 import { DataVisualizationType, JsonSchema } from '../types';
 import { useSchema } from '../providers/SchemaProvider';
-import FieldPreview from './FieldPreview';
 import DeleteFieldButton from './DeleteFieldButton';
 import EditFieldButton from './EditFieldButton';
+import PreviewFieldButton from './PreviewFieldButton';
 
 // TODO: refactor
 const renderHeader = ({
@@ -53,7 +29,6 @@ const renderHeader = ({
   onCollapse?: () => void;
   isRequired?: boolean;
 }) => {
-  const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
   const { fields } = useSchema();
   const SelectedFieldClass = fields.find((field) => field.id === getFieldId(schema))?.Class;
 
@@ -63,25 +38,6 @@ const renderHeader = ({
   }
   return (
     <>
-      <Dialog open={showPreviewModal} onClose={() => setShowPreviewModal(false)}>
-        <DialogTitle>
-          <code>{name}</code> Field{' '}
-          {field && (
-            <span>
-              <EditFieldButton field={field} schema={schema} path={path} />
-            </span>
-          )}
-          {field && (
-            <span>
-              <DeleteFieldButton path={path} />
-            </span>
-          )}
-        </DialogTitle>
-        <DialogContent>
-          <FieldPreview name={name || ''} schema={field?.getBuilderSchema()} data={schema} />
-        </DialogContent>
-      </Dialog>
-
       <ListItem>
         <ListItemText
           primary={
@@ -102,11 +58,8 @@ const renderHeader = ({
           }
         />
         <DeleteFieldButton path={path} />
-        {field && <EditFieldButton path={path} schema={schema} field={field} />}
-
-        <IconButton color="info" onClick={() => setShowPreviewModal(true)}>
-          <Visibility fontSize="small" />
-        </IconButton>
+        <EditFieldButton path={path} schema={schema} field={field} />
+        <PreviewFieldButton field={field} schema={schema} path={path} />
       </ListItem>
     </>
   );

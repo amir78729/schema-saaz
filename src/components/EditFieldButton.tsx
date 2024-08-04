@@ -9,7 +9,7 @@ import { JsonSchemaField } from '../fields/JsonSchemaField';
 import { JsonSchema } from '../types';
 
 type Props = {
-  field: JsonSchemaField;
+  field?: JsonSchemaField;
   schema: JsonSchema;
   path: string;
 };
@@ -25,7 +25,7 @@ const EditFieldButton = ({ field, schema, path }: Props) => {
     <>
       <Dialog open={showEditModal} onClose={() => setShowEditModal(false)}>
         <DialogTitle>
-          Edit <code>{field.getName()}</code> Field
+          Edit <code>{field?.getName() || '-'}</code> Field
         </DialogTitle>
         <DialogContent>
           <Form
