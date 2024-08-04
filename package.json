@@ -1,5 +1,5 @@
 {
-  "name": "schemabuilder",
+  "name": "schema-saz",
   "version": "0.0.0",
   "description": "A Simple User Interface for creating JSON Schema without writing JSON!",
   "main": "dist/index.js",
