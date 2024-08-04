@@ -14,7 +14,7 @@ type SchemaBuilderProps = {
   hideFormTab?: boolean;
 };
 
-const SchemaSaz = ({ onChange, hideSchemaTab = false, hideFormTab = false }: SchemaBuilderProps) => {
+const SchemaSaaz = ({ onChange, hideSchemaTab = false, hideFormTab = false }: SchemaBuilderProps) => {
   const { schema } = useSchema();
   const [highlightedSchema, setHighlightedSchema] = useState<string>('');
   const [tab, setTab] = useState<number>(0);
@@ -61,4 +61,4 @@ const SchemaSaz = ({ onChange, hideSchemaTab = false, hideFormTab = false }: Sch
   );
 };
 
-export default SchemaSaz;
+export default SchemaSaaz;

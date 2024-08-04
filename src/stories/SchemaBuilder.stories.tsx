@@ -2,7 +2,7 @@
 // @ts-nocheck
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
-import SchemaSaz from '../components/SchemaSaz';
+import SchemaSaaz from '../components/SchemaSaaz';
 import { STRING_WIDGETS } from '../constants';
 import { SchemaProvider } from '../providers/SchemaProvider';
 import { createTheme, ThemeProvider } from '@mui/material';
@@ -98,9 +98,9 @@ const sampleSchema: RJSFSchema = {
   additionalProperties: false,
 };
 
-const meta: Meta<typeof SchemaSaz> = {
+const meta: Meta<typeof SchemaSaaz> = {
   title: 'Schema Builder',
-  component: SchemaSaz,
+  component: SchemaSaaz,
   argTypes: {
     hideSchemaTab: {
       control: 'boolean',
@@ -115,7 +115,7 @@ const meta: Meta<typeof SchemaSaz> = {
 
 const PrimitivesTemplate: Story = (args) => (
   <SchemaProvider extraFields={args.extraFields || []}>
-    <SchemaSaz {...args} />
+    <SchemaSaaz {...args} />
   </SchemaProvider>
 );
 
@@ -129,7 +129,7 @@ Formats.args = {
 
 const DefaultValueTemplate: Story = (args) => (
   <SchemaProvider value={sampleSchema} extraFields={args.extraFields || []}>
-    <SchemaSaz {...args} />
+    <SchemaSaaz {...args} />
   </SchemaProvider>
 );
 
@@ -143,7 +143,7 @@ const ThemedTemplate: Story = (args) => {
   return (
     <ThemeProvider theme={theme}>
       <SchemaProvider value={sampleSchema} extraFields={args.extraFields || []}>
-        <SchemaSaz {...args} />
+        <SchemaSaaz {...args} />
       </SchemaProvider>
     </ThemeProvider>
   );
@@ -196,7 +196,7 @@ const customTemplate = {
 
 const FaqTemplate: Story = (args) => (
   <SchemaProvider templates={[customTemplate]}>
-    <SchemaSaz {...args} />
+    <SchemaSaaz {...args} />
   </SchemaProvider>
 );
 export const CustomTemplate = FaqTemplate.bind({});
@@ -210,7 +210,7 @@ const ControlledTemplate: Story = (args) => {
         <pre>{JSON.stringify(schema, null, 2)}</pre>
       </div>
       <SchemaProvider>
-        <SchemaSaz onChange={(updatedSchema) => setSchema(updatedSchema)} {...args} />
+        <SchemaSaaz onChange={(updatedSchema) => setSchema(updatedSchema)} {...args} />
       </SchemaProvider>
     </>
   );
