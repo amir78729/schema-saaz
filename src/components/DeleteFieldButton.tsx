@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { Delete } from '@mui/icons-material';
 import { Button, Dialog, DialogActions, DialogContent, IconButton, Typography } from '@mui/material';
+import { SchemaAction, useSchema } from '../providers/SchemaProvider';
 
 type Props = {
-  onDelete: () => void;
+  path: string;
 };
 
-const DeleteFieldButton = ({ onDelete }: Props) => {
+const DeleteFieldButton = ({ path }: Props) => {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] = useState<boolean>(false);
-
+  const { dispatch } = useSchema();
+  const handleDelete = (dispatch: React.Dispatch<SchemaAction>, name: string) => {
+    dispatch({ type: 'DELETE_PROPERTY', payload: { name } });
+    dispatch({ type: 'DELETE_REQUIRED', payload: { name } });
+  };
   return (
     <>
       <Dialog open={showDeleteConfirmationModal} onClose={() => setShowDeleteConfirmationModal(false)}>
@@ -24,7 +29,7 @@ const DeleteFieldButton = ({ onDelete }: Props) => {
             variant="contained"
             color="error"
             onClick={() => {
-              onDelete?.();
+              handleDelete(dispatch, path);
               setShowDeleteConfirmationModal(false);
             }}
           >
